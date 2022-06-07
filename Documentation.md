@@ -60,3 +60,15 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
   </PositionOffset>
 </SL_Effect>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_SetWeaponEmission
+
+Sets the EmissionColor value of the currently equipped weapon to the values specified. (Radiant Wolf Sword is a good example of Emission - it has a bright white emission)
+
+| Parameter Name | Description |
+| ---| ------------- |
+| Color  | x = red value, y = green value, z = blue value - note this is a RGB normalized decimal (https://doc.instantreality.org/tools/color_calculator/)   |
+| ColorLerpIntensity  | The intensity (brightness) of the color  |
+| ColorLerpTime  | The time to smoothly change from the current Emission color to the new one. |
+
