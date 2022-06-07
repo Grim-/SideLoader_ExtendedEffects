@@ -144,3 +144,48 @@ It also allows you to modify the summons weapon damage and grant it a status eff
   <StatusEffectOnSpawn>Rage</StatusEffectOnSpawn>
 </SL_Effect>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_SuspendStatusEffect
+Once this SL_Effect is applied to a target any statues specified in StatusEffectIdentifiers are surpressed until the effect ends upon which time the status will resume.
+
+
+| Parameter Name | Description |
+| ---| ------------- |
+| StatusEffectIdentifiers  | A list of StatusIdentifiers to suspend [List](https://docs.google.com/spreadsheets/d/1btxPTmgeRqjhqC5dwpPXWd49-_tX_OVLN1Uvwv525K4/edit#gid=1969601658)  |   
+
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SuspendStatusEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <StatusEffectIdentifiers>
+    <string>Bleeding</string>
+  </StatusEffectIdentifiers>
+</SL_Effect>
+```
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_SuspendStatusTimer
+Once this SL_Effect is applied to a target any statues specified in StatusEffectIdentifiers are have their timers surpressed until the effect ends upon which time the status will resume.
+
+| Parameter Name | Description |
+| ---| ------------- |
+| StatusEffectIdentifiers  | A list of StatusIdentifiers to suspend [List](https://docs.google.com/spreadsheets/d/1btxPTmgeRqjhqC5dwpPXWd49-_tX_OVLN1Uvwv525K4/edit#gid=1969601658)  |   
+
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SuspendStatusTimer">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <StatusEffectIdentifiers>
+    <string>Bleeding</string>
+  </StatusEffectIdentifiers>
+</SL_Effect>
+
+```
