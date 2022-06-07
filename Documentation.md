@@ -72,3 +72,19 @@ Sets the EmissionColor value of the currently equipped weapon to the values spec
 | ColorLerpIntensity  | The intensity (brightness) of the color  |
 | ColorLerpTime  | The time to smoothly change from the current Emission color to the new one. |
 
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SetWeaponEmission">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <Color>
+    <x>1</x>
+    <y>0</y>
+    <z>0</z>
+  </Color>
+  <ColorLerpIntensity>10</ColorLerpIntensity>
+  <ColorLerpTime>1</ColorLerpTime>
+</SL_Effect>
+```
