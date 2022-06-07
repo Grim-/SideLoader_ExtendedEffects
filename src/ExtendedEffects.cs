@@ -92,6 +92,59 @@ namespace SideLoader_ExtendedEffects
             };
 
             TestWeapon.ApplyTemplate();
+            
+                     
+            SL_StatusEffect TestSuspendStatusEffect = new SL_StatusEffect() {
+                TargetStatusIdentifier = "Discipline",
+                NewStatusID = -6969170,
+                StatusIdentifier = "SuspendEffectTest",
+                Name = "Suspend Effect Test",
+                Description = "SuspendEffectTest",
+                Purgeable = true,
+                DisplayedInHUD = true,
+                IsMalusEffect = false,
+                Lifespan = 60,
+                RefreshRate = 1f,
+                AmplifiedStatusIdentifier = string.Empty,
+                FamilyMode = StatusEffect.FamilyModes.Bind,
+                EffectBehaviour = EditBehaviours.Destroy,
+                Effects = new SL_EffectTransform[] {
+                    new SL_EffectTransform {
+                        TransformName = "Effects",
+                        Effects = new SL_Effect[] {
+                            new SL_SuspendStatusEffect() {
+                                StatusEffectIdentifiers = new []{"Poisoned", "Bleeding", "Hallowed Marsh Poison Lvl1", "Hallowed Marsh Poison Lvl2"}
+                            },
+                            new SL_SuspendStatusTimer() {
+                                StatusEffectIdentifiers = new []{"Poisoned", "Bleeding", "Hallowed Marsh Poison Lvl1", "Hallowed Marsh Poison Lvl2"}
+                            }
+                        }
+                    }
+                }
+            };
+            
+            TestSuspendStatusEffect.ApplyTemplate();
+
+            
+            SL_Item TestSuspendEffectPotion = new SL_Item() {
+                Target_ItemID = 4300130,
+                New_ItemID = -69696970,
+                Name = "Test Suspend Effect Potion",
+                Description = "Test",
+                EffectBehaviour = EditBehaviours.Destroy,
+                EffectTransforms = new SL_EffectTransform[] {
+                    new SL_EffectTransform {
+                        TransformName = "Effects",
+                        Effects = new SL_Effect[] {
+                            new SL_AddStatusEffect {
+                                StatusEffect = "SuspendEffectTest"
+                            }
+                        }
+                    }
+                }
+            };
+            
+            TestSuspendEffectPotion.ApplyTemplate();
         }
 
     }
