@@ -60,6 +60,9 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
   </PositionOffset>
 </SL_Effect>
 ```
+
+![An Example of VFX Replacement to a custom prefab](https://user-images.githubusercontent.com/3288858/172501372-1707cbee-13a8-4264-ab18-fb63310dcd40.png)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_SetWeaponEmission
