@@ -7,7 +7,12 @@
 
 If the target of this effect is a CharacterAI then they are forced into the state specified by AIState
 
-AIState ID's
+| Parameter Name | Description |
+| ---| ------------- |
+| AIState  | an integer representing the state you wish to put the target CharacterAI in.   |
+
+
+__AIState ID Reference__
 | ID | Name |
 | ---| ------------- |
 | 0  | Wander  |
@@ -25,5 +30,32 @@ XML Example
   <SyncType>OwnerSync</SyncType>
   <OverrideCategory>None</OverrideCategory>
   <AIState>0</AIState>
+</SL_Effect>
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_PlayAssetBundleVFX
+Spawns a GameObject from the specified SLPack AssetBundle
+
+| Parameter Name | Description |
+| ---| ------------- |
+| SLPackName  | The name of the SL Pack - this is usually the name of the folder in your plugins folder that contains the AssetBundle eg: 'YourMod/SiderLoader/AssetBundles' your SL Pack Name would be "YourMod"   |
+| AssetBundleName  | The name of the AssetBundle file  |
+| PrefabName  | The name of the GameObject Prefab  |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_PlayAssetBundleVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>MySLPack</SLPackName>
+  <AssetBundleName>MyAssetBundleName</AssetBundleName>
+  <PrefabName>NameOfPrefabInAssetBundle</PrefabName>
+  <PositionOffset>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+  </PositionOffset>
 </SL_Effect>
 ```
