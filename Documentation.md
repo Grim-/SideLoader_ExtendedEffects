@@ -42,7 +42,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
 | SLPackName  | The name of the SL Pack - this is usually the name of the folder in your plugins folder that contains the AssetBundle eg: 'YourMod/SiderLoader/AssetBundles' your SL Pack Name would be "YourMod"   |
 | AssetBundleName  | The name of the AssetBundle file  |
 | PrefabName  | The name of the GameObject Prefab  |
-| PositionOffset  | The Local Position of the VFX - Use this to move the VFX the attached player. |
+| PositionOffset  | The Local Position of the VFX - Use this to move the VFX attached to the player. |
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
