@@ -110,3 +110,37 @@ This effect simply hides the affected character's model for the time specified i
   <HideTime>2</HideTime>
 </SL_Effect>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+### SL_SummonExtension
+This effect should be called after SL_Summon or SL_SummonAI with a small delay to ensure the AI has had the chance to spawn in. It allows you to override the material color for the summon and particle systems.
+It also allows you to modify the summons weapon damage and grant it a status effect on spawn.
+
+| Parameter Name | Description |
+| ---| ------------- |
+| NewBaseColor  | x = red value, y = green value, z = blue value |   
+| NewParticlesColor  | x = red value, y = green value, z = blue value |   
+| NewWeaponDamage  | The Damage Type and Damage Value to change the summons weapon to. |   
+| StatusEffectOnSpawn  | The name of the Status effect to grant the summon on Spawning. |  
+
+```xml
+<SL_Effect xsi:type="SL_SummonExtension">
+  <Delay>3</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <NewBaseColor>
+    <x>10</x>
+    <y>0</y>
+    <z>0</z>
+  </NewBaseColor>
+  <NewParticlesColor>
+    <x>0.839</x>
+    <y>0.415</y>
+    <z>0</z>
+  </NewParticlesColor>
+  <NewWeaponDamage>
+    <Damage>30</Damage>
+    <Type>Fire</Type>
+  </NewWeaponDamage>
+  <StatusEffectOnSpawn>Rage</StatusEffectOnSpawn>
+</SL_Effect>
+```
