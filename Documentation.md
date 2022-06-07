@@ -91,3 +91,22 @@ Note : Weapon must have Emission enabled at a minimum.
   <ColorLerpTime>1</ColorLerpTime>
 </SL_Effect>
 ```
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_HidePlayer
+This effect simply hides the affected character's model for the time specified in HideTime.
+
+| Parameter Name | Description |
+| ---| ------------- |
+| HideTime  | The time to hide the affected character's model for.   |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_HidePlayer">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <HideTime>2</HideTime>
+</SL_Effect>
+```
