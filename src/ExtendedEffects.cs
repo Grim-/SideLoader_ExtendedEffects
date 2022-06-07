@@ -24,16 +24,33 @@ namespace SideLoader_ExtendedEffects
 
         //The name of the container for visual effects spawned by ExtendedEffects
         public const string SL_VISUAL_TRANSFORM = "SLVISUALCONTAINER";
-
+        
+        public static ConfigEntry<bool> AddTestItems;
+        
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
             Log = this.Logger;
-            DefineTestItem();
+            InitializeSL();
+            InitializeConfig();
             new Harmony(GUID).PatchAll();
         }
 
-        private void DefineTestItem()
+        private void InitializeSL() {
+            SL.BeforePacksLoaded += SL_BeforePacksLoaded;
+        }
+        
+        private void InitializeConfig() {
+            AddTestItems = Config.Bind(NAME, "Add Test Items", false, "Adds test items, spawnable using the debug mode menu (requires restart)");
+        }
+
+        private void SL_BeforePacksLoaded() {
+            if (AddTestItems.Value) {
+                DefineTestItems();
+            }
+        }
+
+        private void DefineTestItems()
         {
             SL_MeleeWeapon TestWeapon = new SL_MeleeWeapon()
             {
