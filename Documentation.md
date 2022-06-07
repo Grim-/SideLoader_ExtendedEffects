@@ -64,7 +64,9 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
 
 ### SL_SetWeaponEmission
 
-Sets the EmissionColor value of the currently equipped weapon to the values specified. (Radiant Wolf Sword is a good example of Emission - it has a bright white emission)
+Sets the EmissionColor value of the currently equipped weapon to the values specified. 
+Note : Weapon must have Emission enabled at a minimum.
+(Radiant Wolf Sword is a good example of Emission - it has a bright white emission)
 
 | Parameter Name | Description |
 | ---| ------------- |
@@ -72,6 +74,7 @@ Sets the EmissionColor value of the currently equipped weapon to the values spec
 | ColorLerpIntensity  | The intensity (brightness) of the color  |
 | ColorLerpTime  | The time to smoothly change from the current Emission color to the new one. |
 
+> The Example produces a very bright red glow
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
