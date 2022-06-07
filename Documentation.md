@@ -35,7 +35,7 @@ XML Example
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_PlayAssetBundleVFX
-Spawns a GameObject from the specified SLPack AssetBundle
+Spawns a GameObject from the specified SLPack AssetBundle and attach it to the player.
 
 | Parameter Name | Description |
 | ---| ------------- |
