@@ -5,7 +5,7 @@
 
 ### SL_ForceAIState
 
-If the target of this effect is a CharacterAI then they are forced into the state specified by AIState
+If the target of this effect is a CharacterAI then they are forced into the state specified by AIState - You wish to force them into a state for a specified type create a SL_StatusEffect that applies this SL_Effect, then set duration to whatever time you wish to force them into the state for.
 
 | Parameter Name | Description |
 | ---| ------------- |
