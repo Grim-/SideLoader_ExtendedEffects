@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_PlayAssetBundleVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>MySLPack</SLPackName>
+  <AssetBundleName>MyAssetBundleName</AssetBundleName>
+  <PrefabName>NameOfPrefabInAssetBundle</PrefabName>
+  <PositionOffset>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+  </PositionOffset>
+</SL_Effect>

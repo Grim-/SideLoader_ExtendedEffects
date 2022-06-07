@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_HidePlayer">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <HideTime>2</HideTime>
+</SL_Effect>

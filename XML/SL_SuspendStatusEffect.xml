@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SuspendStatusEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <StatusEffectIdentifiers>
+    <string>Bleeding</string>
+  </StatusEffectIdentifiers>
+</SL_Effect>
