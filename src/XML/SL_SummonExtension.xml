@@ -1,0 +1,20 @@
+<SL_Effect xsi:type="SL_SummonExtension">
+  <Delay>3</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <NewBaseColor>
+    <x>10</x>
+    <y>0</y>
+    <z>0</z>
+  </NewBaseColor>
+  <NewParticlesColor>
+    <x>0.839</x>
+    <y>0.415</y>
+    <z>0</z>
+  </NewParticlesColor>
+  <NewWeaponDamage>
+    <Damage>30</Damage>
+    <Type>Fire</Type>
+  </NewWeaponDamage>
+  <StatusEffectOnSpawn>Rage</StatusEffectOnSpawn>
+</SL_Effect>
