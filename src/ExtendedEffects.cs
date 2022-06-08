@@ -17,7 +17,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extemded Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.0.12";
+        public const string VERSION = "1.1.0";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource Log;
