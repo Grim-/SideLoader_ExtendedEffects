@@ -5,4 +5,8 @@ A small addition to SideLoader allowing mod developers more flexibility when cre
 [Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
 
 
-[ ] - Documentation - Mostly done few left
+
+## Change Log
+
+1.0.3 - Changed SL_PlayAssetBundleVFX adding RotationOffset and ParentToAffected parameters.
+1.0.0 > 1.0.2 - ReadMe changes only
