@@ -123,7 +123,7 @@ This effect simply hides the affected character's model for the time specified i
 ```
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### SL_SummonExtension
-This effect should be called after SL_Summon or SL_SummonAI with a small delay to ensure the AI has had the chance to spawn in. It allows you to override the material color for the summon and particle systems.
+This effect should be called after [SL_SummonAI](https://sinai-dev.github.io/OSLDocs/#/API/SL_Effect?id=sl_summonai-sl_summon) with a small delay to ensure the AI has had the chance to spawn in. It allows you to override the material color for the summon and particle systems.
 It also allows you to modify the summons weapon damage and grant it a status effect on spawn.
 
 | Parameter Name | Description |
