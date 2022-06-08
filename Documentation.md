@@ -5,7 +5,8 @@
 
 ### SL_ForceAIState
 
-If the target of this effect is a CharacterAI then they are forced into the state specified by AIState - If you wish to force them into a state for a specified time create a [SL_StatusEffect](https://sinai-dev.github.io/OSLDocs/#/API/SL_StatusEffect) that applies this SL_Effect, then set duration to whatever time you wish to force them into the state for.
+If the target of this effect is a CharacterAI then they are forced into the state specified by AIState 
+> If you wish to force them into a state for a specified time create a [SL_StatusEffect](https://sinai-dev.github.io/OSLDocs/#/API/SL_StatusEffect) that applies this SL_Effect, then set duration to whatever time you wish to force them into the state for.
 
 | Parameter Name | Description |
 | ---| ------------- |
