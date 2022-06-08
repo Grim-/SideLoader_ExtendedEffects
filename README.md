@@ -2,6 +2,10 @@
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
+You would include this mod as dependcy of your own mod, as is often done with SideLoader already. 
+
+dependcy string can be found on [ThunderStore page](https://outward.thunderstore.io/package/SLExtendedEffects/SideLoader_ExtendedEffects/)
+
 [Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
 
 
