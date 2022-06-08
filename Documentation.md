@@ -5,7 +5,8 @@
 
 ### SL_ForceAIState
 
-If the target of this effect is a CharacterAI then they are forced into the state specified by AIState
+If the target of this effect is a CharacterAI then they are forced into the state specified by AIState 
+> If you wish to force them into a state for a specified time create a [SL_StatusEffect](https://sinai-dev.github.io/OSLDocs/#/API/SL_StatusEffect) that applies this SL_Effect, then set duration to whatever time you wish to force them into the state for.
 
 | Parameter Name | Description |
 | ---| ------------- |
@@ -60,6 +61,9 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
   </PositionOffset>
 </SL_Effect>
 ```
+
+![An Example of VFX Replacement to a custom prefab](https://user-images.githubusercontent.com/3288858/172501372-1707cbee-13a8-4264-ab18-fb63310dcd40.png)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_SetWeaponEmission
@@ -143,4 +147,49 @@ It also allows you to modify the summons weapon damage and grant it a status eff
   </NewWeaponDamage>
   <StatusEffectOnSpawn>Rage</StatusEffectOnSpawn>
 </SL_Effect>
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_SuspendStatusEffect
+Once this SL_Effect is applied to a target any statues specified in StatusEffectIdentifiers are surpressed until the effect ends upon which time the status will resume.
+
+
+| Parameter Name | Description |
+| ---| ------------- |
+| StatusEffectIdentifiers  | A list of StatusIdentifiers to suspend [List](https://docs.google.com/spreadsheets/d/1btxPTmgeRqjhqC5dwpPXWd49-_tX_OVLN1Uvwv525K4/edit#gid=1969601658)  |   
+
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SuspendStatusEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <StatusEffectIdentifiers>
+    <string>Bleeding</string>
+  </StatusEffectIdentifiers>
+</SL_Effect>
+```
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_SuspendStatusTimer
+Once this SL_Effect is applied to a target any statues specified in StatusEffectIdentifiers are have their timers surpressed until the effect ends upon which time the status will resume.
+
+| Parameter Name | Description |
+| ---| ------------- |
+| StatusEffectIdentifiers  | A list of StatusIdentifiers to suspend [List](https://docs.google.com/spreadsheets/d/1btxPTmgeRqjhqC5dwpPXWd49-_tX_OVLN1Uvwv525K4/edit#gid=1969601658)  |   
+
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SuspendStatusTimer">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <StatusEffectIdentifiers>
+    <string>Bleeding</string>
+  </StatusEffectIdentifiers>
+</SL_Effect>
+
 ```
