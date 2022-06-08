@@ -19,8 +19,9 @@ namespace SideLoader_ExtendedEffects
         public string SLPackName;
         public string AssetBundleName;
         public string PrefabName;
-
         public Vector3 PositionOffset;
+        public Vector3 RotationOffset;
+        public bool ParentToAffected;
        
         public override void ApplyToComponent<T>(T component)
         {
@@ -29,6 +30,8 @@ namespace SideLoader_ExtendedEffects
             comp.AssetBundleName = AssetBundleName;
             comp.PrefabName = PrefabName;
             comp.PositionOffset = PositionOffset;
+            comp.RotationOffset = RotationOffset;
+            comp.ParentToAffected = ParentToAffected;
         }
 
         public override void SerializeEffect<T>(T effect)
@@ -45,8 +48,9 @@ namespace SideLoader_ExtendedEffects
         public string SLPackName;
         public string AssetBundleName;
         public string PrefabName;
-
         public Vector3 PositionOffset;
+        public Vector3 RotationOffset;
+        public bool ParentToAffected;
 
         private GameObject Instance;
 
@@ -61,9 +65,21 @@ namespace SideLoader_ExtendedEffects
                     GameObject.Destroy(Instance);
                 }
 
-                Instance = GameObject.Instantiate(Prefab, _affectedCharacter.VisualHolderTrans);
-                Instance.transform.localPosition = PositionOffset;
-                Instance.transform.localEulerAngles = Vector3.zero;
+                Instance = GameObject.Instantiate(Prefab);
+
+                if (ParentToAffected)
+                {
+                    Instance.transform.parent = _affectedCharacter.VisualHolderTrans;
+                    Instance.transform.localPosition = PositionOffset;
+                    Instance.transform.localEulerAngles = RotationOffset;
+                }
+                else
+                {
+                    Instance.transform.position = _affectedCharacter.transform.position + PositionOffset;
+                    Instance.transform.eulerAngles = RotationOffset;
+                }
+               
+               
             }
             else
             {
