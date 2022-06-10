@@ -26,6 +26,10 @@ public class SL_SetWeaponEmission : SL_Effect, ICustomModel
     public override void SerializeEffect<T>(T component)
     {
         // write values from component to this template
+        SLEx_SetWeaponEmission effect = component as SLEx_SetWeaponEmission;
+        this.Color = effect.NewColor;
+        this.ColorIntensity = effect.ColorIntensity;
+        this.ColorLerpTime = effect.ColorLerpTime;
     }
 }
 

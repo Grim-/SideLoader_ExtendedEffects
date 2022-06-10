@@ -22,6 +22,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 PositionOffset;
         public Vector3 RotationOffset;
         public bool ParentToAffected;
+        public float LifeTime;
        
         public override void ApplyToComponent<T>(T component)
         {
@@ -32,11 +33,20 @@ namespace SideLoader_ExtendedEffects
             comp.PositionOffset = PositionOffset;
             comp.RotationOffset = RotationOffset;
             comp.ParentToAffected = ParentToAffected;
+            comp.LifeTime = LifeTime;
         }
 
+        //TODO : Clarify
         public override void SerializeEffect<T>(T effect)
         {
-
+            SLEx_PlayAssetBundleVFX eff = effect as SLEx_PlayAssetBundleVFX;
+            this.SLPackName = eff.SLPackName;
+            this.AssetBundleName = eff.AssetBundleName;
+            this.PrefabName = eff.PrefabName;
+            this.PositionOffset = eff.PositionOffset;
+            this.RotationOffset = eff.RotationOffset;
+            this.ParentToAffected = eff.ParentToAffected;
+            this.LifeTime = eff.LifeTime;
         }
     }
 
@@ -51,6 +61,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 PositionOffset;
         public Vector3 RotationOffset;
         public bool ParentToAffected;
+        public float LifeTime;
 
         private GameObject Instance;
 
@@ -60,12 +71,10 @@ namespace SideLoader_ExtendedEffects
 
             if (Prefab != null)
             {
-                if (Instance != null)
+                if (Instance == null)
                 {
-                    GameObject.Destroy(Instance);
+                    Instance = GameObject.Instantiate(Prefab);
                 }
-
-                Instance = GameObject.Instantiate(Prefab);
 
                 if (ParentToAffected)
                 {
@@ -78,20 +87,45 @@ namespace SideLoader_ExtendedEffects
                     Instance.transform.position = _affectedCharacter.transform.position + PositionOffset;
                     Instance.transform.eulerAngles = RotationOffset;
                 }
-               
-               
+
+
+                if (LifeTime > 0)
+                {
+                    ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS {LifeTime}");
+                    Destroy(Instance, LifeTime);
+                }
             }
             else
             {
-                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle was null.");
+                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle {AssetBundleName} was null.");
             }            
+        }
+
+        public override void CleanUpOnDestroy()
+        {
+            base.CleanUpOnDestroy();
+
+            if (LifeTime == 0)
+            {
+                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS 0 DESTROYING");
+                if (Instance)
+                {
+                    GameObject.Destroy(Instance);
+                }
+            }
+
+
         }
 
         public override void StopAffectLocally(Character _affectedCharacter)
         {
-            if (Instance)
+            if (LifeTime == 0)
             {
-                GameObject.Destroy(Instance);
+                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS 0 DESTROYING");
+                if (Instance)
+                {
+                    GameObject.Destroy(Instance);
+                }
             }
         }
     }

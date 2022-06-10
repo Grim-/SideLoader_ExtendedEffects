@@ -10,12 +10,17 @@ namespace SideLoader_ExtendedEffects {
 
 		public string[] StatusEffectIdentifiers;
 
-		public override void ApplyToComponent<T>(T component) {
+		public override void ApplyToComponent<T>(T component)
+		{
 			SLEx_SuspendStatusEffect effect = component as SLEx_SuspendStatusEffect;
 			effect.StatusEffectIdentifiers = StatusEffectIdentifiers;
 		}
 		
-		public override void SerializeEffect<T>(T effect) { }
+		public override void SerializeEffect<T>(T effect)
+		{
+			SLEx_SuspendStatusEffect comp = effect as SLEx_SuspendStatusEffect;
+			this.StatusEffectIdentifiers = comp.StatusEffectIdentifiers;
+		}
 	}
 	
 	public class SLEx_SuspendStatusEffect : Effect, ICustomModel {

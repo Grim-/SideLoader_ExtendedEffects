@@ -23,13 +23,13 @@ namespace SideLoader_ExtendedEffects
         public override void ApplyToComponent<T>(T component)
         {
             SLEx_HidePlayer sLEx_HidePlayer = component as SLEx_HidePlayer;
-
-            sLEx_HidePlayer.WaitTime = HideTime;
+            sLEx_HidePlayer.HideTime = HideTime;
         }
 
         public override void SerializeEffect<T>(T effect)
         {
-            
+            SLEx_HidePlayer sLEx_HidePlayer = effect as SLEx_HidePlayer;
+            this.HideTime = sLEx_HidePlayer.HideTime;
         }
     }
 
@@ -40,7 +40,7 @@ namespace SideLoader_ExtendedEffects
         public Type SLTemplateModel => typeof(SL_HidePlayer);
         public Type GameModel => typeof(SLEx_HidePlayer);
 
-        public float WaitTime;
+        public float HideTime;
 
 
         private bool IsRunning = false;
@@ -58,7 +58,7 @@ namespace SideLoader_ExtendedEffects
             IsRunning = true;
             _affectedCharacter.VisualHolderTrans.gameObject.SetActive(false);
 
-            yield return new WaitForSeconds(WaitTime);
+            yield return new WaitForSeconds(HideTime);
 
             _affectedCharacter.VisualHolderTrans.gameObject.SetActive(true);
 

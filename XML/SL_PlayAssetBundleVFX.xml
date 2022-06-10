@@ -17,4 +17,5 @@
       <z>0</z>
   </RotationOffset>
   <ParentToAffected>true</ParentToAffected>
+  <LifeTime>0</LifeTime>
 </SL_Effect>

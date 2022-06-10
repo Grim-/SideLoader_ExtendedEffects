@@ -15,9 +15,9 @@ namespace SideLoader_ExtendedEffects
     public class ExtendedEffects : BaseUnityPlugin
     {
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
-        public const string NAME = "SideLoader Extemded Effects";
+        public const string NAME = "SideLoader Extended Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.1.0";
+        public const string VERSION = "1.1.02";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource Log;
@@ -26,13 +26,18 @@ namespace SideLoader_ExtendedEffects
         public const string SL_VISUAL_TRANSFORM = "SLVISUALCONTAINER";
         
         public static ConfigEntry<bool> AddTestItems;
-        
+
+        //ID RANGE -26000 -> -26999
+
+
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
             Log = this.Logger;
             InitializeSL();
             InitializeConfig();
+            //dont want this showing up either way, until im certain
+            //CustomKeybindings.AddAction("TEST_DISMOUNT_BUTTON", KeybindingsCategory.CustomKeybindings);
             new Harmony(GUID).PatchAll();
         }
 
@@ -46,6 +51,7 @@ namespace SideLoader_ExtendedEffects
 
         private void SL_BeforePacksLoaded() {
             if (AddTestItems.Value) {
+
                 DefineTestItems();
             }
         }
@@ -55,7 +61,7 @@ namespace SideLoader_ExtendedEffects
             SL_MeleeWeapon TestWeapon = new SL_MeleeWeapon()
             {
                 Target_ItemID = 2000031,
-                New_ItemID = -69696969,
+                New_ItemID = -26999,
                 Name = "Emo Test Blade of Testing",
                 Description = "WHACK",
                 StatsHolder = new SL_WeaponStats()
@@ -77,14 +83,13 @@ namespace SideLoader_ExtendedEffects
                           TransformName = "HitEffects",
                           Effects = new SL_Effect[]
                           {
-                             new SL_HidePlayer
-                             {
-                                 HideTime = 3f,
-                             },
-                             new SL_ForceAIState
-                             {
-                                 AIState = 0
-                             }
+                             //new SL_PlayAssetBundleVFX
+                             //{
+                             //    SLPackName = "EmosUniques_SeekingStone",
+                             //    AssetBundleName = "emoseekingstone",
+                             //    PrefabName = "SeekingStone",
+                             //    LifeTime = 10
+                             //}
                           },
                     }
 
@@ -92,11 +97,12 @@ namespace SideLoader_ExtendedEffects
             };
 
             TestWeapon.ApplyTemplate();
-            
-                     
+
+
+
             SL_StatusEffect TestSuspendStatusEffect = new SL_StatusEffect() {
                 TargetStatusIdentifier = "Discipline",
-                NewStatusID = -6969170,
+                NewStatusID = -26998,
                 StatusIdentifier = "SuspendEffectTest",
                 Name = "Suspend Effect Test",
                 Description = "SuspendEffectTest",
@@ -128,7 +134,7 @@ namespace SideLoader_ExtendedEffects
             
             SL_Item TestSuspendEffectPotion = new SL_Item() {
                 Target_ItemID = 4300130,
-                New_ItemID = -69696970,
+                New_ItemID = -26997,
                 Name = "Test Suspend Effect Potion",
                 Description = "Test",
                 EffectBehaviour = EditBehaviours.Destroy,
@@ -145,11 +151,44 @@ namespace SideLoader_ExtendedEffects
             };
             
             TestSuspendEffectPotion.ApplyTemplate();
+
+            SL_StatusEffect TestStatusVFX = new SL_StatusEffect()
+            {
+                TargetStatusIdentifier = "Discipline",
+                NewStatusID = -26996,
+                StatusIdentifier = "TEST STATUS",
+                Name = "Testing VFX in Status",
+                Description = "Testing VFX in Status",
+                Purgeable = true,
+                DisplayedInHUD = true,
+                IsMalusEffect = false,
+                Lifespan = 5,
+                RefreshRate = 1f,
+                AmplifiedStatusIdentifier = string.Empty,
+                FamilyMode = StatusEffect.FamilyModes.Bind,
+                EffectBehaviour = EditBehaviours.Destroy,
+                Effects = new SL_EffectTransform[] {
+                    new SL_EffectTransform {
+                        TransformName = "Effects",
+                        Effects = new SL_Effect[]
+                        {
+                            //new SL_PlayAssetBundleVFX
+                            //{
+                            //     SLPackName = "EmosUniques_SeekingStone",
+                            //     AssetBundleName = "emoseekingstone",
+                            //     PrefabName = "SeekingStone",
+                            //     LifeTime = 0,
+                            //     ParentToAffected = true
+                            //}
+                        }
+                    }
+                }
+            };
+
+            TestStatusVFX.ApplyTemplate();
         }
 
     }
-
-
 }
 
 

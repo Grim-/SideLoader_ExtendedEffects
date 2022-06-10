@@ -46,6 +46,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
 | PositionOffset  | The Local Position(If Attached) of the VFX - Use this to move the VFX attached to the player. |
 | RotationOffset  | The Rotation of the VFX |
 | ParentToAffected  | Should this GameObject be attached to the AffectedCharacter? |
+| LifeTime | Set LifeTime to 0 if you wish the Skill to handle the VFX destroying, otherwise set a time in seconds after which the VFX will be destroyed. |
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_PlayAssetBundleVFX">
@@ -60,12 +61,13 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
       <y>0</y>
       <z>0</z>
   </PositionOffset>
-   <RotationOffset>
+  <RotationOffset>
       <x>0</x>
       <y>0</y>
       <z>0</z>
   </RotationOffset>
   <ParentToAffected>true</ParentToAffected>
+  <LifeTime>0</LifeTime>
 </SL_Effect>
 ```
 

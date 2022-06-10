@@ -21,12 +21,14 @@ public class SL_ForceAIState : SL_Effect, ICustomModel
 
     public override void ApplyToComponent<T>(T component)
     {
-        (component as SLEx_ForceAIStateForTime).AIState = AIState;
+        SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+        comp.AIState = AIState;
     }
 
     public override void SerializeEffect<T>(T component)
     {
-        // write values from component to this template
+        SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+        this.AIState = comp.AIState;
     }
 }
 
@@ -53,18 +55,6 @@ public class SLEx_ForceAIStateForTime : Effect, ICustomModel
         }    
 
     }
-
-    public override void Affect(Character _targetCharacter, Vector3 _pos, Vector3 _dir)
-    {
-        
-    }
-
-
-    public override void StopAffectLocally(Character _affectedCharacter)
-    {
-
-    }
-
 
     private void ForceCharacterAIState(CharacterAI CharacterAI, int state)
     {

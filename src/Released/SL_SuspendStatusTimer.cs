@@ -15,7 +15,11 @@ namespace SideLoader_ExtendedEffects {
 			effect.StatusEffectIdentifiers = StatusEffectIdentifiers;
 		}
 		
-		public override void SerializeEffect<T>(T effect) { }
+		public override void SerializeEffect<T>(T effect) {
+
+			SLEx_SuspendStatusTimer comp = effect as SLEx_SuspendStatusTimer;
+			this.StatusEffectIdentifiers = comp.StatusEffectIdentifiers;
+		}
 	}
 	
 	public class SLEx_SuspendStatusTimer : Effect, ICustomModel {
