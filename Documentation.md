@@ -235,9 +235,8 @@ This is used to apply a particle system to a Weapon Mesh, the Particle System mu
   </RotationOffset>
   <IsMainHand>true</IsMainHand>
 </SL_Effect>
+```
 
 
 Example of Custom Imbue VFX
 ![image](https://user-images.githubusercontent.com/3288858/174453159-74b48c3c-513b-458c-8284-ad950329dece.png)
-
-```
