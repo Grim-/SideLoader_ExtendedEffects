@@ -113,7 +113,9 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the s
 </SL_Effect>
 ```
 
-Example of a Tuansuar model (taken from the assets and chopped up in blender then reimported via assetbundles) on the players head with a flamethrower vfx 
+Example of a Tuansuar model (taken from the assets and chopped up in blender then reimported via assetbundles) on the players head with a flamethrower vfx.
+
+Potentially useful for partial transformation skill trees.
 
 https://imgur.com/nwY9OBY
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
