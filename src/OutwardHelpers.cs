@@ -39,6 +39,11 @@ namespace SideLoader_ExtendedEffects
             return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<T>();
         }
 
+        public static Transform TryGetHumanBone(Character character, HumanBodyBones bone)
+        {
+            return character.Animator.GetBoneTransform(bone);
+        }
+
         public static T GetFromAssetBundle<T>(string SLPackName, string AssetBundle, string key) where T : UnityEngine.Object
         {
             if (!SL.PacksLoaded)

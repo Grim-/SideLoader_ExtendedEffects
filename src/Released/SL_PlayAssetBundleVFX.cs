@@ -13,8 +13,8 @@ namespace SideLoader_ExtendedEffects
     /// </summary>
     public class SL_PlayAssetBundleVFX : SL_Effect, ICustomModel
     {
-        public Type SLTemplateModel => typeof(SL_PlayAssetBundleVFX);
-        public Type GameModel => typeof(SLEx_PlayAssetBundleVFX);
+        public virtual Type SLTemplateModel => typeof(SL_PlayAssetBundleVFX);
+        public virtual Type GameModel => typeof(SLEx_PlayAssetBundleVFX);
 
         public string SLPackName;
         public string AssetBundleName;
@@ -52,8 +52,8 @@ namespace SideLoader_ExtendedEffects
 
     public class SLEx_PlayAssetBundleVFX : Effect, ICustomModel
     {
-        public Type SLTemplateModel => typeof(SL_PlayAssetBundleVFX);
-        public Type GameModel => typeof(SLEx_PlayAssetBundleVFX);
+        public virtual Type SLTemplateModel => typeof(SL_PlayAssetBundleVFX);
+        public virtual Type GameModel => typeof(SLEx_PlayAssetBundleVFX);
 
         public string SLPackName;
         public string AssetBundleName;
