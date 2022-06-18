@@ -202,3 +202,42 @@ Once this SL_Effect is applied to a target any statues specified in StatusEffect
 </SL_Effect>
 
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_CustomImbueVFX
+This is used to apply a particle system to a Weapon Mesh, the Particle System must have it's shape mode set to "Mesh".
+
+| Parameter Name | Description |
+| ---| ------------- |
+| SLPackName  | The name of the SL Pack - this is usually the name of the folder in your plugins folder that contains the AssetBundle eg: 'YourMod/SiderLoader/AssetBundles' your SL Pack Name would be "YourMod"   |
+| AssetBundleName  | The name of the AssetBundle file  |
+| PrefabName  | The name of the GameObject Prefab  |
+| PositionOffset  | The Local Position(If Attached) of the VFX - Use this to move the VFX attached to the player. |
+| RotationOffset  | The Rotation of the VFX |
+| IsMainHand | Apply to mainhand or off hand? |
+```xml
+<SL_Effect xsi:type="SL_CustomImbueVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>YourSLPackOrModFloder</SLPackName>
+  <AssetBundleName>NameOfAssetBundle</AssetBundleName>
+  <PrefabName>NameOfPrefabInAssetBundle</PrefabName>
+  <PositionOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </PositionOffset>
+  <RotationOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </RotationOffset>
+  <IsMainHand>true</IsMainHand>
+</SL_Effect>
+
+
+Example of Custom Imbue VFX
+![image](https://user-images.githubusercontent.com/3288858/174453159-74b48c3c-513b-458c-8284-ad950329dece.png)
+
+```
