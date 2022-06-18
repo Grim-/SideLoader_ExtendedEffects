@@ -1,4 +1,4 @@
-# SideLoader - Extended Effects v1.1.2
+# SideLoader - Extended Effects v1.1.3
 
 ### Currently there is a bug with SideLoaderExtendedEffects where the values are not saved when applying values and pressing "Save to XML" from the SideLoader UI from within the game.
 This is a problem with SideLoader Extended Effects and not SideLoader iteself, I plan to resolve this soon. 
@@ -16,6 +16,8 @@ Dependency string can be found on [ThunderStore page](https://outward.thundersto
 
 
 ## Change Log
+1.1.3 - Added [SL_PlayAssetBundleVFX_Bones](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md#sl_playassetbundlevfx_bones)
+
 1.1.2 - Added [SL_CustomImbueVFX](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md#sl_customimbuevfx)
 
 1.1.1 - Changed SL_PlayAssetBundleVFX adding LifeTime parameter.
