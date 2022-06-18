@@ -87,7 +87,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the s
 | RotationOffset  | The Rotation of the VFX |
 | ParentToAffected  | Should this GameObject be attached to the AffectedCharacter? |
 | LifeTime | Set LifeTime to 0 if you wish the effect to handle destroying the VFX, otherwise set a time in seconds after which the VFX will be automatically destroyed. |
-|BoneID| the ID of the bone you want to parent to, you can obtain this from here.| 
+|BoneID| the ID of the bone you want to parent to, you can obtain this from [here](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Resources/HumanBonesReference.md).| 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_PlayAssetBundleVFX_Bones">
