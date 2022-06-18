@@ -1,6 +1,9 @@
 # SideLoader - Extended Effects v1.1.2
 
-### Currently there is a bug with SideLoaderExtendedEffects where the values are not saved when applying values and pressing "Save to XML" from the SideLoader UI from within the game, this is a problem with SideLoader Extended Effects and not SideLoader iteself, I plan to resolve this soon.
+### Currently there is a bug with SideLoaderExtendedEffects where the values are not saved when applying values and pressing "Save to XML" from the SideLoader UI from within the game.
+This is a problem with SideLoader Extended Effects and not SideLoader iteself, I plan to resolve this soon. 
+
+Working with XML files in a texteditor still works fine for now.
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
