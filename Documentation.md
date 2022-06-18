@@ -240,3 +240,52 @@ This is used to apply a particle system to a Weapon Mesh, the Particle System mu
 
 Example of Custom Imbue VFX
 ![image](https://user-images.githubusercontent.com/3288858/174453159-74b48c3c-513b-458c-8284-ad950329dece.png)
+
+
+There is an [example bundle](https://github.com/Grim-/SideLoader_ExtendedEffects/tree/main/Custom%20Imbue%20AssetBundle%20Example) you can drop this into your mod folder and use the following XML to Spawn either 'Life Warden' or 'Black Imbue', generally imbues are just a status effect that also applies a pre-defined particle system. 
+
+
+### Lifewarden
+```xml
+<SL_Effect xsi:type="SL_CustomImbueVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>YourSLPackOrModFloder</SLPackName>
+  <AssetBundleName>emovfx</AssetBundleName>
+  <PrefabName>LifeWarden</PrefabName>
+  <PositionOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </PositionOffset>
+  <RotationOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </RotationOffset>
+  <IsMainHand>true</IsMainHand>
+</SL_Effect>
+```
+### Black Imbue
+```xml
+<SL_Effect xsi:type="SL_CustomImbueVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>YourSLPackOrModFolder</SLPackName>
+  <AssetBundleName>emovfx</AssetBundleName>
+  <PrefabName>Black Imbue</PrefabName>
+  <PositionOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </PositionOffset>
+  <RotationOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </RotationOffset>
+  <IsMainHand>true</IsMainHand>
+</SL_Effect>
+```
