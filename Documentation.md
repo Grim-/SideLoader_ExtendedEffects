@@ -75,6 +75,49 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+### SL_PlayAssetBundleVFX_Bones
+Spawns a GameObject from the specified SLPack AssetBundle and attach it to the player.
+
+| Parameter Name | Description |
+| ---| ------------- |
+| SLPackName  | The name of the SL Pack - this is usually the name of the folder in your plugins folder that contains the AssetBundle eg: 'YourMod/SiderLoader/AssetBundles' your SL Pack Name would be "YourMod"   |
+| AssetBundleName  | The name of the AssetBundle file  |
+| PrefabName  | The name of the GameObject Prefab  |
+| PositionOffset  | The Local Position(If Attached) of the VFX - Use this to move the VFX attached to the player. |
+| RotationOffset  | The Rotation of the VFX |
+| ParentToAffected  | Should this GameObject be attached to the AffectedCharacter? |
+| LifeTime | Set LifeTime to 0 if you wish the effect to handle destroying the VFX, otherwise set a time in seconds after which the VFX will be automatically destroyed. |
+|BoneID| the ID of the bone you want to parent to, you can obtain this from here.| 
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_PlayAssetBundleVFX_Bones">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>MySLPack</SLPackName>
+  <AssetBundleName>MyAssetBundleName</AssetBundleName>
+  <PrefabName>NameOfPrefabInAssetBundle</PrefabName>
+  <PositionOffset>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+  </PositionOffset>
+  <RotationOffset>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+  </RotationOffset>
+  <ParentToAffected>true</ParentToAffected>
+  <LifeTime>0</LifeTime>
+  <BoneID>10</BoneID>
+</SL_Effect>
+```
+
+Example of a Tuansuar model (taken from the assets and chopped up in blender then reimported via assetbundles) on the players head with a flamethrower vfx 
+
+https://imgur.com/nwY9OBY
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### SL_SetWeaponEmission
 
 Sets the EmissionColor value of the currently equipped weapon to the values specified. 
