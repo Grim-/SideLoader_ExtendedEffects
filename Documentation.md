@@ -76,7 +76,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_PlayAssetBundleVFX_Bones
-Spawns a GameObject from the specified SLPack AssetBundle and attach it to the player.
+Spawns a GameObject from the specified SLPack AssetBundle and attach it to the specified player bone.
 
 | Parameter Name | Description |
 | ---| ------------- |
