@@ -289,3 +289,197 @@ There is an [example bundle](https://github.com/Grim-/SideLoader_ExtendedEffects
   <IsMainHand>true</IsMainHand>
 </SL_Effect>
 ```
+
+Here's the full thing - firstly define the new status - this example assumes the 'emovfx' bundle is in a folder called 'vfx' you can change this with the SLPackName variable.
+
+```xml
+<?xml version="1.0"?>
+<SL_StatusEffect xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TargetStatusIdentifier>Rage</TargetStatusIdentifier>
+  <NewStatusID>-26233</NewStatusID>
+  <StatusIdentifier>CustomImbueBlackThunder</StatusIdentifier>
+  <Name>CustomImbue Test</Name>
+  <Description>CustomImbueBlackThunder</Description>
+  <Lifespan>60</Lifespan>
+  <RefreshRate>-1</RefreshRate>
+  <Purgeable>false</Purgeable>
+  <Priority>1</Priority>
+  <IgnoreBarrier>false</IgnoreBarrier>
+  <BuildupRecoverySpeed>3</BuildupRecoverySpeed>
+  <IgnoreBuildupIfApplied>false</IgnoreBuildupIfApplied>
+  <AmplifiedStatusIdentifier />
+  <RemoveRequiredStatus>false</RemoveRequiredStatus>
+  <NormalizeDamageDisplay>false</NormalizeDamageDisplay>
+  <DisplayedInHUD>true</DisplayedInHUD>
+  <IsHidden>false</IsHidden>
+  <IsMalusEffect>false</IsMalusEffect>
+  <DelayedDestroyTime>0</DelayedDestroyTime>
+  <ActionOnHit>None</ActionOnHit>
+  <FamilyMode>Bind</FamilyMode>
+  <BindFamily>
+    <UID>uZIZmVwT0kKtz9jfHkIszA</UID>
+    <Name>CustomImbueBlackThunder_FAMILY</Name>
+    <StackBehaviour>IndependantUnique</StackBehaviour>
+    <MaxStackCount>1</MaxStackCount>
+    <LengthType>Short</LengthType>
+  </BindFamily>
+  <PlayFXOnActivation>true</PlayFXOnActivation>
+  <FXOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </FXOffset>
+  <VFXInstantiationType>Normal</VFXInstantiationType>
+  <VFXPrefab xsi:nil="true" />
+  <SpecialSFX>NONE</SpecialSFX>
+  <PlaySpecialFXOnStop>false</PlaySpecialFXOnStop>
+  <EffectBehaviour>Destroy</EffectBehaviour>
+  <Effects>
+    <SL_EffectTransform>
+      <TransformName>Activation</TransformName>
+      <Position xsi:nil="true" />
+      <Rotation xsi:nil="true" />
+      <Scale xsi:nil="true" />
+      <Effects>
+<SL_Effect xsi:type="SL_CustomImbueVFX">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>vfx</SLPackName>
+  <AssetBundleName>emovfx</AssetBundleName>
+  <PrefabName>Black Imbue</PrefabName>
+  <PositionOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </PositionOffset>
+  <RotationOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </RotationOffset>
+  <IsMainHand>true</IsMainHand>
+</SL_Effect>
+        <SL_Effect xsi:type="SL_WeaponDamage">
+          <Delay>0</Delay>
+          <SyncType>OwnerSync</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <Damage>
+            <SL_Damage>
+              <Damage>20</Damage>
+              <Type>Ethereal</Type>
+            </SL_Damage>
+          </Damage>
+          <Damages_AI />
+          <Knockback>0</Knockback>
+          <HitInventory>false</HitInventory>
+          <IgnoreHalfResistances>false</IgnoreHalfResistances>
+          <OverrideType>Physical</OverrideType>
+          <ForceOnlyLeftHand>false</ForceOnlyLeftHand>
+          <Damage_Multiplier>0</Damage_Multiplier>
+          <Damage_Multiplier_Kback>0</Damage_Multiplier_Kback>
+          <Damage_Multiplier_Kdown>0</Damage_Multiplier_Kdown>
+          <Impact_Multiplier>0</Impact_Multiplier>
+          <Impact_Multiplier_Kback>0</Impact_Multiplier_Kback>
+          <Impact_Multiplier_Kdown>0</Impact_Multiplier_Kdown>
+        </SL_Effect>
+      </Effects>
+      <EffectConditions />
+      <ChildEffects />
+    </SL_EffectTransform>
+  </Effects>
+</SL_StatusEffect>
+```
+
+
+And an example potion that applies this status to the player granting the imbue 
+
+```xml
+<?xml version="1.0"?>
+<SL_Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Target_ItemID>4300130</Target_ItemID>
+  <New_ItemID>-26700</New_ItemID>
+  <Name>Imbue Black Thunder Potion</Name>
+  <Description>Test Imbue Black Thunder Effect Potion</Description>
+  <LegacyItemID>-1</LegacyItemID>
+  <IsPickable>true</IsPickable>
+  <IsUsable>true</IsUsable>
+  <QtyRemovedOnUse>0</QtyRemovedOnUse>
+  <GroupItemInDisplay>false</GroupItemInDisplay>
+  <HasPhysicsWhenWorld>false</HasPhysicsWhenWorld>
+  <RepairedInRest>true</RepairedInRest>
+  <BehaviorOnNoDurability>NotSet</BehaviorOnNoDurability>
+  <CastType>Potion</CastType>
+  <CastModifier>Immobilized</CastModifier>
+  <CastLocomotionEnabled>false</CastLocomotionEnabled>
+  <MobileCastMovementMult>-1</MobileCastMovementMult>
+  <CastSheatheRequired>1</CastSheatheRequired>
+  <OverrideSellModifier>-1</OverrideSellModifier>
+  <Tags>
+    <string>Drink</string>
+    <string>Consummable</string>
+    <string>Item</string>
+  </Tags>
+  <StatsHolder>
+    <BaseValue>15</BaseValue>
+    <RawWeight>0.5</RawWeight>
+    <MaxDurability>-1</MaxDurability>
+  </StatsHolder>
+  <ExtensionsEditBehaviour>NONE</ExtensionsEditBehaviour>
+  <ItemExtensions>
+    <SL_ItemExtension xsi:type="SL_MultipleUsage">
+      <Savable>true</Savable>
+      <AppliedOnPrice>true</AppliedOnPrice>
+      <AppliedOnWeight>true</AppliedOnWeight>
+      <AutoStack>true</AutoStack>
+      <MaxStackAmount>999</MaxStackAmount>
+    </SL_ItemExtension>
+  </ItemExtensions>
+  <EffectBehaviour>Destroy</EffectBehaviour>
+  <EffectTransforms>
+    <SL_EffectTransform>
+      <TransformName>Effects</TransformName>
+      <Position xsi:nil="true" />
+      <Rotation xsi:nil="true" />
+      <Scale xsi:nil="true" />
+      <Effects>
+        <SL_Effect xsi:type="SL_AddStatusEffect">
+          <Delay>0</Delay>
+          <SyncType>OwnerSync</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <StatusEffect>CustomImbueBlackThunder</StatusEffect>
+          <ChanceToContract>100</ChanceToContract>
+          <AffectController>false</AffectController>
+          <AdditionalLevel>0</AdditionalLevel>
+          <NoDealer>false</NoDealer>
+        </SL_Effect>
+      </Effects>
+      <EffectConditions />
+      <ChildEffects />
+    </SL_EffectTransform>
+  </EffectTransforms>
+  <ItemVisuals>
+    <ResourcesPrefabPath>Assets/_Prefabs/_ItemsAssets/4000000_Consumables/4300000_Potions/4300902_GenericGrayPotion_v</ResourcesPrefabPath>
+    <Prefab_SLPack />
+    <Prefab_AssetBundle />
+    <Prefab_Name />
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <Rotation>
+      <x>-0</x>
+      <y>0</y>
+      <z>0</z>
+    </Rotation>
+    <Scale>
+      <x>1.1</x>
+      <y>1.1</y>
+      <z>1.1</z>
+    </Scale>
+    <PositionOffset xsi:nil="true" />
+    <RotationOffset xsi:nil="true" />
+  </ItemVisuals>
+</SL_Item>
+```
