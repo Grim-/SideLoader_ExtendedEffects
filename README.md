@@ -12,6 +12,7 @@ Dependency string can be found on [ThunderStore page](https://outward.thundersto
 
 ## Change Log
 1.1.2 - Added [SL_CustomImbueVFX](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md#sl_customimbuevfx)
+
 1.1.1 - Changed SL_PlayAssetBundleVFX adding LifeTime parameter.
 
 1.1.0 - Changed SL_PlayAssetBundleVFX adding RotationOffset and ParentToAffected parameters.
