@@ -250,7 +250,7 @@ Once this SL_Effect is applied to a target any statues specified in StatusEffect
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_CustomImbueVFX
-This is used to apply a particle system to a Weapon Mesh, the Particle System must have it's shape mode set to "Mesh".
+This is used to apply a particle system to a Weapon Mesh, the Particle System must have it's shape mode set to "Mesh". 
 
 | Parameter Name | Description |
 | ---| ------------- |
@@ -288,6 +288,8 @@ Example of Custom Imbue VFX
 
 
 There is an [example bundle](https://github.com/Grim-/SideLoader_ExtendedEffects/tree/main/Custom%20Imbue%20AssetBundle%20Example) you can drop this into your mod folder and use the following XML to Spawn either 'Life Warden' or 'Black Imbue', generally imbues are just a status effect that also applies a pre-defined particle system. 
+
+You can also view this AssetBundle in Unity in order to see how it is set up.
 
 
 ### Lifewarden
