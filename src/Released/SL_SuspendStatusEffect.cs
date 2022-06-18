@@ -31,12 +31,12 @@ namespace SideLoader_ExtendedEffects {
 
 		private void SetSuspendedEffects(Character _affectedCharacter, bool suspended) {
 			if (StatusEffectIdentifiers == null || StatusEffectIdentifiers.Length == 0) {
-				ExtendedEffects.Log.LogDebug("SLEx_SuspendStatusEffect defined without effects. Please specify the StatusEffectIdentifiers to suspend.");
+				ExtendedEffects._Log.LogDebug("SLEx_SuspendStatusEffect defined without effects. Please specify the StatusEffectIdentifiers to suspend.");
 				return;
 			}
 			foreach (StatusEffect statusEffect in _affectedCharacter.StatusEffectMngr.Statuses) {
 				if (StatusEffectIdentifiers.Contains(statusEffect.IdentifierName) && statusEffect.IsEffectSuspended()!=suspended) {
-					ExtendedEffects.Log.LogDebug($"Suspending effect of {statusEffect.IdentifierName} = {suspended}");
+					ExtendedEffects._Log.LogDebug($"Suspending effect of {statusEffect.IdentifierName} = {suspended}");
 					statusEffect.SetEffectSuspended(suspended);
 				}
 			}

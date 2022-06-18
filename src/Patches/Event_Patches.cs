@@ -26,6 +26,15 @@ namespace SideLoader_ExtendedEffects
     //    }
     //}
 
+    //[HarmonyPatch(typeof(Character), nameof(Character.Awake))]
+    //public class CharacterAwakePatch
+    //{
+    //    static void Postfix(Character __instance)
+    //    {
+    //        __instance.gameObject.AddComponent<CharacterMount>();
+    //    }
+    //}
+
     public struct CharacterDamageEvent
     {
         public Character DamageTarget;

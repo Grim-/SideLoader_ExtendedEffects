@@ -1,68 +1,70 @@
-﻿using SideLoader;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
-
-
-/// <summary>
-/// Switches any Affected CharacterAI to the AIState Specified
-/// </summary>
-public class SL_ForceAIState : SL_Effect, ICustomModel
+﻿namespace SideLoader_ExtendedEffects
 {
-    public Type SLTemplateModel => typeof(SL_ForceAIState);
-    public Type GameModel => typeof(SLEx_ForceAIStateForTime);
+    using SideLoader;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Random = UnityEngine.Random;
+
 
     /// <summary>
-    /// The ID Of the AIState
+    /// Switches any Affected CharacterAI to the AIState Specified
     /// </summary>
-    public int AIState;
-
-    public override void ApplyToComponent<T>(T component)
+    public class SL_ForceAIState : SL_Effect, ICustomModel
     {
-        SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
-        comp.AIState = AIState;
-    }
+        public Type SLTemplateModel => typeof(SL_ForceAIState);
+        public Type GameModel => typeof(SLEx_ForceAIStateForTime);
 
-    public override void SerializeEffect<T>(T component)
-    {
-        SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
-        this.AIState = comp.AIState;
-    }
-}
+        /// <summary>
+        /// The ID Of the AIState
+        /// </summary>
+        public int AIState;
 
-public class SLEx_ForceAIStateForTime : Effect, ICustomModel
-{
-    public Type SLTemplateModel => typeof(SL_ForceAIState);
-    public Type GameModel => typeof(SLEx_ForceAIStateForTime);
-
-    public int AIState;
-
-    public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
-    {
-        if (AIState > 3)
+        public override void ApplyToComponent<T>(T component)
         {
-            //ai state doesnt exist
-            return;
+            SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+            comp.AIState = AIState;
         }
 
-        CharacterAI characterAI = _affectedCharacter.GetComponent<CharacterAI>();
-
-        if (characterAI)
+        public override void SerializeEffect<T>(T component)
         {
-            ForceCharacterAIState(characterAI, AIState);
-        }    
-
+            SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+            this.AIState = comp.AIState;
+        }
     }
 
-    private void ForceCharacterAIState(CharacterAI CharacterAI, int state)
+    public class SLEx_ForceAIStateForTime : Effect, ICustomModel
     {
-        CharacterAI.SwitchAiState(state);
+        public Type SLTemplateModel => typeof(SL_ForceAIState);
+        public Type GameModel => typeof(SLEx_ForceAIStateForTime);
+
+        public int AIState;
+
+        public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
+        {
+            if (AIState > 3)
+            {
+                //ai state doesnt exist
+                return;
+            }
+
+            CharacterAI characterAI = _affectedCharacter.GetComponent<CharacterAI>();
+
+            if (characterAI)
+            {
+                ForceCharacterAIState(characterAI, AIState);
+            }
+
+        }
+
+        private void ForceCharacterAIState(CharacterAI CharacterAI, int state)
+        {
+            CharacterAI.SwitchAiState(state);
+        }
     }
+
 }
-
-
 //public enum SLEx_AISTATES
 //{
 //    WANDER = 0,

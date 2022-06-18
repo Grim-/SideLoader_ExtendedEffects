@@ -91,13 +91,13 @@ namespace SideLoader_ExtendedEffects
 
                 if (LifeTime > 0)
                 {
-                    ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS {LifeTime}");
+                    ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX LIFETIME IS {LifeTime}");
                     Destroy(Instance, LifeTime);
                 }
             }
             else
             {
-                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle {AssetBundleName} was null.");
             }            
         }
 
@@ -107,7 +107,7 @@ namespace SideLoader_ExtendedEffects
 
             if (LifeTime == 0)
             {
-                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS 0 DESTROYING");
+                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX CleanUpOnDestroy called and lifetime is 0, destroying.");
                 if (Instance)
                 {
                     GameObject.Destroy(Instance);
@@ -121,7 +121,7 @@ namespace SideLoader_ExtendedEffects
         {
             if (LifeTime == 0)
             {
-                ExtendedEffects.Log.LogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS 0 DESTROYING");
+                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX StopAffectLocally called and lifetime is 0, destroying.");
                 if (Instance)
                 {
                     GameObject.Destroy(Instance);

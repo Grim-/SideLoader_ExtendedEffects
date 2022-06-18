@@ -29,6 +29,16 @@ namespace SideLoader_ExtendedEffects
             return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<Renderer>();
         }
 
+        public static MeshFilter TryGetWeaponMesh(Equipment weaponGameObject)
+        {
+            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<MeshFilter>();
+        }
+
+        public static T TryGetWeaponVisualComponent<T>(Weapon weaponGameObject)
+        {
+            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<T>();
+        }
+
         public static T GetFromAssetBundle<T>(string SLPackName, string AssetBundle, string key) where T : UnityEngine.Object
         {
             if (!SL.PacksLoaded)

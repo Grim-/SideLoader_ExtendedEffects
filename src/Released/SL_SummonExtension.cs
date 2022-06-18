@@ -97,7 +97,7 @@ namespace SideLoader_ExtendedEffects
             }
             else
             {
-                SideLoader_ExtendedEffects.ExtendedEffects.Log.LogMessage($"SL_SummonExtension : Could not find Status by name {StatusEffectOnSpawn}");
+                SideLoader_ExtendedEffects.ExtendedEffects._Log.LogMessage($"SL_SummonExtension : Could not find Status by name {StatusEffectOnSpawn}");
             }
         }
 

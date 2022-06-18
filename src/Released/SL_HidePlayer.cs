@@ -18,8 +18,6 @@ namespace SideLoader_ExtendedEffects
         public Type GameModel => typeof(SLEx_HidePlayer);
 
         public float HideTime;
-
-
         public override void ApplyToComponent<T>(T component)
         {
             SLEx_HidePlayer sLEx_HidePlayer = component as SLEx_HidePlayer;
@@ -41,7 +39,6 @@ namespace SideLoader_ExtendedEffects
         public Type GameModel => typeof(SLEx_HidePlayer);
 
         public float HideTime;
-
 
         private bool IsRunning = false;
 
