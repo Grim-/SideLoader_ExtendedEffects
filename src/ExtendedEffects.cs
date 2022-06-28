@@ -19,7 +19,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.1.3";
+        public const string VERSION = "1.1.4";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -102,62 +102,26 @@ namespace SideLoader_ExtendedEffects
             };
             TestWeapon.ApplyTemplate();
 
-            //commented because they require the assetbundle
-            //SL_StatusEffect TestStatusLifeWarden = new SL_StatusEffect()
-            //{
-            //    TargetStatusIdentifier = "Discipline",
-            //    NewStatusID = -26234,
-            //    StatusIdentifier = "CustomImbueLifeWarden",
-            //    Name = "CustomImbue Test",
-            //    Description = "CustomImbueLifeWarden",
-            //    Purgeable = false,
-            //    DisplayedInHUD = true,
-            //    IsMalusEffect = false,
-            //    Lifespan = 60,
-            //    RefreshRate = -1f,
-            //    AmplifiedStatusIdentifier = string.Empty,
-            //    FamilyMode = StatusEffect.FamilyModes.Bind,
-            //    EffectBehaviour = EditBehaviours.Destroy,
-            //    Effects = new SL_EffectTransform[]
-            //    {
-            //        new SL_EffectTransform
-            //        {
-            //            TransformName = "Effects",
-            //            Effects = new SL_Effect[]
-            //            {
-            //                new SL_CustomImbueVFX
-            //                {
-            //                    SLPackName = "vfx",
-            //                    AssetBundleName = "emovfx",
-            //                    PrefabName = "LifeWarden",
-            //                    IsMainHand = false
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-            //TestStatusLifeWarden.ApplyTemplate();
 
             //SL_Item TestImbueLifeWardenEffectPotion = new SL_Item()
             //{
             //    Target_ItemID = 4300130,
             //    New_ItemID = -26987,
-            //    Name = "Test Imbue Life Warden Effect Potion",
-            //    Description = "Test Imbue Effect Potion",
+            //    Name = "Test Apply Enchantment Potion",
+            //    Description = "Test Apply Enchantment Potion",
             //    EffectBehaviour = EditBehaviours.Destroy,
             //    QtyRemovedOnUse = 0,
             //    EffectTransforms = new SL_EffectTransform[] {
             //        new SL_EffectTransform {
             //            TransformName = "Effects",
-            //            Effects = new SL_Effect[] {
-            //                new SL_PlayAssetBundleVFX_Bones {
-            //                    SLPackName = "vfx",
-            //                    AssetBundleName = "emobonevfxtest",
-            //                    PrefabName = "TaunHead",
-            //                    BoneID = 10,
-            //                    LifeTime = 10,
-            //                    ParentToAffected = true
-            //                }
+            //            Effects = new SL_Effect[]
+            //            {
+            //                   new SL_ApplyEnchantment
+            //                   {
+            //                       EquipmentSlot = EquipmentSlot.EquipmentSlotIDs.RightHand,
+            //                       EnchantmentID = 34,
+            //                       ApplyPermanently = true
+            //                   }
             //            }
             //        }
             //    }

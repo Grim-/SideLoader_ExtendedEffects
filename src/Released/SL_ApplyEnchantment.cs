@@ -20,6 +20,7 @@ namespace SideLoader_ExtendedEffects
             ApplyEnchantment effect = component as ApplyEnchantment;
             effect.EquipmentSlot = this.EquipmentSlot;
             effect.EnchantmentId = this.EnchantmentID;
+            effect.ApplyPermanently = this.ApplyPermanently;
         }
 
         public override void SerializeEffect<T>(T effect)
@@ -27,6 +28,7 @@ namespace SideLoader_ExtendedEffects
             ApplyEnchantment comp = effect as ApplyEnchantment;
             this.EnchantmentID = comp.EnchantmentId;
             this.EquipmentSlot = comp.EquipmentSlot;
+            this.ApplyPermanently = comp.ApplyPermanently;
         }
     }
 
@@ -36,6 +38,7 @@ namespace SideLoader_ExtendedEffects
 
         public EquipmentSlot.EquipmentSlotIDs EquipmentSlot;
         public int EnchantmentId;
+        public bool ApplyPermanently;
 
         [SerializeField]
         private UID affectedItem = UID.Empty;
@@ -44,17 +47,21 @@ namespace SideLoader_ExtendedEffects
         {
             if (_affectedCharacter == null) //No character
             {
+                ExtendedEffects.Log("Affected Character null");
                 return;
             }
             if (_affectedCharacter.Inventory.Equipment.EquipmentSlots[(int)EquipmentSlot].HasItemEquipped)
             {
                 var itemInSlot = _affectedCharacter.Inventory.Equipment.EquipmentSlots[(int)EquipmentSlot].EquippedItem;
                 if (itemInSlot.UID != affectedItem) { // Item in hand has changed, clean up old one if any and enchant new one
+                    ExtendedEffects.Log("Item has Changed");
                     if (!affectedItem.IsNull) {
+                        ExtendedEffects.Log("Cleaning Affected Item");
                         CleanAffectedItem();
                     }
                     if (!itemInSlot.m_enchantmentIDs.Contains(EnchantmentId)) {
                         affectedItem = itemInSlot.UID;
+                        ExtendedEffects.Log($"Adding Enchant {EnchantmentId} to {itemInSlot.Name}");
                         itemInSlot.AddEnchantment(EnchantmentId);
                     }
                 } else {
@@ -77,6 +84,7 @@ namespace SideLoader_ExtendedEffects
         }
 
         private void CleanAffectedItem() {
+            if (ApplyPermanently) return;        
             var item = ItemManager.Instance.GetItem(affectedItem) as Equipment;
             item.m_enchantmentIDs.Remove(EnchantmentId);
             foreach (var ench in item.m_activeEnchantments) {
