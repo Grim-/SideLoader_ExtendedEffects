@@ -530,3 +530,25 @@ And an example potion that applies this status to the player granting the imbue
   </ItemVisuals>
 </SL_Item>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_ApplyEnchantment
+This SL_Effect applies an Enchantment to the specified EquipmentSlot.
+
+
+| Parameter Name | Description |
+| ---| ------------- |
+| EquipmentSlot  | The EquipmentSlotID |   
+| EnchantmentID  | The Enchantment ID to Apply |   
+| ApplyPermanently  | Apply this Enchantment permanently? Otherwise its removed when the weapon is unequipped. |   
+
+```xml
+<SL_Effect xsi:type="SL_ApplyEnchantment">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <EquipmentSlot>5</EquipmentSlot>
+  <EnchantmentID>2</EnchantmentID>
+  <ApplyPermanently>false</ApplyPermanently>
+</SL_Effect>
+```
