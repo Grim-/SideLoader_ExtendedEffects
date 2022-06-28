@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace SideLoader_ExtendedEffects
 {
+        /// <summary>
+        /// Dan
+        /// </summary>
         public class SL_ApplyEnchantment: SL_Effect, ICustomModel {
         public Type SLTemplateModel => typeof(SL_ApplyEnchantment);
         public Type GameModel => typeof(ApplyEnchantment);
