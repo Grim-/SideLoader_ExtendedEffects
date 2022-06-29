@@ -40,14 +40,14 @@ namespace SideLoader_ExtendedEffects.Events {
     {
         static void Postfix(
             CharacterEquipment __instance,
-            Equipment _itemToEquip,
+            Equipment _itemToUnequip,
             bool _playAnim,
             ItemContainer _targetContainer
         )
         {
             var e =  new EquipEvent {
                 character   = __instance.m_character,
-                item  = _itemToEquip,
+                item  = _itemToUnequip,
                 equipment = __instance,
                 equipped = false,
                 targetInventory = _targetContainer
