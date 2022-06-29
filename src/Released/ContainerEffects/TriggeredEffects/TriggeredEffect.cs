@@ -35,7 +35,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers {
             base.StopAffectLocally(_affectedCharacter);
         }
         
-        public virtual void ApplyTo(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter, Vector3 pos, Vector3 dir) {
+        public virtual void StartApply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter, Vector3 pos, Vector3 dir) {
             if (Time.time - this.lastTriggerTime > 0)
             {
                 this.lastTriggerTime = Time.time;
@@ -54,9 +54,20 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers {
                 foreach (var category in categories)
                 {
                     this.m_subEffects[0].SynchronizeEffects(category, affectedCharacter, pos, dir);
-                    this.m_subEffects[0].StopAllEffects(category, affectedCharacter);
                 }
             }
+        }
+        public virtual void StopApply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter)
+        {
+            foreach (var category in categories)
+            {
+                this.m_subEffects[0].StopAllEffects(category, affectedCharacter);
+            }
+        }
+
+        public virtual void Apply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter, Vector3 pos, Vector3 dir) {
+            StartApply(categories, affectedCharacter, pos, dir);
+            StopApply(categories, affectedCharacter);
         }
 
         public abstract void OnEvent(object sender, Event args);

@@ -170,12 +170,12 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                 if (args.dealer == args.target)
                 {
                     dealerList.AddRange(targetList);
-                    ApplyTo(dealerList.ToArray(), args.dealer, args.hitLocation, args.hitDirection);
+                    Apply(dealerList.ToArray(), args.dealer, args.hitLocation, args.hitDirection);
                 }
                 else
                 {
-                    ApplyTo(dealerList.ToArray(), args.dealer, args.hitLocation, args.hitDirection);
-                    ApplyTo(targetList.ToArray(), args.target, args.hitLocation, args.hitDirection);
+                    Apply(dealerList.ToArray(), args.dealer, args.hitLocation, args.hitDirection);
+                    Apply(targetList.ToArray(), args.target, args.hitLocation, args.hitDirection);
                 }
             } catch (Exception e) {
                 SL.Log("=============Hit Event Error============");
