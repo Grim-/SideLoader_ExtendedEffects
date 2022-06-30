@@ -39,15 +39,11 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
             if (args.equipped) {
                 StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Activation, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
-                StopApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Activation},
-                    args.character);
             }
             else
             {
-                StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Reference},
+                StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Reference, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
-                StopApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Reference, EffectSynchronizer.EffectCategories.Normal},
-                    args.character);
             }
 
         }
