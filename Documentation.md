@@ -552,3 +552,85 @@ This SL_Effect applies an Enchantment to the specified EquipmentSlot.
   <ApplyPermanently>false</ApplyPermanently>
 </SL_Effect>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_OnHitEffect
+This SL_Effect applies it's sub-effects each time it detects a matching hit. Hits by the effect owner apply `Hit` effects on the target and `Normal` effects on the owner.
+Hits on the owner apply `Block` effects on the attacker, and `Referenced` effects on the owner. Only up to `ActivationLimit` applications are allowed on a character in the same frame.
+
+| Parameter Name | Description |
+| ---| ------------- | 
+| ChildEffects  | A list of EffectTransforms containing the effects that should be applied. |   
+| ActivationLimit  | How many times should effects be allowed to apply to each character. |   
+| RequiredSourceType  | Whether hits need to come from weapons or not. |   
+| DamageTypes  | Which damage types should trigger effects. |   
+| RequireAllTypes  | If true, each damage type is required rather than just one. |   
+| MinDamage  | How much damage must be done to trigger the effects. |   
+| OnlyCountRequiredTypes  | If true, only damage from `Damage Types` counts towards `Min Damage` |   
+| UseHighestType  | If true, only the highest type of damage counts for any conditions. |   
+| IgnoreDamageReduction  | If true, calculations are done based on damage before reductions from target's defenses. |   
+
+```xml
+<SL_Effect xsi:type="SL_OnHitEffect">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+    </ChildEffects>
+    <ActivationLimit>3</ActivationLimit>
+    <RequiredSourceType>WEAPON</RequiredSourceType>
+    <RequireAllTypes>false</RequireAllTypes>
+    <MinDamage>0</MinDamage>
+    <OnlyCountRequiredTypes>false</OnlyCountRequiredTypes>
+    <UseHighestType>false</UseHighestType>
+    <IgnoreDamageReduction>false</IgnoreDamageReduction>
+</SL_Effect>
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_OnEquipEffect
+This SL_Effect applies it's sub-effects each time it detects a change in equipped items. Equipping an item applies `Activation` and `Normal` effects. Unequipping an item applies `Normal` and `Referenced` effects. These take places *after* their action, so items will already be in/out of their equip slots when effects are resolved.
+
+| Parameter Name | Description |
+| ---| ------------- | 
+| ChildEffects  | A list of EffectTransforms containing the effects that should be applied. |
+| ActivationLimit  | How many times should effects be allowed to apply to each character. |
+| AllowedSlots  | Which equipment slots should be tracked. |
+
+```xml
+<SL_Effect xsi:type="SL_OnEquipEffect">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+    </ChildEffects>
+    <ActivationLimit>2</ActivationLimit>
+    <AllowedSlots />
+</SL_Effect>
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_EffectLifecycleEffect
+This SL_Effect applies it's sub-effects each time it is activated. The first activation applies `Activation` and `Normal` effects. Subsequent activations apply just `Normal` effects.
+Finally, the effect stopping applies `Referenced` effects.
+
+| Parameter Name | Description |
+| ---| ------------- | 
+| ChildEffects  | A list of EffectTransforms containing the effects that should be applied. |
+| ActivationLimit  | How many times should effects be allowed to apply to each character. Not used, since the effect can't activate more than once. |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_EffectLifecycleEffect">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+    </ChildEffects>
+    <ActivationLimit>0</ActivationLimit>
+</SL_Effect>
+```
+
