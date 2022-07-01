@@ -1,4 +1,4 @@
-# SideLoader - Extended Effects v1.1.3
+# SideLoader - Extended Effects v1.1.4
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
@@ -14,6 +14,9 @@ This is a problem with SideLoader Extended Effects and not SideLoader itself, I 
 Working with XML files in a texteditor still works fine for now.
 
 ## Change Log
+
+1.1.4 - Added [SL_ApplyEnchantment](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_ApplyEnchantment.xml) Thanks to [Dan](https://github.com/dansze)
+
 1.1.3 - Added [SL_PlayAssetBundleVFX_Bones](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md#sl_playassetbundlevfx_bones)
 
 1.1.2 - Added [SL_CustomImbueVFX](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md#sl_customimbuevfx)

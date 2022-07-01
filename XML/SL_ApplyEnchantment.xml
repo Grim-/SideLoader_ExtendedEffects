@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_ApplyEnchantment">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <EquipmentSlot>5</EquipmentSlot>
+  <EnchantmentID>2</EnchantmentID>
+  <ApplyPermanently>false</ApplyPermanently>
+</SL_Effect>
