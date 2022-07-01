@@ -1,7 +1,6 @@
 using SideLoader_ExtendedEffects.Events;
 using SideLoader;
 using System;
-using System.Collections.Generic;
 
 namespace SideLoader_ExtendedEffects.Containers.Triggers
 {
@@ -32,16 +31,20 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
 
         public override void OnEvent(object sender, EquipEvent args)
         {
-            if (!AllowedSlots.Contains(args.item.EquipSlot)) {
+            if (args.character != this.OwnerCharacter) {
+                return;
+            }
+            if (AllowedSlots != null && AllowedSlots.Length > 0 && !AllowedSlots.Contains(args.slot)) {
                 return; // Not one of the tracked slots
             }
-
             if (args.equipped) {
+                SL.Log("Equipped item");
                 StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Activation, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
             }
             else
             {
+                SL.Log("Unequipped item");
                 StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Reference, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
             }

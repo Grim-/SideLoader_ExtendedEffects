@@ -1,4 +1,5 @@
-
+using SideLoader;
+using System;
 
 namespace SideLoader_ExtendedEffects.Containers
 {
@@ -6,8 +7,12 @@ namespace SideLoader_ExtendedEffects.Containers
     public class SL_EffectLifecycleEffect: SL_ParentEffect {
     }
 
-    public class EffectLifecycleEffect : ParentEffect
+    public class EffectLifecycleEffect : ParentEffect, ICustomModel
     {
+
+        public Type SLTemplateModel => typeof(SL_EffectLifecycleEffect);
+        public Type GameModel => typeof(EffectLifecycleEffect);
+
         private bool activated = false;
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
@@ -20,11 +25,11 @@ namespace SideLoader_ExtendedEffects.Containers
         public override void StopAffectLocally(Character _affectedCharacter)
         {
             this.m_subEffects[0].SynchronizeEffects(EffectSynchronizer.EffectCategories.Reference, this.OwnerCharacter);
-            this.activated = false;
+            this.activated = false; 
             
+            this.m_subEffects[0].StopAllEffects(EffectSynchronizer.EffectCategories.Reference, this.OwnerCharacter);
             this.m_subEffects[0].StopAllEffects(EffectSynchronizer.EffectCategories.Activation, this.OwnerCharacter);
             this.m_subEffects[0].StopAllEffects(EffectSynchronizer.EffectCategories.Normal, this.OwnerCharacter);
-            this.m_subEffects[0].StopAllEffects(EffectSynchronizer.EffectCategories.Reference, this.OwnerCharacter);
             base.StopAffectLocally(_affectedCharacter);
         }
     }

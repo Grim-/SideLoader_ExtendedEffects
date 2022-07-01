@@ -10,6 +10,8 @@ namespace SideLoader_ExtendedEffects.Containers
     {
         public EditBehaviours EffectBehavior = EditBehaviours.Destroy;
         public SL_EffectTransform[] ChildEffects;
+        public int ActivationLimit;
+
         public override void ApplyToComponent<T>(T component)
         {
             try {
@@ -18,11 +20,9 @@ namespace SideLoader_ExtendedEffects.Containers
                 var obj = new GameObject();
                 GameObject.DontDestroyOnLoad(obj);
                 obj.SetActive(false);
-
+                comp.ActivationLimit = this.ActivationLimit;
                 comp.ChildEffects = obj.gameObject.AddComponent<SubEffect>();
                 SL_EffectTransform.ApplyTransformList(comp.ChildEffects.transform, ChildEffects, EffectBehavior);
-                SL.Log(ChildEffects.Length);
-                SL.Log(comp.ChildEffects.transform.childCount);
             } catch (Exception e) {
                 SL.Log(e);
             }
@@ -45,6 +45,7 @@ namespace SideLoader_ExtendedEffects.Containers
                     }
                     ChildEffects = list.ToArray();
                 }
+                this.ActivationLimit = comp.ActivationLimit;
             } catch (Exception e) {
                 SL.Log(e);
             }
@@ -54,6 +55,10 @@ namespace SideLoader_ExtendedEffects.Containers
     public abstract class ParentEffect: Shooter {
 
         public SubEffect ChildEffects;
+        public int ActivationLimit;
+
+        private float lastApplyTime = 0;
+        private Dictionary<Character, int> affectedThisInterval;
 
         public override void Setup(Character.Factions[] _targetFactions, Transform _parent)
         {
@@ -85,11 +90,52 @@ namespace SideLoader_ExtendedEffects.Containers
         public override void StopAffectLocally(Character _affectedCharacter)
         {
             foreach (EffectSynchronizer.EffectCategories category in Enum.GetValues(typeof(EffectSynchronizer.EffectCategories))) {
-                ChildEffects.StopAllEffects(category, _affectedCharacter);
+                this.m_subEffects[0].StopAllEffects(category, _affectedCharacter);
             }
             base.StopAffectLocally(_affectedCharacter);
         }
-    }
 
+                
+        public virtual void StartApply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter, Vector3 pos, Vector3 dir) {
+            if (Time.time - this.lastApplyTime > 0)
+            {
+                this.lastApplyTime = Time.time;
+                if (this.affectedThisInterval == null)
+                {
+                    this.affectedThisInterval = new Dictionary<Character, int>();
+                }
+                else
+                {
+                    this.affectedThisInterval.Clear();
+                }
+            }
+            int activations = 0;
+            if (!this.affectedThisInterval.TryGetValue(affectedCharacter, out activations))
+            {
+                this.affectedThisInterval.Add(affectedCharacter, 0);
+            }
+            if (activations < this.ActivationLimit)
+            {
+                this.affectedThisInterval[affectedCharacter] += 1;
+                foreach (var category in categories)
+                {
+                    this.m_subEffects[0].SynchronizeEffects(category, affectedCharacter, pos, dir);
+                }
+            }
+        }
+        public virtual void StopApply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter)
+        {
+            foreach (var category in categories)
+            {
+                this.m_subEffects[0].StopAllEffects(category, affectedCharacter);
+            }
+        }
+
+        public virtual void Apply(EffectSynchronizer.EffectCategories[] categories, Character affectedCharacter, Vector3 pos, Vector3 dir) {
+            StartApply(categories, affectedCharacter, pos, dir);
+            StopApply(categories, affectedCharacter);
+        }
+
+    }
 
 }
