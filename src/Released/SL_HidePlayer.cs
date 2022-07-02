@@ -44,6 +44,7 @@ namespace SideLoader_ExtendedEffects
 
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
+            SL.Log("Activating Locally");
             if (!IsRunning)
             {
                 StartCoroutine(ToggleCharacterVisual(this.OwnerCharacter));

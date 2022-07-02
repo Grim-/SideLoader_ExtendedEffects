@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_OnHitEffect">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+    <SL_EffectTransform>
+        <TransformName>Hit</TransformName>
+        <Position xsi:nil="true" />
+        <Rotation xsi:nil="true" />
+        <Scale xsi:nil="true" />
+        <Effects>
+        <SL_Effect xsi:type="SL_WeaponDamage">
+            <Delay>0</Delay>
+            <SyncType>OwnerSync</SyncType>
+            <OverrideCategory>None</OverrideCategory>
+            <Damage>
+            <SL_Damage>
+                <Damage>6</Damage>
+                <Type>Frost</Type>
+            </SL_Damage>
+            </Damage>
+            <Damages_AI />
+            <Knockback>0</Knockback>
+            <HitInventory>false</HitInventory>
+            <IgnoreHalfResistances>false</IgnoreHalfResistances>
+            <OverrideType>Physical</OverrideType>
+            <ForceOnlyLeftHand>false</ForceOnlyLeftHand>
+            <Damage_Multiplier>0</Damage_Multiplier>
+            <Damage_Multiplier_Kback>0</Damage_Multiplier_Kback>
+            <Damage_Multiplier_Kdown>0</Damage_Multiplier_Kdown>
+            <Impact_Multiplier>0</Impact_Multiplier>
+            <Impact_Multiplier_Kback>0</Impact_Multiplier_Kback>
+            <Impact_Multiplier_Kdown>0</Impact_Multiplier_Kdown>
+        </SL_Effect>
+        </Effects>
+    </SL_EffectTransform>
+    </ChildEffects>
+    <ActivationLimit>3</ActivationLimit>
+    <RequiredSourceType>WEAPON</RequiredSourceType>
+    <RequireAllTypes>false</RequireAllTypes>
+    <MinDamage>0</MinDamage>
+    <OnlyCountRequiredTypes>false</OnlyCountRequiredTypes>
+    <UseHighestType>false</UseHighestType>
+    <IgnoreDamageReduction>false</IgnoreDamageReduction>
+</SL_Effect>

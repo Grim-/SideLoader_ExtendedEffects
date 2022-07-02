@@ -97,6 +97,7 @@ namespace SideLoader_ExtendedEffects
 					{
 						item.SetDurabilityRatio(durabilityRatio);
 					}
+                    break;
                 }
             }
             affectedItem = UID.Empty;
