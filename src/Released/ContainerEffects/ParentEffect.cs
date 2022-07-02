@@ -114,7 +114,7 @@ namespace SideLoader_ExtendedEffects.Containers
             {
                 this.affectedThisInterval.Add(affectedCharacter, 0);
             }
-            if (activations < this.ActivationLimit)
+            if (this.ActivationLimit == 0 || activations < this.ActivationLimit)
             {
                 this.affectedThisInterval[affectedCharacter] += 1;
                 foreach (var category in categories)

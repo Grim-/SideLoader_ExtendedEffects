@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_AffectCooldown">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <Amount>100</Amount>
+    <IsModifier>false</IsModifier>
+    <OnOwner>false</OnOwner>
+    <AllowedSkills>
+    <int>8100320</int>
+    </AllowedSkills>
+</SL_Effect>

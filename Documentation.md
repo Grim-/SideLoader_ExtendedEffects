@@ -622,7 +622,6 @@ Finally, the effect stopping applies `Referenced` effects.
 | ActivationLimit  | How many times should effects be allowed to apply to each character. Not used, since the effect can't activate more than once. |
 
 ```xml
-<?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_EffectLifecycleEffect">
     <Delay>0</Delay>
     <SyncType>OwnerSync</SyncType>
@@ -633,4 +632,28 @@ Finally, the effect stopping applies `Referenced` effects.
     <ActivationLimit>0</ActivationLimit>
 </SL_Effect>
 ```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+### SL_AffectCooldown
+Affect active cooldowns for the character's skills. By defauly, subtracts `Amount` seconds from the remaining cooldown, but can be changed to subtract a `Amount` percent of the effective cooldown instead. May also be filtered to apply on to a fixed list of skills.
+
+| Parameter Name | Description |
+| ---| ------------- | 
+| Amount | How much to reduce the cooldown by, in seconds. |
+| IsModifier | Whether `Amount` should be treated as a flat value or a percentage. |
+| OnOwner | Whether cooldowns should be reduced on the affected target or the owner. |
+| AllowedSkills | Which skills should have their cooldown affected' |
+
+```xml
+<SL_Effect xsi:type="SL_AffectCooldown">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <Amount>100</Amount>
+    <IsModifier>false</IsModifier>
+    <OnOwner>false</OnOwner>
+    <AllowedSkills>
+      <int>8100320</int>
+    </AllowedSkills>
+</SL_Effect>
+```
