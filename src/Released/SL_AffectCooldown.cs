@@ -14,6 +14,7 @@ namespace SideLoader_ExtendedEffects
 
         public float Amount;
         public bool IsModifier;
+        public bool OnOwner;
         public int[] AllowedSkills;
 
         public override void ApplyToComponent<T>(T component)
@@ -21,6 +22,7 @@ namespace SideLoader_ExtendedEffects
             AffectCooldown effect = component as AffectCooldown;
             effect.Amount = this.Amount;
             effect.IsModifier = this.IsModifier;
+            effect.OnOwner = this.OnOwner;
             effect.AllowedSkills = this.AllowedSkills;
         }
 
@@ -29,6 +31,7 @@ namespace SideLoader_ExtendedEffects
             AffectCooldown comp = effect as AffectCooldown;
             this.Amount = comp.Amount;
             this.IsModifier = comp.IsModifier;
+            this.OnOwner = comp.OnOwner;
             this.AllowedSkills = comp.AllowedSkills;
         }
     }
@@ -39,11 +42,13 @@ namespace SideLoader_ExtendedEffects
 
         public float Amount;
         public bool IsModifier;
+        public bool OnOwner;
         public int[] AllowedSkills;
 
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
-            var skills = _affectedCharacter.Inventory.SkillKnowledge.GetLearnedActiveSkillUIDs();
+            var character = OnOwner ? this.OwnerCharacter : _affectedCharacter;
+            var skills = character.Inventory.SkillKnowledge.GetLearnedActiveSkillUIDs();
             foreach (string uid in skills)
             {
                 Skill skill = ItemManager.Instance.GetItem(uid) as Skill;
