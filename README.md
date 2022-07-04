@@ -1,4 +1,4 @@
-# SideLoader - Extended Effects v1.1.4
+# SideLoader - Extended Effects v1.1.5
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
@@ -14,6 +14,8 @@ This is a problem with SideLoader Extended Effects and not SideLoader itself, I 
 Working with XML files in a texteditor still works fine for now.
 
 ## Change Log
+
+1.1.5 - Added [SL_OnHitEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnHitEffect.xml), [SL_OnEquipEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnEquipEffect.xml), [SL_EffectLifecycleEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_EffectLifecycleEffect.xml), and [SL_AffectCooldown](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_AffectCooldown.xml). Also added generalized event publishers for C# mods to hook in to, as well as implementations for hit and equip events.
 
 1.1.4 - Added [SL_ApplyEnchantment](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_ApplyEnchantment.xml) Thanks to [Dan](https://github.com/dansze)
 
