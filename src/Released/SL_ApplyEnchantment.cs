@@ -59,8 +59,8 @@ namespace SideLoader_ExtendedEffects
                         ExtendedEffects.Log("Cleaning Affected Item");
                         CleanAffectedItem();
                     }
+                    affectedItem = itemInSlot.UID;
                     if (!itemInSlot.m_enchantmentIDs.Contains(EnchantmentId)) {
-                        affectedItem = itemInSlot.UID;
                         ExtendedEffects.Log($"Adding Enchant {EnchantmentId} to {itemInSlot.Name}");
                         itemInSlot.AddEnchantment(EnchantmentId);
                     }
