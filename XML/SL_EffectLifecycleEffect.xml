@@ -5,24 +5,24 @@
     <OverrideCategory>None</OverrideCategory>
     <EffectBehavior>Destroy</EffectBehavior>
     <ChildEffects>
-    <SL_EffectTransform>
-        <TransformName>Referenced End</TransformName>
-        <Position xsi:nil="true" />
-        <Rotation xsi:nil="true" />
-        <Scale xsi:nil="true" />
-        <Effects>
-        <SL_Effect xsi:type="SL_AddStatusEffect">
-            <Delay>0</Delay>
-            <SyncType>OwnerSync</SyncType>
-            <OverrideCategory>None</OverrideCategory>
-            <StatusEffect>Discipline</StatusEffect>
-            <ChanceToContract>100</ChanceToContract>
-            <AffectController>false</AffectController>
-            <AdditionalLevel>0</AdditionalLevel>
-            <NoDealer>false</NoDealer>
-        </SL_Effect>
-        </Effects>
-    </SL_EffectTransform>
+        <SL_EffectTransform>
+            <TransformName>Referenced (Run at the end of the effect)</TransformName>
+            <Position xsi:nil="true" />
+            <Rotation xsi:nil="true" />
+            <Scale xsi:nil="true" />
+            <Effects>
+                <SL_Effect xsi:type="SL_AddStatusEffect">
+                    <Delay>0</Delay>
+                    <SyncType>OwnerSync</SyncType>
+                    <OverrideCategory>None</OverrideCategory>
+                    <StatusEffect>Discipline</StatusEffect>
+                    <ChanceToContract>100</ChanceToContract>
+                    <AffectController>false</AffectController>
+                    <AdditionalLevel>0</AdditionalLevel>
+                    <NoDealer>false</NoDealer>
+                </SL_Effect>
+            </Effects>
+        </SL_EffectTransform>
     </ChildEffects>
     <ActivationLimit>0</ActivationLimit>
 </SL_Effect>
