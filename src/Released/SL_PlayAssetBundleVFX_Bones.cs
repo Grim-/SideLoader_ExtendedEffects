@@ -24,13 +24,23 @@ namespace SideLoader_ExtendedEffects
             comp.PositionOffset = PositionOffset;
             comp.RotationOffset = RotationOffset;
             comp.ParentToAffected = ParentToAffected;
+            comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
             comp.LifeTime = LifeTime;
             comp.BoneID = BoneID;
         }
 
         public override void SerializeEffect<T>(T effect)
         {
-            base.SerializeEffect(effect);
+            SLEx_PlayAssetBundleVFX_Bones comp = effect as SLEx_PlayAssetBundleVFX_Bones;
+            comp.SLPackName = SLPackName;
+            comp.AssetBundleName = AssetBundleName;
+            comp.PrefabName = PrefabName;
+            comp.PositionOffset = PositionOffset;
+            comp.RotationOffset = RotationOffset;
+            comp.ParentToAffected = ParentToAffected;
+            comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
+            comp.LifeTime = LifeTime;
+            comp.BoneID = BoneID;
         }
     }
 
@@ -71,7 +81,7 @@ namespace SideLoader_ExtendedEffects
                 }
                 else
                 {
-                    Instance.transform.position = SelectedBone.position + PositionOffset;
+                    Instance.transform.position = SelectedBone.transform.position + (PositionOffsetAsRelativeDirection ? _affectedCharacter.transform.TransformPoint(PositionOffset) : PositionOffset);
                     Instance.transform.eulerAngles = RotationOffset;
                 }
 

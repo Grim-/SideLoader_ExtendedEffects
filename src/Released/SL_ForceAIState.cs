@@ -27,9 +27,9 @@
             comp.AIState = AIState;
         }
 
-        public override void SerializeEffect<T>(T component)
+        public override void SerializeEffect<T>(T effect)
         {
-            SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+            SLEx_ForceAIStateForTime comp = effect as SLEx_ForceAIStateForTime;
             this.AIState = comp.AIState;
         }
     }

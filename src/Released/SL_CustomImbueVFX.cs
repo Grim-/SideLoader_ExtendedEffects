@@ -37,7 +37,14 @@ namespace SideLoader_ExtendedEffects
 
         public override void SerializeEffect<T>(T effect)
         {
+            SLEx_CustomImbueVFX comp = effect as SLEx_CustomImbueVFX;
 
+            this.SLPackName = comp.SLPackName;
+            this.AssetBundleName = comp.AssetBundleName;
+            this.PrefabName = comp.PrefabName;
+            this.PositionOffset = comp.PositionOffset;
+            this.RotationOffset = comp.RotationOffset;
+            this.IsMainHand = comp.IsMainHand;
         }
     }
 
@@ -105,7 +112,7 @@ namespace SideLoader_ExtendedEffects
                     return;
                 }
 
-                MeshFilter meshFilter = OutwardHelpers.TryGetWeaponMesh(CurrentWeapon);
+                MeshFilter meshFilter = OutwardHelpers.TryGetWeaponMesh(CurrentWeapon, false);
 
                 if (meshFilter == null)
                 {

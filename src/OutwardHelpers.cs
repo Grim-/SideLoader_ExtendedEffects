@@ -29,9 +29,9 @@ namespace SideLoader_ExtendedEffects
             return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<Renderer>();
         }
 
-        public static MeshFilter TryGetWeaponMesh(Equipment weaponGameObject)
+        public static MeshFilter TryGetWeaponMesh(Equipment weaponGameObject, bool IncludeInActive = true)
         {
-            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<MeshFilter>();
+            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>(IncludeInActive).GetComponent<MeshFilter>();
         }
 
         public static T TryGetWeaponVisualComponent<T>(Weapon weaponGameObject)

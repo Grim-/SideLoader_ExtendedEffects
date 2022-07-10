@@ -19,7 +19,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.1.4";
+        public const string VERSION = "1.1.7";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -29,6 +29,7 @@ namespace SideLoader_ExtendedEffects
 
         public static ConfigEntry<bool> AddTestItems;
         public static ConfigEntry<bool> ShowDebugLog;
+
         //ID RANGE -26000 -> -26999
 
         // Awake is called when your plugin is created. Use this to set up your mod.
@@ -103,100 +104,41 @@ namespace SideLoader_ExtendedEffects
             TestWeapon.ApplyTemplate();
 
 
-            //SL_Item TestImbueLifeWardenEffectPotion = new SL_Item()
-            //{
-            //    Target_ItemID = 4300130,
-            //    New_ItemID = -26987,
-            //    Name = "Test Apply Enchantment Potion",
-            //    Description = "Test Apply Enchantment Potion",
-            //    EffectBehaviour = EditBehaviours.Destroy,
-            //    QtyRemovedOnUse = 0,
-            //    EffectTransforms = new SL_EffectTransform[] {
-            //        new SL_EffectTransform {
-            //            TransformName = "Effects",
-            //            Effects = new SL_Effect[]
-            //            {
-            //                   new SL_ApplyEnchantment
-            //                   {
-            //                       EquipmentSlot = EquipmentSlot.EquipmentSlotIDs.RightHand,
-            //                       EnchantmentID = 34,
-            //                       ApplyPermanently = true
-            //                   }
-            //            }
-            //        }
-            //    }
-            //};
-            //TestImbueLifeWardenEffectPotion.ApplyTemplate();
+            SL_Item TestPotion = new SL_Item()
+            {
+                Target_ItemID = 4300130,
+                New_ItemID = -26987,
+                Name = "Emo Test Potion",
+                Description = "Test Apply Enchantment Potion",
+                EffectBehaviour = EditBehaviours.Destroy,
+                QtyRemovedOnUse = 0,
+                EffectTransforms = new SL_EffectTransform[] {
+                    new SL_EffectTransform {
+                        TransformName = "Effects",
+                        Effects = new SL_Effect[]
+                        {
+                            new SL_AddStatusEffect
+                            {
+                                StatusEffect = "CustomImbueBlackThunder",
+                            }
+                        }
+                    }
+                }
+            };
+            TestPotion.ApplyTemplate();
 
-            //SL_StatusEffect TestStatusBlackThunder = new SL_StatusEffect()
-            //{
-            //    TargetStatusIdentifier = "Discipline",
-            //    NewStatusID = -26233,
-            //    StatusIdentifier = "CustomImbueBlackThunder",
-            //    Name = "CustomImbue Test",
-            //    Description = "CustomImbueBlackThunder",
-            //    Purgeable = false,
-            //    DisplayedInHUD = true,
-            //    IsMalusEffect = false,
-            //    Lifespan = 60,
-            //    RefreshRate = -1f,
-            //    AmplifiedStatusIdentifier = string.Empty,
-            //    FamilyMode = StatusEffect.FamilyModes.Bind,
-            //    EffectBehaviour = EditBehaviours.Destroy,
-            //    Effects = new SL_EffectTransform[] {
-            //        new SL_EffectTransform {
-            //            TransformName = "Effects",
-            //            Effects = new SL_Effect[] {
-            //                new SL_CustomImbueVFX
-            //                {
-            //                    SLPackName = "vfx",
-            //                    AssetBundleName = "emovfx",
-            //                    PrefabName = "Black Imbue",
-            //                    IsMainHand = true
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-            //TestStatusBlackThunder.ApplyTemplate();
-
-            //SL_Item TestImbueEffectPotion = new SL_Item()
-            //{
-            //    Target_ItemID = 4300130,
-            //    New_ItemID = -26986,
-            //    Name = "Test Imbue Black Thundern Effect Potion",
-            //    Description = "Test Imbue Black Thundern Effect Potion",
-            //    EffectBehaviour = EditBehaviours.Destroy,
-            //    QtyRemovedOnUse = 0,
-            //    EffectTransforms = new SL_EffectTransform[]
-            //    {
-            //        new SL_EffectTransform
-            //        {
-            //            TransformName = "Effects",
-            //            Effects = new SL_Effect[]
-            //            {
-            //                new SL_AddStatusEffect
-            //                {
-            //                    StatusEffect = "CustomImbueBlackThunder"
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-            //TestImbueEffectPotion.ApplyTemplate();
-
-            SL_StatusEffect TestSuspendStatusEffect = new SL_StatusEffect()
+            SL_StatusEffect TestStatusEffect = new SL_StatusEffect()
             {
                 TargetStatusIdentifier = "Discipline",
-                NewStatusID = -26998,
-                StatusIdentifier = "SuspendEffectTest",
-                Name = "Suspend Effect Test",
-                Description = "SuspendEffectTest",
-                Purgeable = true,
+                NewStatusID = -26233,
+                StatusIdentifier = "CustomImbueBlackThunder",
+                Name = "CustomImbue Test",
+                Description = "CustomImbueBlackThunder",
+                Purgeable = false,
                 DisplayedInHUD = true,
                 IsMalusEffect = false,
-                Lifespan = 60,
-                RefreshRate = 1f,
+                Lifespan = 10,
+                RefreshRate = -1f,
                 AmplifiedStatusIdentifier = string.Empty,
                 FamilyMode = StatusEffect.FamilyModes.Bind,
                 EffectBehaviour = EditBehaviours.Destroy,
@@ -204,37 +146,17 @@ namespace SideLoader_ExtendedEffects
                     new SL_EffectTransform {
                         TransformName = "Effects",
                         Effects = new SL_Effect[] {
-                            new SL_SuspendStatusEffect() {
-                                StatusEffectIdentifiers = new []{"Poisoned", "Bleeding", "Hallowed Marsh Poison Lvl1", "Hallowed Marsh Poison Lvl2"}
-                            },
-                            new SL_SuspendStatusTimer() {
-                                StatusEffectIdentifiers = new []{"Poisoned", "Bleeding", "Hallowed Marsh Poison Lvl1", "Hallowed Marsh Poison Lvl2"}
-                            }
+                            new SL_ChangeMaterialTimed
+                               {
+                                 SLPackName = "TestPack",
+                                 AssetBundleName = "iggyvfx",
+                                 PrefabName = "AstralMaterial"
+                               }
                         }
                     }
                 }
             };
-            TestSuspendStatusEffect.ApplyTemplate();
-
-            SL_Item TestSuspendEffectPotion = new SL_Item()
-            {
-                Target_ItemID = 4300130,
-                New_ItemID = -26997,
-                Name = "Test Suspend Effect Potion",
-                Description = "Test",
-                EffectBehaviour = EditBehaviours.Destroy,
-                EffectTransforms = new SL_EffectTransform[] {
-                    new SL_EffectTransform {
-                        TransformName = "Effects",
-                        Effects = new SL_Effect[] {
-                            new SL_AddStatusEffect {
-                                StatusEffect = "SuspendEffectTest"
-                            }
-                        }
-                    }
-                }
-            };
-            TestSuspendEffectPotion.ApplyTemplate();
+            TestStatusEffect.ApplyTemplate();
         }
 
 
@@ -246,6 +168,10 @@ namespace SideLoader_ExtendedEffects
             }
         }
     }
+
+
+
+
 }
 //human bone ids
 //Hips = 0,

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_ChangeMaterialForTime">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <SLPackName>MySLPack</SLPackName>
+  <AssetBundleName>MyAssetBundleName</AssetBundleName>
+  <PrefabName>NameOfPrefabInAssetBundle</PrefabName>
+</SL_Effect>

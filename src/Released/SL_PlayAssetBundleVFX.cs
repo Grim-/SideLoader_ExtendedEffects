@@ -22,6 +22,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 PositionOffset;
         public Vector3 RotationOffset;
         public bool ParentToAffected;
+        public bool PositionOffsetAsRelativeDirection;
         public float LifeTime;
        
         public override void ApplyToComponent<T>(T component)
@@ -33,6 +34,7 @@ namespace SideLoader_ExtendedEffects
             comp.PositionOffset = PositionOffset;
             comp.RotationOffset = RotationOffset;
             comp.ParentToAffected = ParentToAffected;
+            comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
             comp.LifeTime = LifeTime;
         }
 
@@ -61,6 +63,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 PositionOffset;
         public Vector3 RotationOffset;
         public bool ParentToAffected;
+        public bool PositionOffsetAsRelativeDirection;
         public float LifeTime;
 
         private GameObject Instance;
@@ -84,7 +87,7 @@ namespace SideLoader_ExtendedEffects
                 }
                 else
                 {
-                    Instance.transform.position = _affectedCharacter.transform.position + PositionOffset;
+                    Instance.transform.position = _affectedCharacter.transform.position + (PositionOffsetAsRelativeDirection ? _affectedCharacter.transform.TransformPoint(PositionOffset) : PositionOffset);
                     Instance.transform.eulerAngles = RotationOffset;
                 }
 
