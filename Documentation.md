@@ -632,6 +632,66 @@ Finally, the effect stopping applies `Referenced` effects.
     <ActivationLimit>0</ActivationLimit>
 </SL_Effect>
 ```
+
+Example uses:
+
+Apply a status effect at the end of another status effect
+```xml
+<SL_Effect xsi:type="SL_EffectLifecycleEffect">
+    <Delay>0</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+        <SL_EffectTransform>
+            <TransformName>Referenced (Run at the end of the effect)</TransformName>
+            <Position xsi:nil="true" />
+            <Rotation xsi:nil="true" />
+            <Scale xsi:nil="true" />
+            <Effects>
+                <SL_Effect xsi:type="SL_AddStatusEffect">
+                    <Delay>0</Delay>
+                    <SyncType>OwnerSync</SyncType>
+                    <OverrideCategory>None</OverrideCategory>
+                    <StatusEffect>Discipline</StatusEffect>
+                    <ChanceToContract>100</ChanceToContract>
+                    <AffectController>false</AffectController>
+                    <AdditionalLevel>0</AdditionalLevel>
+                    <NoDealer>false</NoDealer>
+                </SL_Effect>
+            </Effects>
+        </SL_EffectTransform>
+    </ChildEffects>
+    <ActivationLimit>0</ActivationLimit>
+</SL_Effect>
+```
+
+To evaluate a condition after a delay, rather than immediately
+```xml
+<SL_Effect xsi:type="SL_EffectLifecycleEffect">
+    <Delay>3</Delay>
+    <SyncType>OwnerSync</SyncType>
+    <OverrideCategory>None</OverrideCategory>
+    <EffectBehavior>Destroy</EffectBehavior>
+    <ChildEffects>
+        <SL_EffectTransform>
+            <TransformName>Normal (Run on each activation)</TransformName>
+            <Position xsi:nil="true" />
+            <Rotation xsi:nil="true" />
+            <Scale xsi:nil="true" />
+            <Effects>
+              ...
+            </Effects>
+            <EffectConditions>
+              ...
+            </EffectConditions>
+        </SL_EffectTransform>
+    </ChildEffects>
+    <ActivationLimit>0</ActivationLimit>
+</SL_Effect>
+```
+
+Other possibilities include running effects only the first time a skill is used, nested conditions, and other structural shenanigans.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### SL_AffectCooldown
