@@ -25,13 +25,22 @@ namespace SideLoader_ExtendedEffects.Events {
                 equipped = true,
                 slot = __instance.SlotType,
             };
-            Publisher<EquipEvent>.RaiseEvent(e);
+            Publisher<EquipEvent>.RaiseEvent(e); // publish before any changes are made, just in case
+            _item.SynchronizeEffects(EffectSynchronizer.EffectCategories.Activation, __instance.m_character);
         }
     }
 
     [HarmonyPatch(typeof(EquipmentSlot), nameof(EquipmentSlot.Unequip))]
     public class EquipmentSlot_Unequip
     {
+        static void Prefix(
+            EquipmentSlot __instance
+        )
+        {
+            // Needs to be in prefix, otherwise we've already lost track of the item.
+            __instance.m_lastEquippedItem.StopAllEffects(EffectSynchronizer.EffectCategories.Activation, __instance.m_character);
+        }
+
         static void Postfix(
             EquipmentSlot __instance
         )
