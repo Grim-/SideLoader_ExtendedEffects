@@ -717,3 +717,32 @@ Affect active cooldowns for the character's skills. By defauly, subtracts `Amoun
     </AllowedSkills>
 </SL_Effect>
 ```
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### SL_ChangeMaterialTimed
+This effect changes all the materials on a Character to another material, then changes them back after the set time. 
+
+| Parameter Name | Description |
+| ---| ------------- |
+| SLPackName  | The name of the SL Pack - this is usually the name of the folder in your plugins folder that contains the AssetBundle eg: 'YourMod/SiderLoader/AssetBundles' your SL Pack Name would be "YourMod"   |
+| AssetBundleName  | The name of the AssetBundle file  |
+| PrefabName  | The name of the GameObject Prefab  |
+| ChangeTime  | How long to change the materials for, set it to 0 for indefinite.  |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_ChangeMaterialTimed">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <ChangeTime>2</ChangeTime>
+   <SLPackName>YourSLPackOrModFloder</SLPackName>
+  <AssetBundleName>emovfx</AssetBundleName>
+  <PrefabName>LifeWarden</PrefabName>
+</SL_Effect>
+```
+
+![image](https://user-images.githubusercontent.com/3288858/179397512-f8b2d4d4-ff6a-48b5-9def-601883b8a5ae.png)
+
+
