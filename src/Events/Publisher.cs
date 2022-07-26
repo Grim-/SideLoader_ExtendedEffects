@@ -8,7 +8,7 @@ namespace SideLoader_ExtendedEffects.Events
     {
         public static event EventHandler<Event> Handler;
         public static void RaiseEvent(Event args) {
-            SL.Log("Number of handlers: " + Handler?.GetInvocationList().Length);
+            //SL.Log("Number of handlers: " + Handler?.GetInvocationList().Length);
             Handler?.Invoke(null, args);
         }
     }

@@ -23,6 +23,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 RotationOffset;
         public bool ParentToAffected;
         public bool PositionOffsetAsRelativeDirection;
+        public bool RotateToPlayerDirection;
         public float LifeTime;
        
         public override void ApplyToComponent<T>(T component)
@@ -35,6 +36,7 @@ namespace SideLoader_ExtendedEffects
             comp.RotationOffset = RotationOffset;
             comp.ParentToAffected = ParentToAffected;
             comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
+            comp.RotateToPlayerDirection = RotateToPlayerDirection;
             comp.LifeTime = LifeTime;
         }
 
@@ -48,6 +50,7 @@ namespace SideLoader_ExtendedEffects
             this.PositionOffset = eff.PositionOffset;
             this.RotationOffset = eff.RotationOffset;
             this.ParentToAffected = eff.ParentToAffected;
+            this.RotateToPlayerDirection = eff.RotateToPlayerDirection;
             this.LifeTime = eff.LifeTime;
         }
     }
@@ -64,6 +67,7 @@ namespace SideLoader_ExtendedEffects
         public Vector3 RotationOffset;
         public bool ParentToAffected;
         public bool PositionOffsetAsRelativeDirection;
+        public bool RotateToPlayerDirection;
         public float LifeTime;
 
         private GameObject Instance;
@@ -79,16 +83,20 @@ namespace SideLoader_ExtendedEffects
                     Instance = GameObject.Instantiate(Prefab);
                 }
 
+  
+
                 if (ParentToAffected)
                 {
                     Instance.transform.parent = _affectedCharacter.VisualHolderTrans;
                     Instance.transform.localPosition = PositionOffset;
-                    Instance.transform.localEulerAngles = RotationOffset;
+                    //if the object is parented to the player already then 0,0,0 rotation is already player forward
+                    Instance.transform.localEulerAngles = (RotateToPlayerDirection ?  Vector3.zero :  RotationOffset);
                 }
                 else
                 {
-                    Instance.transform.position = _affectedCharacter.transform.position + (PositionOffsetAsRelativeDirection ? _affectedCharacter.transform.TransformPoint(PositionOffset) : PositionOffset);
-                    Instance.transform.eulerAngles = RotationOffset;
+                    Instance.transform.position = _affectedCharacter.transform.position + (PositionOffsetAsRelativeDirection ? _affectedCharacter.transform.forward + _affectedCharacter.transform.TransformVector(PositionOffset) : PositionOffset);
+                    //world space rotation is to set whatever the players is, otherwise set to rotationoffset
+                    Instance.transform.eulerAngles = (RotateToPlayerDirection ? _affectedCharacter.transform.eulerAngles : RotationOffset);
                 }
 
 
@@ -132,4 +140,63 @@ namespace SideLoader_ExtendedEffects
             }
         }
     }
+
+    //Side project for Alien
+    //public class SL_ReplaceProjectileVFX : SL_Effect, ICustomModel
+    //{
+    //    public Type SLTemplateModel => typeof(SL_ReplaceProjectileVFX);
+
+    //    public Type GameModel => typeof(SLEx_ReplaceProjectileVFX);
+
+    //    public string SLPackName;
+    //    public string AssetBundleName;
+    //    public string PrefabName;
+    //    public override void ApplyToComponent<T>(T component)
+    //    {
+    //        SLEx_ReplaceProjectileVFX comp = component as SLEx_ReplaceProjectileVFX;
+    //        comp.SLPackName = SLPackName;
+    //        comp.AssetBundleName = AssetBundleName;
+    //        comp.PrefabName = PrefabName;
+    //    }
+
+    //    public override void SerializeEffect<T>(T effect)
+    //    {
+    //        SLEx_ReplaceProjectileVFX comp = effect as SLEx_ReplaceProjectileVFX;
+    //        comp.SLPackName = SLPackName;
+    //        comp.AssetBundleName = AssetBundleName;
+    //        comp.PrefabName = PrefabName;
+    //    }
+    //}
+
+    //public class SLEx_ReplaceProjectileVFX : Effect, ICustomModel
+    //{
+    //    public Type SLTemplateModel => typeof(SL_ReplaceProjectileVFX);
+
+    //    public Type GameModel => typeof(SLEx_ReplaceProjectileVFX);
+
+
+    //    public string SLPackName;
+    //    public string AssetBundleName;
+    //    public string PrefabName;
+
+    //    public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
+    //    {
+
+    //        foreach (var item in this.m_parentSynchronizer.m_effects)
+    //        {
+    //            if (item.Value.Effect is ShootProjectile)
+    //            {
+    //                GameObject Prefab = OutwardHelpers.GetFromAssetBundle<GameObject>(SLPackName, AssetBundleName, PrefabName);
+    //                Projectile projectile = Prefab.AddComponent<Projectile>();
+
+    //                if (Prefab != null)
+    //                {
+    //                    (item.Value.Effect as ShootProjectile).BaseProjectile = projectile;
+    //                }
+    //            }
+    //        }
+            
+    //    }
+
+    //}
 }

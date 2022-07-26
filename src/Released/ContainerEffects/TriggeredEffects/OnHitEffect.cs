@@ -71,7 +71,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                     (RequiredSourceType == DamageSourceType.WEAPON && !(args.source is Weapon))
                 )
                 {
-                    SL.Log("Wrong Hit Type");
+                    ExtendedEffects.Log("Wrong Hit Type");
                     return; // Wrong type of hit
                 }
                 if (!IgnoreDamageReduction)
@@ -102,14 +102,14 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                             (!DamageTypes.Contains(args.damage[highestType].Type)) // Highest types isn't among required
                         )
                         {
-                        SL.Log("Highest Damage Type Wrong");
+                            ExtendedEffects.Log("Highest Damage Type Wrong");
                             return; 
                         }
                     }
 
                     if (args.damage[highestType].Damage < MinDamage)
                     {
-                    SL.Log("Highest Damage Too Low");
+                        ExtendedEffects.Log("Highest Damage Too Low");
                         return; // Highest damage type doesn't pass minimum
                     }
                 }
@@ -121,7 +121,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                         {
                             if (!args.damage.Contains(type)) 
                             {
-                    SL.Log("Not All Types Present");
+                                ExtendedEffects.Log("Not All Types Present");
                                 return; // If the type doesn't appear in the hit, not all required types are there.
                             }
                         }
@@ -138,7 +138,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                             }
                             if (!found)
                             {
-                            SL.Log("None Of Types Present");
+                                ExtendedEffects.Log("None Of Types Present");
                                 return; // Not one of the types was represented
                             }
                         }
@@ -155,7 +155,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                         // apply reference effects to the target of the hit (the owner of the effect)
                         targetList.Add(EffectSynchronizer.EffectCategories.Reference);
                     } catch (Exception e) {
-                        SL.Log(e);
+                        ExtendedEffects.Log(e);
                     }
                 }
                 if (args.dealer == this.OwnerCharacter) // Effect owner dealt the hit; 
@@ -178,8 +178,8 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                     Apply(targetList.ToArray(), args.target, args.hitLocation, args.hitDirection);
                 }
             } catch (Exception e) {
-                SL.Log("=============Hit Event Error============");
-                SL.Log(e);
+                ExtendedEffects.Log("=============Hit Event Error============");
+                ExtendedEffects.Log(e);
             }
             
         }

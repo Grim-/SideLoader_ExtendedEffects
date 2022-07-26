@@ -3,12 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SideLoader_ExtendedEffects
 {
+    //TODO
     public class SL_ChangeMaterialTimed : SL_Effect, ICustomModel
     {
         public Type SLTemplateModel => typeof(SL_ChangeMaterialTimed);
@@ -102,17 +104,18 @@ namespace SideLoader_ExtendedEffects
 
         private void CacheOriginalMaterials(Character _affectedCharacter)
         {
-            ExtendedEffects.Log("Cacheing Original Materials");
+            ExtendedEffects.Log("Caching Original Materials");
+
             OriginalMaterials = new Dictionary<Renderer, Material>();
 
-            Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans);
+            Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans, false);
 
             foreach (var item in Renderers)
             {
-                if (item != null && item.material != null)
+                if (item != null)
                 {
                     ExtendedEffects.Log($"Cached {item.transform.name} {item.material.name}");
-                    OriginalMaterials.Add(item, item.material);
+                    OriginalMaterials.Add(item, new Material(item.material));
                 }
             }
 
@@ -120,7 +123,7 @@ namespace SideLoader_ExtendedEffects
 
         private void ChangeAllMaterials(Character _affectCharacter, Material NewMaterial)
         {
-            Renderer[] Renderers = GetRenderers(_affectCharacter.VisualHolderTrans);
+            Renderer[] Renderers = GetRenderers(_affectCharacter.VisualHolderTrans, false);
 
             foreach (var item in Renderers)
             {
@@ -131,21 +134,26 @@ namespace SideLoader_ExtendedEffects
 
         private void ReturnToOriginalMaterials(Character _affectedCharacter)
         {
-            Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans);
+            if (_affectedCharacter == null)
+            {
+                return;
+            }
+
+            Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans, true);
 
             foreach (var item in Renderers)
             {
-                if (OriginalMaterials.ContainsKey(item) && OriginalMaterials[item] != null)
+                if (item != null && OriginalMaterials.TryGetValue(item, out Material material))
                 {
-                    ExtendedEffects.Log($"Reverting {item.transform.name} to {OriginalMaterials[item]}");
-                    item.material = OriginalMaterials[item];
+                    ExtendedEffects.Log($"Reverting {item.transform.name} to {material}");
+                    item.material = material;
                 }
             }
         }
 
-        private Renderer[] GetRenderers(Transform transform)
+        private Renderer[] GetRenderers(Transform transform, bool IncludeInActive)
         {
-            return transform.GetComponentsInChildren<Renderer>();
+            return transform.GetComponentsInChildren<Renderer>(IncludeInActive);
         }
     }
 }

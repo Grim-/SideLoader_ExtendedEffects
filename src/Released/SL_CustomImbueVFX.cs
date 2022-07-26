@@ -124,39 +124,37 @@ namespace SideLoader_ExtendedEffects
                 if (Instance == null)
                 {
                     Instance = GameObject.Instantiate(Prefab);
-                    //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
-                    Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
-        
-
-
-                    if (RotationOffset == Vector3.zero)
-                    {
-                        //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
-                        Instance.transform.localEulerAngles = new Vector3(90f, 270f, 0f);
-                    }
-                    else
-                    {
-                        Instance.transform.localEulerAngles = RotationOffset;
-                    }
-
-                    Instance.transform.localPosition = PositionOffset;
-
-
-                    ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
-                    foreach (var ps in particleSystems)
-                    {                     
-                        if (ps != null)
-                        {
-                            //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module Mesh..");
-                            ParticleSystem.ShapeModule shapeModule = ps.shape;
-                            shapeModule.mesh = meshFilter.mesh;
-                            shapeModule.scale = CurrentWeapon.transform.localScale;
-                            shapeModule.position = Vector3.zero;
-                            shapeModule.rotation = Vector3.zero;
-                        }
-                    }
                 }
 
+
+                //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
+                Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
+                if (RotationOffset == Vector3.zero)
+                {
+                    //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
+                    Instance.transform.localEulerAngles = new Vector3(90f, 270f, 0f);
+                }
+                else
+                {
+                    Instance.transform.localEulerAngles = RotationOffset;
+                }
+
+                Instance.transform.localPosition = PositionOffset;
+
+
+                ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
+                foreach (var ps in particleSystems)
+                {
+                    if (ps != null)
+                    {
+                        //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module Mesh..");
+                        ParticleSystem.ShapeModule shapeModule = ps.shape;
+                        shapeModule.mesh = meshFilter.mesh;
+                        shapeModule.scale = CurrentWeapon.transform.localScale;
+                        shapeModule.position = Vector3.zero;
+                        shapeModule.rotation = Vector3.zero;
+                    }
+                }
             }
             else
             {

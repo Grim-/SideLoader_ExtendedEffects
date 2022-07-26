@@ -26,21 +26,22 @@ namespace SideLoader_ExtendedEffects
             comp.ParentToAffected = ParentToAffected;
             comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
             comp.LifeTime = LifeTime;
+            comp.RotateToPlayerDirection = RotateToPlayerDirection;
             comp.BoneID = BoneID;
         }
 
         public override void SerializeEffect<T>(T effect)
         {
             SLEx_PlayAssetBundleVFX_Bones comp = effect as SLEx_PlayAssetBundleVFX_Bones;
-            comp.SLPackName = SLPackName;
-            comp.AssetBundleName = AssetBundleName;
-            comp.PrefabName = PrefabName;
-            comp.PositionOffset = PositionOffset;
-            comp.RotationOffset = RotationOffset;
-            comp.ParentToAffected = ParentToAffected;
-            comp.PositionOffsetAsRelativeDirection = PositionOffsetAsRelativeDirection;
-            comp.LifeTime = LifeTime;
-            comp.BoneID = BoneID;
+            this.SLPackName = comp.SLPackName;
+            this.AssetBundleName = comp.AssetBundleName;
+            this.PrefabName = comp.PrefabName;
+            this.PositionOffset = comp.PositionOffset;
+            this.RotationOffset = comp.RotationOffset;
+            this.ParentToAffected = comp.ParentToAffected;
+            this.PositionOffsetAsRelativeDirection = comp.PositionOffsetAsRelativeDirection;
+            this.LifeTime = comp.LifeTime;
+            this.BoneID = comp.BoneID;
         }
     }
 

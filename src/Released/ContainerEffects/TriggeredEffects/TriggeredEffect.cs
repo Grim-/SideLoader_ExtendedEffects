@@ -11,23 +11,23 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers {
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
             if (!registered) {
-                SL.Log("Registering Event");
-                SL.Log(((EventHandler<Event>)OnEvent).Method.DeclaringType);
+                ExtendedEffects.Log("Registering Event");
+                ExtendedEffects.Log(((EventHandler<Event>)OnEvent).Method.DeclaringType);
                 Publisher<Event>.Handler += OnEvent;
                 registered = true;
             } else {
-                SL.Log("Event already registered");
+                ExtendedEffects.Log("Event already registered");
             }
         }
 
         public override void StopAffectLocally(Character _affectedCharacter)
         { 
             if (registered) {
-                SL.Log("Deregistering Event");
+                ExtendedEffects.Log("Deregistering Event");
                 Publisher<Event>.Handler -= OnEvent;
                 registered = false;
             } else {
-                SL.Log("Event not registered");
+                ExtendedEffects.Log("Event not registered");
             }
             base.StopAffectLocally(_affectedCharacter);
         }

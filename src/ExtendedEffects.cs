@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using SideLoader;
 using SideLoader.SaveData;
+using SideLoader_ExtendedEffects.Released;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.1.7";
+        public const string VERSION = "1.1.8";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -50,7 +51,7 @@ namespace SideLoader_ExtendedEffects
         private void InitializeConfig()
         {
             AddTestItems = Config.Bind(NAME, "Add Test Items", false, "Adds test items, spawnable using the debug mode menu (requires restart)");
-            ShowDebugLog = Config.Bind(NAME, "Show Debug Log", false, "Enables the Debug Log for SideLoader Extended Effects.");
+            ShowDebugLog = Config.Bind(NAME, "Show Debug Log", true, "Enables the Debug Log for SideLoader Extended Effects.");
         }
 
         private void SL_BeforePacksLoaded()
@@ -89,14 +90,8 @@ namespace SideLoader_ExtendedEffects
                           TransformName = "HitEffects",
                           Effects = new SL_Effect[]
                           {
-                             //new SL_PlayAssetBundleVFX
-                             //{
-                             //    SLPackName = "EmosUniques_SeekingStone",
-                             //    AssetBundleName = "emoseekingstone",
-                             //    PrefabName = "SeekingStone",
-                             //    LifeTime = 10
-                             //}
-                          },
+
+                          }
                     }
 
                 }
@@ -112,28 +107,31 @@ namespace SideLoader_ExtendedEffects
                 Description = "Test Apply Enchantment Potion",
                 EffectBehaviour = EditBehaviours.Destroy,
                 QtyRemovedOnUse = 0,
-                EffectTransforms = new SL_EffectTransform[] {
-                    new SL_EffectTransform {
+                EffectTransforms = new SL_EffectTransform[]
+                {
+                    new SL_EffectTransform
+                    {
                         TransformName = "Effects",
                         Effects = new SL_Effect[]
                         {
-                            new SL_AddStatusEffect
+                            new SL_AddStatusEffect()
                             {
-                                StatusEffect = "CustomImbueBlackThunder",
+                                StatusEffect = "SLExStatus"
                             }
                         }
                     }
                 }
             };
+
             TestPotion.ApplyTemplate();
 
             SL_StatusEffect TestStatusEffect = new SL_StatusEffect()
             {
                 TargetStatusIdentifier = "Discipline",
                 NewStatusID = -26233,
-                StatusIdentifier = "CustomImbueBlackThunder",
-                Name = "CustomImbue Test",
-                Description = "CustomImbueBlackThunder",
+                StatusIdentifier = "SLExStatus",
+                Name = "SLExStatus Test",
+                Description = "SLExStatus",
                 Purgeable = false,
                 DisplayedInHUD = true,
                 IsMalusEffect = false,
@@ -142,15 +140,18 @@ namespace SideLoader_ExtendedEffects
                 AmplifiedStatusIdentifier = string.Empty,
                 FamilyMode = StatusEffect.FamilyModes.Bind,
                 EffectBehaviour = EditBehaviours.Destroy,
-                Effects = new SL_EffectTransform[] {
-                    new SL_EffectTransform {
+                Effects = new SL_EffectTransform[]
+                {
+                    new SL_EffectTransform
+                    {
                         TransformName = "Effects",
-                        Effects = new SL_Effect[] {
+                        Effects = new SL_Effect[]
+                        {
                             new SL_ChangeMaterialTimed
                                {
                                  SLPackName = "TestPack",
-                                 AssetBundleName = "iggyvfx",
-                                 PrefabName = "AstralMaterial"
+                                 AssetBundleName = "icematerial",
+                                 PrefabName = "IceMaterial"
                                }
                         }
                     }
@@ -160,7 +161,7 @@ namespace SideLoader_ExtendedEffects
         }
 
 
-        public static void Log(string logMessage)
+        public static void Log(object logMessage)
         {
             if (ShowDebugLog.Value)
             {

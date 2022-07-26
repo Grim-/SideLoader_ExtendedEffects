@@ -8,11 +8,13 @@
     using Random = UnityEngine.Random;
 
 
-    /// <summary>
-    /// Switches any Affected CharacterAI to the AIState Specified
-    /// </summary>
+
+    //Example of a Custom SL_Effect
+
+    //This class is your SL Definition of the effect (For the XML)
     public class SL_ForceAIState : SL_Effect, ICustomModel
     {
+        //implementing ICustomModel, means you have to define these two variables below, SLTemplateModel is this file, GameModel is going to be where your code is
         public Type SLTemplateModel => typeof(SL_ForceAIState);
         public Type GameModel => typeof(SLEx_ForceAIStateForTime);
 
@@ -21,12 +23,16 @@
         /// </summary>
         public int AIState;
 
+        //here we take the values from XML and apply them to our component below
         public override void ApplyToComponent<T>(T component)
         {
+            //cast the component to our GameModel type
             SLEx_ForceAIStateForTime comp = component as SLEx_ForceAIStateForTime;
+            //apply the values from XML to it
             comp.AIState = AIState;
         }
 
+        //this takes values from an already defined in-game GameObject and sets this classes member variables to them
         public override void SerializeEffect<T>(T effect)
         {
             SLEx_ForceAIStateForTime comp = effect as SLEx_ForceAIStateForTime;
@@ -41,6 +47,7 @@
 
         public int AIState;
 
+        //here is when the Effect is actually called, here goes your logic
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
             if (AIState > 3)
