@@ -56,30 +56,32 @@ namespace SideLoader_ExtendedEffects
 
         private bool IsChanged;
 
-        private Dictionary<Renderer, Material> OriginalMaterials = new Dictionary<Renderer, Material>();
+        private Dictionary<Renderer, Material> CurrentRenderers = new Dictionary<Renderer, Material>();
 
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
             //only want to call this once
             if (!IsChanged)
             {
-                CacheOriginalMaterials(_affectedCharacter);
-
                 Material TheMaterial = OutwardHelpers.GetFromAssetBundle<Material>(SLPackName, AssetBundleName, PrefabName);
 
+              
+      
                 if (TheMaterial != null)
                 {
-                    ChangeAllMaterials(_affectedCharacter, TheMaterial);
+                    CacheOriginalMaterials(_affectedCharacter);
+
+
+                    ChangeMaterialForRenderers(TheMaterial);
+
+                    //handle destroying if time set
+                    if (ChangeTime > 0)
+                    {
+                        StartCoroutine(DelayRevert(_affectedCharacter));
+                    }
+
+                    IsChanged = true;
                 }
-
-
-                //handle destroying if time set
-                if (ChangeTime > 0)
-                {
-                    StartCoroutine(DelayRevert(_affectedCharacter));
-                }
-
-                IsChanged = true;
             }
 
         }
@@ -87,7 +89,7 @@ namespace SideLoader_ExtendedEffects
         private IEnumerator DelayRevert(Character _affectedCharacter)
         {
             yield return new WaitForSeconds(ChangeTime);
-            ReturnToOriginalMaterials(_affectedCharacter);
+            ReturnToOriginalMaterials();
             yield break;
         }
 
@@ -95,19 +97,31 @@ namespace SideLoader_ExtendedEffects
         {
             base.StopAffectLocally(_affectedCharacter);
 
-            //not handled by coroutine
             if (ChangeTime <= 0)
             {
-                ReturnToOriginalMaterials(_affectedCharacter);
+                ReturnToOriginalMaterials();
             }          
         }
 
         private void CacheOriginalMaterials(Character _affectedCharacter)
         {
+            if (_affectedCharacter == null)
+            {
+                return;
+            }
+
+            //If the CurrentRenderers dict is populated then this has already run, return original references first
+            if (CurrentRenderers.Count > 0)
+            {
+                ReturnToOriginalMaterials();
+            }
+
+
+            CurrentRenderers.Clear();
+
             ExtendedEffects.Log("Caching Original Materials");
 
-            OriginalMaterials = new Dictionary<Renderer, Material>();
-
+            //cache all current renderers and their materials
             Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans, false);
 
             foreach (var item in Renderers)
@@ -115,40 +129,49 @@ namespace SideLoader_ExtendedEffects
                 if (item != null)
                 {
                     ExtendedEffects.Log($"Cached {item.transform.name} {item.material.name}");
-                    OriginalMaterials.Add(item, new Material(item.material));
+                    CurrentRenderers.Add(item, new Material(item.material));
                 }
             }
 
         }
 
-        private void ChangeAllMaterials(Character _affectCharacter, Material NewMaterial)
+        private void ChangeMaterialForRenderers(Material NewMaterial)
         {
-            Renderer[] Renderers = GetRenderers(_affectCharacter.VisualHolderTrans, false);
-
-            foreach (var item in Renderers)
+            foreach (var item in CurrentRenderers)
             {
-                ExtendedEffects.Log($"Changing {item.transform.name} to {NewMaterial}");
-                item.material = NewMaterial; 
-            }
-        }
-
-        private void ReturnToOriginalMaterials(Character _affectedCharacter)
-        {
-            if (_affectedCharacter == null)
-            {
-                return;
-            }
-
-            Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans, true);
-
-            foreach (var item in Renderers)
-            {
-                if (item != null && OriginalMaterials.TryGetValue(item, out Material material))
+                if (item.Key == null || item.Value == null)
                 {
-                    ExtendedEffects.Log($"Reverting {item.transform.name} to {material}");
-                    item.material = material;
+                    continue;
+                }
+
+                if (CurrentRenderers.TryGetValue(item.Key, out Material Material))
+                {
+                    ExtendedEffects.Log($"Changing {item.Key.transform.name} to {NewMaterial}");
+                    item.Key.material = NewMaterial;
+                }
+
+            }
+        }
+
+        private void ReturnToOriginalMaterials()
+        {
+            foreach (var item in CurrentRenderers)
+            {
+                if (item.Key == null || item.Value == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    if (CurrentRenderers.TryGetValue(item.Key, out Material Material))
+                    {
+                        ExtendedEffects.Log($"Reverting {item.Key.transform.name} to {item.Value}");
+                        item.Key.material = Material;
+                    }
                 }
             }
+
+            IsChanged = false;
         }
 
         private Renderer[] GetRenderers(Transform transform, bool IncludeInActive)
