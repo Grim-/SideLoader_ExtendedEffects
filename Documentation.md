@@ -749,7 +749,7 @@ This effect changes all the materials on a Character to another material, then c
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### SL_ScalingWeapon
+### SL_ScalingWeaponDamage
 Deals damage to the AffectedCharacter based on the currently equipped weapon.
 
 | Parameter Name | Description |
