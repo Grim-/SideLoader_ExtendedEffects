@@ -749,8 +749,8 @@ This effect changes all the materials on a Character to another material, then c
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### SL_ScalingWeapon
-Affect active cooldowns for the character's skills. By defauly, subtracts `Amount` seconds from the remaining cooldown, but can be changed to subtract a `Amount` percent of the effective cooldown instead. May also be filtered to apply on to a fixed list of skills.
+### SL_ScalingWeaponDamage
+Deals damage to the AffectedCharacter based on the currently equipped weapon.
 
 | Parameter Name | Description |
 | ---| ------------- | 
