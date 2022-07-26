@@ -68,6 +68,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the p
   </RotationOffset>
   <ParentToAffected>true</ParentToAffected>
   <LifeTime>0</LifeTime>
+  <RotateToPlayerDirection>false</RotateToPlayerDirection>
 </SL_Effect>
 ```
 
@@ -86,6 +87,7 @@ Spawns a GameObject from the specified SLPack AssetBundle and attach it to the s
 | PositionOffset  | The Local Position(If Attached) of the VFX - Use this to move the VFX attached to the player. |
 | RotationOffset  | The Rotation of the VFX |
 | ParentToAffected  | Should this GameObject be attached to the AffectedCharacter? |
+| RotateToPlayerDirection  | Should this GameObject be rotated so it's forward axis is facing the same direction as the player? Only Applies when ParentToAffected is false |
 | LifeTime | Set LifeTime to 0 if you wish the effect to handle destroying the VFX, otherwise set a time in seconds after which the VFX will be automatically destroyed. |
 |BoneID| the ID of the bone you want to parent to, you can obtain this from [here](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Resources/HumanBonesReference.md).| 
 ```xml
@@ -745,4 +747,24 @@ This effect changes all the materials on a Character to another material, then c
 
 ![image](https://user-images.githubusercontent.com/3288858/179397512-f8b2d4d4-ff6a-48b5-9def-601883b8a5ae.png)
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+### SL_ScalingWeapon
+Affect active cooldowns for the character's skills. By defauly, subtracts `Amount` seconds from the remaining cooldown, but can be changed to subtract a `Amount` percent of the effective cooldown instead. May also be filtered to apply on to a fixed list of skills.
+
+| Parameter Name | Description |
+| ---| ------------- | 
+| Amount | How much to reduce the cooldown by, in seconds. |
+| HitInventory | Whether the damage should apply to the target's inventory items. |
+| KnockbackAmount | How much knockback you to deal |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_ScalingWeaponDamage">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <KnockbackAmount>0</KnockbackAmount>
+  <HitInventory>false</HitInventory>
+</SL_Effect>
+```
