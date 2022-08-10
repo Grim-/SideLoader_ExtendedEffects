@@ -57,7 +57,7 @@ namespace SideLoader_ExtendedEffects.Released
             }
             else
             {
-                ExtendedEffects.Log("SLEx_ScalingWeapon Owner has no weapon equipped!");
+                ExtendedEffects.Instance.Log("SLEx_ScalingWeapon Owner has no weapon equipped!");
             }
         }
 

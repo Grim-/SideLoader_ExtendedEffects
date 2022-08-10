@@ -64,7 +64,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (SelectedBone == null)
                 {
-                    ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX_Bone cannot find target bone");
+                    ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bone cannot find target bone");
                     return;
                 }
 
@@ -83,19 +83,19 @@ namespace SideLoader_ExtendedEffects
                 else
                 {
                     Instance.transform.position = SelectedBone.transform.position + (PositionOffsetAsRelativeDirection ? _affectedCharacter.transform.TransformPoint(PositionOffset) : PositionOffset);
-                    Instance.transform.eulerAngles = RotationOffset;
+                    Instance.transform.eulerAngles = (RotateToPlayerDirection ? _affectedCharacter.transform.eulerAngles : RotationOffset);
                 }
 
 
                 if (LifeTime > 0)
                 {
-                    ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX_Bones LIFETIME IS {LifeTime}");
+                    ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones LIFETIME IS {LifeTime}");
                     Destroy(Instance, LifeTime);
                 }
             }
             else
             {
-                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX_Bones Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones Prefab from AssetBundle {AssetBundleName} was null.");
             }
         }
 
@@ -105,7 +105,7 @@ namespace SideLoader_ExtendedEffects
 
             if (LifeTime == 0)
             {
-                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX_Bones CleanUpOnDestroy called and lifetime is 0, destroying.");
+                ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones CleanUpOnDestroy called and lifetime is 0, destroying.");
                 if (Instance)
                 {
                     GameObject.Destroy(Instance);
@@ -119,7 +119,7 @@ namespace SideLoader_ExtendedEffects
         {
             if (LifeTime == 0)
             {
-                ExtendedEffects.Log($"SLEx_PlayAssetBundleVFX_Bones StopAffectLocally called and lifetime is 0, destroying.");
+                ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones StopAffectLocally called and lifetime is 0, destroying.");
                 if (Instance)
                 {
                     GameObject.Destroy(Instance);

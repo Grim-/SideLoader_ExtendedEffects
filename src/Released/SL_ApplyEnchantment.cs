@@ -47,21 +47,21 @@ namespace SideLoader_ExtendedEffects
         {
             if (_affectedCharacter == null) //No character
             {
-                ExtendedEffects.Log("Affected Character null");
+                ExtendedEffects.Instance.Log("Affected Character null");
                 return;
             }
             if (_affectedCharacter.Inventory.Equipment.EquipmentSlots[(int)EquipmentSlot].HasItemEquipped)
             {
                 var itemInSlot = _affectedCharacter.Inventory.Equipment.EquipmentSlots[(int)EquipmentSlot].EquippedItem;
                 if (itemInSlot.UID != affectedItem) { // Item in hand has changed, clean up old one if any and enchant new one
-                    ExtendedEffects.Log("Item has Changed");
+                    ExtendedEffects.Instance.Log("Item has Changed");
                     if (!affectedItem.IsNull) {
-                        ExtendedEffects.Log("Cleaning Affected Item");
+                        ExtendedEffects.Instance.Log("Cleaning Affected Item");
                         CleanAffectedItem();
                     }
                     affectedItem = itemInSlot.UID;
                     if (!itemInSlot.m_enchantmentIDs.Contains(EnchantmentId)) {
-                        ExtendedEffects.Log($"Adding Enchant {EnchantmentId} to {itemInSlot.Name}");
+                        ExtendedEffects.Instance.Log($"Adding Enchant {EnchantmentId} to {itemInSlot.Name}");
                         itemInSlot.AddEnchantment(EnchantmentId);
                     }
                 } else {

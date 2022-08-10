@@ -38,13 +38,13 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
                 return; // Not one of the tracked slots
             }
             if (args.equipped) {
-                ExtendedEffects.Log("Equipped item");
+                ExtendedEffects.Instance.Log("Equipped item");
                 StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Activation, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
             }
             else
             {
-                ExtendedEffects.Log("Unequipped item");
+                ExtendedEffects.Instance.Log("Unequipped item");
                 StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Reference, EffectSynchronizer.EffectCategories.Normal},
                     args.character, args.character.m_lastPosition, args.character.m_lastForward);
             }

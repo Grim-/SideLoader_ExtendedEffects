@@ -4,7 +4,9 @@ using BepInEx.Logging;
 using HarmonyLib;
 using SideLoader;
 using SideLoader.SaveData;
+using SideLoader_ExtendedEffects.Item_Context_Menu;
 using SideLoader_ExtendedEffects.Released;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "1.1.8";
+        public const string VERSION = "1.1.9";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -31,15 +33,31 @@ namespace SideLoader_ExtendedEffects
         public static ConfigEntry<bool> AddTestItems;
         public static ConfigEntry<bool> ShowDebugLog;
 
+
+        public static ExtendedEffects Instance { get; private set; }
+
+        public CustomItemMenuManager CustomItemMenuManager { get; private set; }
+        
+
+        /// <summary>
+        /// Called when ExtendedEffects has fully loaded.
+        /// </summary>
+        public Action OnReady;
+
         //ID RANGE -26000 -> -26999
 
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
             _Log = this.Logger;
+            Instance = this;
+            CustomItemMenuManager = new CustomItemMenuManager();
+
             InitializeSL();
             InitializeConfig();
+            CustomMenuItemTest();
             new Harmony(GUID).PatchAll();
+            OnReady?.Invoke();
         }
 
 
@@ -62,6 +80,29 @@ namespace SideLoader_ExtendedEffects
             }
         }
 
+        private void CustomMenuItemTest()
+        {
+            //Test for ALL items
+            CustomItemMenuManager.RegisterCustomMenuOption(101010, "TEST STRING", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+            {
+                Character.CharacterUI.ShowInfoNotification($"I have clicked the thing! {Item.DisplayName}");
+            },
+            null);
+
+            //Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
+            CustomItemMenuManager.RegisterCustomMenuOption(101110, "Test Sword", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+            {
+                Character.CharacterUI.ShowInfoNotification($"I have clicked the Assasins Claymore thing! {Item.DisplayName}");
+            },
+            (Character, Item, ItemDisplayOptionPanel, someInt) =>
+            {
+                if (Item.ItemID == 2100110)
+                {
+                    return true;
+                }
+                return false;
+            });
+        }
 
         private void DefineTestItems()
         {
@@ -98,7 +139,6 @@ namespace SideLoader_ExtendedEffects
             };
             TestWeapon.ApplyTemplate();
 
-
             SL_Item TestPotion = new SL_Item()
             {
                 Target_ItemID = 4300130,
@@ -122,7 +162,6 @@ namespace SideLoader_ExtendedEffects
                     }
                 }
             };
-
             TestPotion.ApplyTemplate();
 
             SL_StatusEffect TestStatusEffect = new SL_StatusEffect()
@@ -147,32 +186,28 @@ namespace SideLoader_ExtendedEffects
                         TransformName = "Effects",
                         Effects = new SL_Effect[]
                         {
-                            new SL_ChangeMaterialTimed
-                               {
+                            new SL_PlayAssetBundleVFX
+                            {
                                  SLPackName = "TestPack",
-                                 AssetBundleName = "icematerial",
-                                 PrefabName = "IceMaterial"
-                               }
+                                 AssetBundleName = "vfx",
+                                 PrefabName = "RuneMagic",
+                                 ParentToAffected = false,
+                                 LifeTime = 10
+                            }
                         }
                     }
                 }
             };
             TestStatusEffect.ApplyTemplate();
         }
-
-
-        public static void Log(object logMessage)
+        public void Log(object logMessage)
         {
-            if (ShowDebugLog.Value)
+            if (ShowDebugLog.Value && _Log != null)
             {
                 _Log.LogMessage(logMessage);
             }
         }
     }
-
-
-
-
 }
 //human bone ids
 //Hips = 0,
