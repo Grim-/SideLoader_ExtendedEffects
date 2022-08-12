@@ -6,6 +6,7 @@ using SideLoader;
 using SideLoader.SaveData;
 using SideLoader_ExtendedEffects.Item_Context_Menu;
 using SideLoader_ExtendedEffects.Released;
+using SideLoader_ExtendedEffects.Released.Conditions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace SideLoader_ExtendedEffects
     {
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
-        // Increment the VERSION when you release a new version of your mod.
+
         public const string VERSION = "1.1.9";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
@@ -82,26 +83,26 @@ namespace SideLoader_ExtendedEffects
 
         private void CustomMenuItemTest()
         {
-            //Test for ALL items
-            CustomItemMenuManager.RegisterCustomMenuOption(101010, "TEST STRING", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-            {
-                Character.CharacterUI.ShowInfoNotification($"I have clicked the thing! {Item.DisplayName}");
-            },
-            null);
+            ////Test for ALL items
+            //CustomItemMenuManager.RegisterCustomMenuOption(101010, "TEST STRING", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+            //{
+            //    Character.CharacterUI.ShowInfoNotification($"I have clicked the thing! {Item.DisplayName}");
+            //},
+            //null);
 
-            //Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
-            CustomItemMenuManager.RegisterCustomMenuOption(101110, "Test Sword", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-            {
-                Character.CharacterUI.ShowInfoNotification($"I have clicked the Assasins Claymore thing! {Item.DisplayName}");
-            },
-            (Character, Item, ItemDisplayOptionPanel, someInt) =>
-            {
-                if (Item.ItemID == 2100110)
-                {
-                    return true;
-                }
-                return false;
-            });
+            ////Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
+            //CustomItemMenuManager.RegisterCustomMenuOption(101110, "Test Sword", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+            //{
+            //    Character.CharacterUI.ShowInfoNotification($"I have clicked the Assasins Claymore thing! {Item.DisplayName}");
+            //},
+            //(Character, Item, ItemDisplayOptionPanel, someInt) =>
+            //{
+            //    if (Item.ItemID == 2100110)
+            //    {
+            //        return true;
+            //    }
+            //    return false;
+            //});
         }
 
         private void DefineTestItems()
@@ -128,11 +129,11 @@ namespace SideLoader_ExtendedEffects
                 {
                     new SL_EffectTransform
                     {
-                          TransformName = "HitEffects",
-                          Effects = new SL_Effect[]
-                          {
+                        TransformName = "HitEffects",
+                        Effects = new SL_Effect[]
+                        {
 
-                          }
+                        }
                     }
 
                 }
@@ -144,7 +145,7 @@ namespace SideLoader_ExtendedEffects
                 Target_ItemID = 4300130,
                 New_ItemID = -26987,
                 Name = "Emo Test Potion",
-                Description = "Test Apply Enchantment Potion",
+                Description = "Test Potion",
                 EffectBehaviour = EditBehaviours.Destroy,
                 QtyRemovedOnUse = 0,
                 EffectTransforms = new SL_EffectTransform[]
@@ -154,52 +155,48 @@ namespace SideLoader_ExtendedEffects
                         TransformName = "Effects",
                         Effects = new SL_Effect[]
                         {
-                            new SL_AddStatusEffect()
-                            {
-                                StatusEffect = "SLExStatus"
-                            }
+
                         }
                     }
                 }
             };
             TestPotion.ApplyTemplate();
 
-            SL_StatusEffect TestStatusEffect = new SL_StatusEffect()
+
+
+            SL_Skill TestSkill = new SL_Skill()
             {
-                TargetStatusIdentifier = "Discipline",
-                NewStatusID = -26233,
-                StatusIdentifier = "SLExStatus",
-                Name = "SLExStatus Test",
-                Description = "SLExStatus",
-                Purgeable = false,
-                DisplayedInHUD = true,
-                IsMalusEffect = false,
-                Lifespan = 10,
-                RefreshRate = -1f,
-                AmplifiedStatusIdentifier = string.Empty,
-                FamilyMode = StatusEffect.FamilyModes.Bind,
-                EffectBehaviour = EditBehaviours.Destroy,
-                Effects = new SL_EffectTransform[]
+                Target_ItemID = 8100120,
+                New_ItemID = -26986,
+                Name = "Emo Test Skill",
+                EffectBehaviour = EditBehaviours.OverrideEffects,
+                EffectTransforms = new SL_EffectTransform[]
                 {
                     new SL_EffectTransform
                     {
-                        TransformName = "Effects",
+                        TransformName = "RageActivation",
                         Effects = new SL_Effect[]
                         {
-                            new SL_PlayAssetBundleVFX
+                            new SL_AddStatusEffect()
                             {
-                                 SLPackName = "TestPack",
-                                 AssetBundleName = "vfx",
-                                 PrefabName = "RuneMagic",
-                                 ParentToAffected = false,
-                                 LifeTime = 10
+                                StatusEffect = "Rage",
+                            }
+                        },
+                        EffectConditions = new SL_EffectCondition[]
+                        {
+                            new SL_IsTimeBetweenCondition()
+                            {
+                                StartHour = 1,
+                                EndHour = 10
                             }
                         }
-                    }
+                    },
                 }
             };
-            TestStatusEffect.ApplyTemplate();
+
+            TestSkill.ApplyTemplate();
         }
+
         public void Log(object logMessage)
         {
             if (ShowDebugLog.Value && _Log != null)

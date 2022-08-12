@@ -14,6 +14,12 @@ namespace SideLoader_ExtendedEffects.Patches
         [HarmonyPatch(nameof(ItemDisplayOptionPanel.GetActiveActions)), HarmonyPostfix]
         private static void EquipmentMenu_GetActiveActions_Postfix(ItemDisplayOptionPanel __instance, GameObject pointerPress, ref List<int> __result)
         {
+            //skip adding options
+            if (__instance.m_pendingItem == null || __instance.LocalCharacter.IsAI)
+            {
+                return;
+            }
+
             foreach (var current in ExtendedEffects.Instance.CustomItemMenuManager.CustomItemOptions)
             {
                 if (!__result.Contains(current.Key))

@@ -7,7 +7,7 @@ namespace SideLoader_ExtendedEffects
     public class SL_SummonExtension : SL_Effect, ICustomModel
     {
         public Type SLTemplateModel => typeof(SL_SummonExtension);
-        public Type GameModel => typeof(SLEx_SummonExtension);
+        public Type GameModel => typeof(SummonExtension);
 
         public Vector3 NewBaseColor;
         public Vector3 NewParticlesColor;
@@ -17,7 +17,7 @@ namespace SideLoader_ExtendedEffects
 
         public override void ApplyToComponent<T>(T component)
         {
-            SLEx_SummonExtension comp = component as SLEx_SummonExtension;
+            SummonExtension comp = component as SummonExtension;
             comp.NewBaseColor = NewBaseColor;
             comp.NewParticlesColor = NewParticlesColor;
             comp.NewWeaponDamage = new DamageType(NewWeaponDamage.Type, NewWeaponDamage.Damage);
@@ -26,13 +26,13 @@ namespace SideLoader_ExtendedEffects
 
         public override void SerializeEffect<T>(T effect)
         {
-            SLEx_SummonExtension comp = effect as SLEx_SummonExtension;
+            SummonExtension comp = effect as SummonExtension;
             this.NewBaseColor = comp.NewBaseColor;
             this.NewParticlesColor = comp.NewParticlesColor;
             this.StatusEffectOnSpawn = comp.StatusEffectOnSpawn;
         }
     }
-    public class SLEx_SummonExtension : Effect
+    public class SummonExtension : Effect
     {
         #region Visual
         public Vector3 NewBaseColor;

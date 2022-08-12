@@ -10,7 +10,7 @@ namespace SideLoader_ExtendedEffects
 {
     public static class OutwardHelpers
     {
-        public static string EMISSION_VALUE = "_EmissionColor";
+        public static string Emission_Property_Value = "_EmissionColor";
 
         public static void UpdateWeaponDamage(Weapon WeaponInstance, DamageList newDamageList)
         {
@@ -24,24 +24,29 @@ namespace SideLoader_ExtendedEffects
             //ta-da updated weapon damage
         }
 
-        public static Renderer TryGetWeaponRenderer(Weapon weaponGameObject)
-        {
-            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<Renderer>();
-        }
-
         public static MeshFilter TryGetWeaponMesh(Equipment weaponGameObject, bool IncludeInActive = true)
         {
-            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>(IncludeInActive).GetComponent<MeshFilter>();
+            foreach (var item in weaponGameObject.LoadedVisual.GetComponentsInChildren<BoxCollider>(true))
+            {
+                ExtendedEffects.Instance.Log($"BoxCollider GO Name {item.transform.name}");
+
+                if (item.transform.parent.gameObject.activeInHierarchy)
+                {
+                    return item.GetComponent<MeshFilter>();
+                }
+
+            }
+            return null;
         }
 
-        public static T TryGetWeaponVisualComponent<T>(Weapon weaponGameObject)
+        public static T TryGetWeaponVisualComponent<T>(Equipment weaponGameObject, bool IncludeInActive = true)
         {
-            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>().GetComponent<T>();
+            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>(IncludeInActive).GetComponent<T>();
         }
 
         public static Transform TryGetHumanBone(Character character, HumanBodyBones bone)
         {
-            return character.Animator.GetBoneTransform(bone);
+            return character.Animator != null ? character.Animator.GetBoneTransform(bone) : null;
         }
 
         public static T GetFromAssetBundle<T>(string SLPackName, string AssetBundle, string key) where T : UnityEngine.Object

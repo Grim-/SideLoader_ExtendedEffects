@@ -22,7 +22,6 @@ namespace SideLoader_ExtendedEffects
 
         public bool IsMainHand = true;
 
-
         public override void ApplyToComponent<T>(T component)
         {
             SLEx_CustomImbueVFX comp = component as SLEx_CustomImbueVFX;
@@ -127,8 +126,28 @@ namespace SideLoader_ExtendedEffects
                 }
 
 
+
+
+                ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
+
+                foreach (var ps in particleSystems)
+                {
+                    if (ps != null && ps.shape.shapeType == ParticleSystemShapeType.MeshRenderer || ps.shape.shapeType == ParticleSystemShapeType.Mesh)
+                    {
+                        //ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module mesh with mesh {meshFilter.sharedMesh.name}");
+                        ParticleSystem.ShapeModule shapeModule = ps.shape;
+                        shapeModule.mesh = meshFilter.sharedMesh;
+                        shapeModule.meshRenderer = meshFilter.GetComponent<MeshRenderer>();
+                        shapeModule.scale = CurrentWeapon.transform.localScale;
+                        shapeModule.position = Vector3.zero;
+                        shapeModule.rotation = Vector3.zero;
+                    }
+                }
+
+
                 //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
                 Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
+
                 if (RotationOffset == Vector3.zero)
                 {
                     //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
@@ -140,21 +159,6 @@ namespace SideLoader_ExtendedEffects
                 }
 
                 Instance.transform.localPosition = PositionOffset;
-
-
-                ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
-                foreach (var ps in particleSystems)
-                {
-                    if (ps != null)
-                    {
-                        //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module Mesh..");
-                        ParticleSystem.ShapeModule shapeModule = ps.shape;
-                        shapeModule.mesh = meshFilter.mesh;
-                        shapeModule.scale = CurrentWeapon.transform.localScale;
-                        shapeModule.position = Vector3.zero;
-                        shapeModule.rotation = Vector3.zero;
-                    }
-                }
             }
             else
             {
