@@ -4,7 +4,7 @@ A small addition to SideLoader allowing mod developers more flexibility when cre
 
 You would include this mod as dependcy of your own mod, as is often done with SideLoader already. 
 
-Dependency string can be found on [ThunderStore page](https://outward.thunderstore.io/package/SLExtendedEffects/SideLoader_ExtendedEffects/)
+Dependency string can be found on [ThunderStore](https://outward.thunderstore.io/package/SLExtendedEffects/SideLoader_ExtendedEffects/)
 
 [Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
 
