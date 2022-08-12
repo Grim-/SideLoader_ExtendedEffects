@@ -13,7 +13,7 @@ Dependency string can be found on [ThunderStore page](https://outward.thundersto
 
 1.2.0 - 
 Added a simple API for adding custom context menu options for Items (Docs to follow) 
-- Added [SL_IsTimeBetweenCondition](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Conditions.md#sl_istimebetween) a Effect condition that checks if the current time is between StartHour and EndHour
+- Added [SL_IsTimeBetweenCondition](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Conditions.md#sl_istimebetween) an Effect condition that checks if the current time is between StartHour and EndHour
 - Bug fixes for CustomImbue not correctly applying the MeshRenderer if the MeshRenderer shape module option is selected, before this only the Mesh shape module option would work correctly.
 
 1.1.5 - Added [SL_OnHitEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnHitEffect.xml), [SL_OnEquipEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnEquipEffect.xml), [SL_EffectLifecycleEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_EffectLifecycleEffect.xml), and [SL_AffectCooldown](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_AffectCooldown.xml). Also added generalized event publishers for C# mods to hook in to, as well as implementations for hit and equip events.
