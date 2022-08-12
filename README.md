@@ -1,4 +1,4 @@
-# SideLoader - Extended Effects v1.1.5
+# SideLoader - Extended Effects v1.2.0
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
@@ -9,11 +9,12 @@ Dependency string can be found on [ThunderStore page](https://outward.thundersto
 [Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
 
 
-### Currently there is a bug with SideLoaderExtendedEffects where the values are not saved when applying values and pressing "Save to XML" from the SideLoader UI from within the game.
-This is a problem with SideLoader Extended Effects and not SideLoader itself, I plan to resolve this soon. 
-Working with XML files in a texteditor still works fine for now.
-
 ## Change Log
+
+1.2.0 - 
+Added a simple API for adding custom context menu options for Items (Docs to follow) 
+- Added SL_IsTimeBetweenCondition a Effect condition that checks if the current time is between StartHour and EndHour
+- Bug fixes for CustomImbue not correctly applying the MeshRenderer if the MeshRenderer shape module option is selected, before this only the Mesh shape module option would work correctly.
 
 1.1.5 - Added [SL_OnHitEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnHitEffect.xml), [SL_OnEquipEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_OnEquipEffect.xml), [SL_EffectLifecycleEffect](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_EffectLifecycleEffect.xml), and [SL_AffectCooldown](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/SL_AffectCooldown.xml). Also added generalized event publishers for C# mods to hook in to, as well as implementations for hit and equip events.
 
