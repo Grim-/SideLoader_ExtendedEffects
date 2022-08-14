@@ -60,42 +60,36 @@ namespace SideLoader_ExtendedEffects
         public bool IsMainHand;
 
         private GameObject Instance;
+        private Equipment LastEquipmentInstance = null;
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
-            ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX");
-
-            EquipmentSlot OffHand = _affectedCharacter.Inventory.Equipment.GetMatchingSlot(EquipmentSlot.EquipmentSlotIDs.LeftHand);
-            Equipment CurrentWeapon = null;
-
-            if (IsMainHand)
+            if (_affectedCharacter == null)
             {
-                ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Target is MainHand");
-                CurrentWeapon = _affectedCharacter.CurrentWeapon;
-
-                if (_affectedCharacter.CurrentWeapon == null)
-                {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Current Weapon is null");
-                    return;
-                }
-
+                return;
             }
-            else
+
+            //This has been called already if this isnt null
+            if (LastEquipmentInstance != null)
             {
-                ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Target is OffHand");
-                if (OffHand == null)
+                if (_affectedCharacter.CurrentWeapon != LastEquipmentInstance)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlot cannot be found");
-                    return;
-                }
+                    //ExtendedEffects.Instance?.Log($"CustomImbueVFX Affected Character CurrentWeapon is not equal to the LastEquipmentInstance, destroying VFX Instance if it exists.");
+
+                    if (Instance != null)
+                    {
+                        GameObject.Destroy(Instance);
+                    }
+
+                    LastEquipmentInstance = null;
+                }           
+            }
 
 
-                if (!OffHand.HasItemEquipped)
-                {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlotitem is null");
-                    return;
-                }
+            Equipment CurrentWeapon = FindCurrentWeapon(_affectedCharacter);
 
-                CurrentWeapon = OffHand.EquippedItem;
+            if (CurrentWeapon == null)
+            {
+                return;
             }
 
 
@@ -107,7 +101,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (particleSystem.Length == 0)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX prefab {PrefabName} and its children do not contain a particle system.");
+                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX prefab {PrefabName} and its children do not contain a particle system.");
                     return;
                 }
 
@@ -115,7 +109,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (meshFilter == null)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
+                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
                     return;
                 }
 
@@ -125,45 +119,88 @@ namespace SideLoader_ExtendedEffects
                     Instance = GameObject.Instantiate(Prefab);
                 }
 
+                UpdateParticleSystemMesh(Instance, CurrentWeapon, meshFilter);
 
-
-
-                ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
-
-                foreach (var ps in particleSystems)
-                {
-                    if (ps != null && ps.shape.shapeType == ParticleSystemShapeType.MeshRenderer || ps.shape.shapeType == ParticleSystemShapeType.Mesh)
-                    {
-                        //ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module mesh with mesh {meshFilter.sharedMesh.name}");
-                        ParticleSystem.ShapeModule shapeModule = ps.shape;
-                        shapeModule.mesh = meshFilter.sharedMesh;
-                        shapeModule.meshRenderer = meshFilter.GetComponent<MeshRenderer>();
-                        shapeModule.scale = CurrentWeapon.transform.localScale;
-                        shapeModule.position = Vector3.zero;
-                        shapeModule.rotation = Vector3.zero;
-                    }
-                }
-
-
-                //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
-                Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
-
-                if (RotationOffset == Vector3.zero)
-                {
-                    //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
-                    Instance.transform.localEulerAngles = new Vector3(90f, 270f, 0f);
-                }
-                else
-                {
-                    Instance.transform.localEulerAngles = RotationOffset;
-                }
-
-                Instance.transform.localPosition = PositionOffset;
+                LastEquipmentInstance = CurrentWeapon;
             }
             else
             {
-                ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Prefab from AssetBundle {AssetBundleName} was null.");
             }
+        }
+
+        private void UpdateParticleSystemMesh(GameObject Instance, Equipment CurrentWeapon, MeshFilter meshFilter)
+        {
+            ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
+
+            foreach (var ps in particleSystems)
+            {
+                if (ps != null && ps.shape.shapeType == ParticleSystemShapeType.MeshRenderer || ps.shape.shapeType == ParticleSystemShapeType.Mesh)
+                {
+                    //ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module mesh with mesh {meshFilter.sharedMesh.name}");
+                    ParticleSystem.ShapeModule shapeModule = ps.shape;
+                    shapeModule.mesh = meshFilter.sharedMesh;
+                    shapeModule.meshRenderer = meshFilter.GetComponent<MeshRenderer>();
+                    shapeModule.scale = CurrentWeapon.transform.localScale;
+                    shapeModule.position = Vector3.zero;
+                    shapeModule.rotation = Vector3.zero;
+                }
+            }
+
+
+            //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
+            Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
+
+            if (RotationOffset == Vector3.zero)
+            {
+                //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
+                Instance.transform.localEulerAngles = new Vector3(90f, 270f, 0f);
+            }
+            else
+            {
+                Instance.transform.localEulerAngles = RotationOffset;
+            }
+
+            Instance.transform.localPosition = PositionOffset;
+        }
+
+        private Equipment FindCurrentWeapon(Character _affectedCharacter)
+        {
+            Equipment CurrentWeapon = null;
+            EquipmentSlot OffHand = _affectedCharacter.Inventory.Equipment.GetMatchingSlot(EquipmentSlot.EquipmentSlotIDs.LeftHand);
+
+            if (IsMainHand)
+            {
+                //ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Target is MainHand");
+
+                if (_affectedCharacter.CurrentWeapon == null)
+                {
+                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Current Weapon is null");
+                    return null;
+                }
+
+                CurrentWeapon = _affectedCharacter.CurrentWeapon;
+            }
+            else
+            {
+                //ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Target is OffHand");
+                if (OffHand == null)
+                {
+                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlot cannot be found");
+                    return null;
+                }
+
+
+                if (!OffHand.HasItemEquipped)
+                {
+                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlotitem is null");
+                    return null;
+                }
+
+                CurrentWeapon = OffHand.EquippedItem;
+            }
+
+            return CurrentWeapon;
         }
 
 

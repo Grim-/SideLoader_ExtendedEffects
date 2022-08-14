@@ -29,7 +29,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         public override bool CheckIsValid(Character _affectedCharacter)
         {
             //not sure what happens here for AI, we'll find out I guess.
-            return _affectedCharacter.PlayerStats.UpdateEnvironmentalCorruption(Time.deltaTime) > 0;
+            return !_affectedCharacter.IsLocalPlayer ? false : _affectedCharacter.PlayerStats.UpdateEnvironmentalCorruption(Time.deltaTime) > 0;
         }
     }
 }

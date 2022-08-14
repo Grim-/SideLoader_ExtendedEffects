@@ -38,8 +38,11 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
 
         public override bool CheckIsValid(Character _affectedCharacter)
         {
-
-            //return _affectedCharacter.PlayerStats.UpdateEnvironmentalCorruption(Time.deltaTime) > 0;
+            //AI dont have playerstats so return false if AI
+            if (!_affectedCharacter.IsLocalPlayer)
+            {
+                return false;
+            }
 
             switch (ConditionType)
             {

@@ -50,8 +50,8 @@ namespace SideLoader_ExtendedEffects
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
-            _Log = this.Logger;
             Instance = this;
+            _Log = this.Logger;
             CustomItemMenuManager = new CustomItemMenuManager();
 
             InitializeSL();
@@ -184,11 +184,18 @@ namespace SideLoader_ExtendedEffects
                         },
                         EffectConditions = new SL_EffectCondition[]
                         {
-                            new SL_IsTimeBetweenCondition()
+                            new SL_IsAllowedSceneCondition()
                             {
-                                StartHour = 1,
-                                EndHour = 10
+                                AllowedScenes = new List<string>()
+                                {
+                                    "CierzoNewTerrain"
+                                }
                             }
+                            //new SL_IsTimeBetweenCondition()
+                            //{
+                            //    StartHour = 1,
+                            //    EndHour = 10
+                            //}
                         }
                     },
                 }

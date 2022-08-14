@@ -30,6 +30,12 @@ namespace SideLoader_ExtendedEffects
             this.NewBaseColor = comp.NewBaseColor;
             this.NewParticlesColor = comp.NewParticlesColor;
             this.StatusEffectOnSpawn = comp.StatusEffectOnSpawn;
+            this.NewWeaponDamage = new SL_Damage()
+            {
+                Damage = comp.NewWeaponDamage.Damage,
+                Type = comp.NewWeaponDamage.Type
+            };
+
         }
     }
     public class SummonExtension : Effect

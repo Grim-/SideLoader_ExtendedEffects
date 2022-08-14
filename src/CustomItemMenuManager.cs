@@ -10,8 +10,10 @@ namespace SideLoader_ExtendedEffects
     public class CustomItemMenuManager
     {
         public Dictionary<int, CustomItemDisplayMenuOption> CustomItemOptions { get; private set; }
+
         public CustomItemMenuManager()
         {
+            //ExtendedEffects.Instance?.Log($"CustomItemManager Initializing..");
             CustomItemOptions = new Dictionary<int, CustomItemDisplayMenuOption>();
         }
         /// <summary>
@@ -23,14 +25,14 @@ namespace SideLoader_ExtendedEffects
         /// <param name="ShouldAddAction">When should this action be added? If null it is always added.</param>
         public void RegisterCustomMenuOption(int NewActionID, string ActionString, Action<Character, Item, ItemDisplayOptionPanel, int> OnCustomActionPressed, Func<Character, Item, ItemDisplayOptionPanel, int, bool> ShouldAddAction)
         {
-            ExtendedEffects.Instance.Log($"Registering custom action with ID {NewActionID} String {ActionString}");
+            ExtendedEffects.Instance?.Log($"Registering custom action with ID {NewActionID} String {ActionString}");
             if (!CustomItemOptions.ContainsKey(NewActionID))
             {
                 CustomItemOptions.Add(NewActionID, new CustomItemDisplayMenuOption(NewActionID, ActionString, OnCustomActionPressed, ShouldAddAction));
             }
             else
             {
-                ExtendedEffects.Instance.Log($"Custom Action already exists with ID {NewActionID}");
+                ExtendedEffects.Instance?.Log($"Custom Action already exists with ID {NewActionID}");
             }
         }
 
@@ -38,6 +40,7 @@ namespace SideLoader_ExtendedEffects
         {
             if (CustomItemOptions.ContainsKey(CustomActionID))
             {
+                ExtendedEffects.Instance?.Log($"UnRegistering custom action ID {CustomActionID}");
                 CustomItemOptions.Remove(CustomActionID);
             }
         }
