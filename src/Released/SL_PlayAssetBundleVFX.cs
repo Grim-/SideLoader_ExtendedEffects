@@ -100,13 +100,13 @@ namespace SideLoader_ExtendedEffects
 
                 if (LifeTime > 0)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX LIFETIME IS {LifeTime}");
+                    ExtendedEffects.Instance.DebugLogMessage($"SLEx_PlayAssetBundleVFX LIFETIME IS {LifeTime}");
                     Destroy(Instance, LifeTime);
                 }
             }
             else
             {
-                ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Instance.DebugLogMessage($"SLEx_PlayAssetBundleVFX Prefab from AssetBundle {AssetBundleName} was null.");
             }            
         }
 

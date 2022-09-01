@@ -28,7 +28,7 @@ namespace SideLoader_ExtendedEffects
         {
             foreach (var item in weaponGameObject.LoadedVisual.GetComponentsInChildren<BoxCollider>(true))
             {
-                ExtendedEffects.Instance.Log($"BoxCollider GO Name {item.transform.name}");
+                ExtendedEffects.Instance.DebugLogMessage($"BoxCollider GO Name {item.transform.name}");
 
                 if (item.transform.parent.gameObject.activeInHierarchy)
                 {

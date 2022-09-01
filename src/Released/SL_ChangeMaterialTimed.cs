@@ -119,7 +119,7 @@ namespace SideLoader_ExtendedEffects
 
             CurrentRenderers.Clear();
 
-            ExtendedEffects.Instance.Log("Caching Original Materials");
+            ExtendedEffects.Instance.DebugLogMessage("Caching Original Materials");
 
             //cache all current renderers and their materials
             Renderer[] Renderers = GetRenderers(_affectedCharacter.VisualHolderTrans, false);
@@ -128,7 +128,7 @@ namespace SideLoader_ExtendedEffects
             {
                 if (item != null)
                 {
-                    ExtendedEffects.Instance.Log($"Cached {item.transform.name} {item.material.name}");
+                    ExtendedEffects.Instance.DebugLogMessage($"Cached {item.transform.name} {item.material.name}");
                     CurrentRenderers.Add(item, new Material(item.material));
                 }
             }
@@ -146,7 +146,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (CurrentRenderers.TryGetValue(item.Key, out Material Material))
                 {
-                    ExtendedEffects.Instance.Log($"Changing {item.Key.transform.name} to {NewMaterial}");
+                    ExtendedEffects.Instance.DebugLogMessage($"Changing {item.Key.transform.name} to {NewMaterial}");
                     item.Key.material = NewMaterial;
                 }
 
@@ -165,7 +165,7 @@ namespace SideLoader_ExtendedEffects
                 {
                     if (CurrentRenderers.TryGetValue(item.Key, out Material Material))
                     {
-                        ExtendedEffects.Instance.Log($"Reverting {item.Key.transform.name} to {item.Value}");
+                        ExtendedEffects.Instance.DebugLogMessage($"Reverting {item.Key.transform.name} to {item.Value}");
                         item.Key.material = Material;
                     }
                 }

@@ -39,7 +39,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
             }
 
 
-            ExtendedEffects.Instance.Log("ParentSynchronizer.OwnerCharacter is null, returning false.");
+            ExtendedEffects.Instance.DebugLogMessage("ParentSynchronizer.OwnerCharacter is null, returning false.");
             return false;
         }
     }

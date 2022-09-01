@@ -38,7 +38,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
 
         public override bool CheckIsValid(Character _affectedCharacter)
         {
-            ExtendedEffects.Instance.Log($"IsTimeBetweenCondition StartHour : {StartHour} End Hour : {EndHour} result : {EnvironmentConditions.Instance.TimeOfDay >= StartHour && EnvironmentConditions.Instance.TimeOfDay <= EndHour}");
+            ExtendedEffects.Instance.DebugLogMessage($"IsTimeBetweenCondition StartHour : {StartHour} End Hour : {EndHour} result : {EnvironmentConditions.Instance.TimeOfDay >= StartHour && EnvironmentConditions.Instance.TimeOfDay <= EndHour}");
             return EnvironmentConditions.Instance.TimeOfDay >= StartHour && EnvironmentConditions.Instance.TimeOfDay <= EndHour;
         }
     }

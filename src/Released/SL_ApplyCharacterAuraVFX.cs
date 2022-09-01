@@ -70,7 +70,7 @@ namespace SideLoader_ExtendedEffects.Released
                 if (BodyMesh == null)
                 {
                     //cant find body mesh
-                    ExtendedEffects.Instance.Log($"ApplyCharacterAuraVFX cant find body mesh");
+                    ExtendedEffects.Instance.DebugLogMessage($"ApplyCharacterAuraVFX cant find body mesh");
                     return;
                 }
 
@@ -90,7 +90,7 @@ namespace SideLoader_ExtendedEffects.Released
             }
             else
             {
-                ExtendedEffects.Instance.Log($"ApplyCharacterAuraVFX Prefab is null.");
+                ExtendedEffects.Instance.DebugLogMessage($"ApplyCharacterAuraVFX Prefab is null.");
             }
       
         }
@@ -100,7 +100,7 @@ namespace SideLoader_ExtendedEffects.Released
 
             if (Instance)
             {
-                ExtendedEffects.Instance.Log($"ApplyCharacterAuraVFX Cleaning up Instance");
+                ExtendedEffects.Instance.DebugLogMessage($"ApplyCharacterAuraVFX Cleaning up Instance");
                 GameObject.Destroy(Instance);
             }
         }
@@ -109,7 +109,7 @@ namespace SideLoader_ExtendedEffects.Released
         {
             if (Instance)
             {
-                ExtendedEffects.Instance.Log($"ApplyCharacterAuraVFX destroying Instance");
+                ExtendedEffects.Instance.DebugLogMessage($"ApplyCharacterAuraVFX destroying Instance");
                 GameObject.Destroy(Instance);
             }
         }

@@ -101,7 +101,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (particleSystem.Length == 0)
                 {
-                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX prefab {PrefabName} and its children do not contain a particle system.");
+                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX prefab {PrefabName} and its children do not contain a particle system.");
                     return;
                 }
 
@@ -109,7 +109,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (meshFilter == null)
                 {
-                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
+                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
                     return;
                 }
 
@@ -125,7 +125,7 @@ namespace SideLoader_ExtendedEffects
             }
             else
             {
-                ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Prefab from AssetBundle {AssetBundleName} was null.");
             }
         }
 
@@ -175,7 +175,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (_affectedCharacter.CurrentWeapon == null)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Current Weapon is null");
+                    ExtendedEffects.Instance.DebugLogMessage($"SLEx_CustomImbueVFX Current Weapon is null");
                     return null;
                 }
 
@@ -186,14 +186,14 @@ namespace SideLoader_ExtendedEffects
                 //ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX Target is OffHand");
                 if (OffHand == null)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlot cannot be found");
+                    ExtendedEffects.Instance.DebugLogMessage($"SLEx_CustomImbueVFX OffHand EquipmentSlot cannot be found");
                     return null;
                 }
 
 
                 if (!OffHand.HasItemEquipped)
                 {
-                    ExtendedEffects.Instance?.Log($"SLEx_CustomImbueVFX OffHand EquipmentSlotitem is null");
+                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX OffHand EquipmentSlotitem is null");
                     return null;
                 }
 
@@ -210,7 +210,7 @@ namespace SideLoader_ExtendedEffects
 
             if (Instance)
             {
-                ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Cleaning up Instance");
+                ExtendedEffects.Instance.DebugLogMessage($"SLEx_CustomImbueVFX Cleaning up Instance");
                 GameObject.Destroy(Instance);
             }          
         }
@@ -219,7 +219,7 @@ namespace SideLoader_ExtendedEffects
         {
             if (Instance)
             {
-                ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX destroying Instance");
+                ExtendedEffects.Instance.DebugLogMessage($"SLEx_CustomImbueVFX destroying Instance");
                 GameObject.Destroy(Instance);
             }        
         }

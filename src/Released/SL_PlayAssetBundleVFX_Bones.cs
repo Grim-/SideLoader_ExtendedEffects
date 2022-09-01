@@ -64,7 +64,7 @@ namespace SideLoader_ExtendedEffects
 
                 if (SelectedBone == null)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bone cannot find target bone");
+                    ExtendedEffects.Instance.DebugLogMessage($"SLEx_PlayAssetBundleVFX_Bone cannot find target bone");
                     return;
                 }
 
@@ -89,13 +89,13 @@ namespace SideLoader_ExtendedEffects
 
                 if (LifeTime > 0)
                 {
-                    ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones LIFETIME IS {LifeTime}");
+                    ExtendedEffects.Instance.DebugLogMessage($"SLEx_PlayAssetBundleVFX_Bones LIFETIME IS {LifeTime}");
                     Destroy(Instance, LifeTime);
                 }
             }
             else
             {
-                ExtendedEffects.Instance.Log($"SLEx_PlayAssetBundleVFX_Bones Prefab from AssetBundle {AssetBundleName} was null.");
+                ExtendedEffects.Instance.DebugLogMessage($"SLEx_PlayAssetBundleVFX_Bones Prefab from AssetBundle {AssetBundleName} was null.");
             }
         }
 

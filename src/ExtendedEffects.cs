@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SideLoader_ExtendedEffects
@@ -23,7 +25,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
 
-        public const string VERSION = "1.2.0";
+        public const string VERSION = "1.2.2";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -32,35 +34,30 @@ namespace SideLoader_ExtendedEffects
         public const string SL_VISUAL_TRANSFORM = "SLVISUALCONTAINER";
 
         public static ConfigEntry<bool> AddTestItems;
+        public static ConfigEntry<bool> AddItemDebug;
         public static ConfigEntry<bool> ShowDebugLog;
-
-
         public static ExtendedEffects Instance { get; private set; }
-
         public CustomItemMenuManager CustomItemMenuManager { get; private set; }
-        
 
-        /// <summary>
-        /// Called when ExtendedEffects has fully loaded.
-        /// </summary>
-        public Action OnReady;
+        private static Dictionary<string, string> _SkillTreeOverrides = new Dictionary<string, string>();
 
-        //ID RANGE -26000 -> -26999
+        public static Dictionary<string, string> SkillTreeOverrides {
+            get
+            {
+                return _SkillTreeOverrides;
+            }
+        }
 
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
-            Instance = this;
             _Log = this.Logger;
+            Instance = this;
             CustomItemMenuManager = new CustomItemMenuManager();
-
             InitializeSL();
             InitializeConfig();
-            CustomMenuItemTest();
             new Harmony(GUID).PatchAll();
-            OnReady?.Invoke();
         }
-
 
         private void InitializeSL()
         {
@@ -69,6 +66,7 @@ namespace SideLoader_ExtendedEffects
 
         private void InitializeConfig()
         {
+            AddItemDebug = Config.Bind(NAME, "Add Debug Menu options to Items", false, "Add Debug Menu options to Items.");
             AddTestItems = Config.Bind(NAME, "Add Test Items", false, "Adds test items, spawnable using the debug mode menu (requires restart)");
             ShowDebugLog = Config.Bind(NAME, "Show Debug Log", true, "Enables the Debug Log for SideLoader Extended Effects.");
         }
@@ -79,31 +77,46 @@ namespace SideLoader_ExtendedEffects
             {
                 DefineTestItems();
             }
+
+            if (AddItemDebug.Value)
+            {
+                //Test for ALL items
+                CustomItemMenuManager.RegisterCustomMenuOption(101010, "Debug Log Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                {
+                    Logger.LogMessage(Item);
+                    Logger.LogMessage($"Item Name {Item.DisplayName} Item ID {Item.ItemID} Item UID {Item.UID}");
+                    Logger.LogMessage($"Item Current Slot {Item.CurrentEquipmentSlot}");
+                    Logger.LogMessage($"Durability {Item.CurrentDurability} / {Item.MaxDurability}");
+                },
+                null);
+
+                //Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
+                CustomItemMenuManager.RegisterCustomMenuOption(101110, "Repair Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                {
+                    Item.RepairAmount(9000);
+                },
+                null);
+            }
         }
 
-        private void CustomMenuItemTest()
+        #region Skill Tree Override
+        //bad I know but I CBA right now, more important things on my mind it works.
+        public static void AddSkillTreeOverride(string trainerUID, string customTreeUID)
         {
-            ////Test for ALL items
-            //CustomItemMenuManager.RegisterCustomMenuOption(101010, "TEST STRING", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-            //{
-            //    Character.CharacterUI.ShowInfoNotification($"I have clicked the thing! {Item.DisplayName}");
-            //},
-            //null);
-
-            ////Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
-            //CustomItemMenuManager.RegisterCustomMenuOption(101110, "Test Sword", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-            //{
-            //    Character.CharacterUI.ShowInfoNotification($"I have clicked the Assasins Claymore thing! {Item.DisplayName}");
-            //},
-            //(Character, Item, ItemDisplayOptionPanel, someInt) =>
-            //{
-            //    if (Item.ItemID == 2100110)
-            //    {
-            //        return true;
-            //    }
-            //    return false;
-            //});
+            if (!SkillTreeOverrides.ContainsKey(trainerUID))
+            {
+                SkillTreeOverrides.Add(trainerUID, customTreeUID);
+            }
+            else
+            {
+                _Log.LogMessage("Override already found for this Trainer! Not sure how to handle this!");
+            }
         }
+        public static bool HasSkillTreeOverride(string trainerUID)
+        {
+            return SkillTreeOverrides.ContainsKey(trainerUID);
+        }
+        #endregion
 
         private void DefineTestItems()
         {
@@ -174,28 +187,18 @@ namespace SideLoader_ExtendedEffects
                 {
                     new SL_EffectTransform
                     {
-                        TransformName = "RageActivation",
+                        TransformName = "Activation",
                         Effects = new SL_Effect[]
                         {
-                            new SL_AddStatusEffect()
-                            {
-                                StatusEffect = "Rage",
-                            }
-                        },
-                        EffectConditions = new SL_EffectCondition[]
-                        {
-                            new SL_IsAllowedSceneCondition()
-                            {
-                                AllowedScenes = new List<string>()
-                                {
-                                    "CierzoNewTerrain"
-                                }
-                            }
-                            //new SL_IsTimeBetweenCondition()
+                            //new SL_AddStatusEffect()
                             //{
-                            //    StartHour = 1,
-                            //    EndHour = 10
+                            //    StatusEffect = "Rage",
                             //}
+                            new SL_RemoveItemFromInventory()
+                            {
+                                ItemID = 4000010,
+                                ItemQuantity = 1
+                            }
                         }
                     },
                 }
@@ -204,7 +207,7 @@ namespace SideLoader_ExtendedEffects
             TestSkill.ApplyTemplate();
         }
 
-        public void Log(object logMessage)
+        public void DebugLogMessage(object logMessage)
         {
             if (ShowDebugLog.Value && _Log != null)
             {

@@ -32,7 +32,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
 
         public override bool CheckIsValid(Character _affectedCharacter)
         {
-            ExtendedEffects.Instance.Log($"IsWeatherCondition WeatherType : {WeatherType}  result : IsRaining: {WeatherManagerNew.IsRaining} IsSnowing: {WeatherManagerNew.IsSnowing} ");
+            ExtendedEffects.Instance.DebugLogMessage($"IsWeatherCondition WeatherType : {WeatherType}  result : IsRaining: {WeatherManagerNew.IsRaining} IsSnowing: {WeatherManagerNew.IsSnowing} ");
 
             switch (WeatherType)
             {
