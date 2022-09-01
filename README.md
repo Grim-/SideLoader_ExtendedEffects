@@ -1,4 +1,4 @@
-# SideLoader - Extended Effects v1.2.0
+# SideLoader - Extended Effects v1.2.2
 
 A small addition to SideLoader allowing mod developers more flexibility when creating mods using SideLoader.
 
