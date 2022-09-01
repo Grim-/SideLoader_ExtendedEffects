@@ -6,8 +6,8 @@ You would include this mod as dependcy of your own mod, as is often done with Si
 
 Dependency string can be found on [ThunderStore](https://outward.thunderstore.io/package/SLExtendedEffects/SideLoader_ExtendedEffects/)
 
-[Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
-
+[Effect Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Documentation.md)
+[Conditions Documentation](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/Conditions.md)
 
 ## Change Log
 
