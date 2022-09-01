@@ -11,6 +11,8 @@ Dependency string can be found on [ThunderStore](https://outward.thunderstore.io
 
 ## Change Log
 
+1.2.2 - Added a simple mechanism for overriding the skill trees of the non modded trainers
+
 1.2.0 - CustomItemMenuManager
 Added a simple API for adding custom context menu options for Items/Skills (Docs to follow) 
 
