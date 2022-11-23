@@ -11,6 +11,8 @@ Dependency string can be found on [ThunderStore](https://outward.thunderstore.io
 
 ## Change Log
 
+1.2.3 - Added [SL_HasPassiveSkill](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/Conditions/SL_HasPassiveSkill.xml), [SL_IsCharacterTemp](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/Conditions/SL_IsCharacterTemp.xml), [SL_EquipmentSlotHasTag](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/Conditions/SL_EquipmentSlotHasTag.xml) and [SL_IsInCorruptionCondition](https://github.com/Grim-/SideLoader_ExtendedEffects/blob/main/XML/Conditions/SL_EquipmentSlotHasTag.xml) EffectConditions
+
 1.2.2 - Added a simple mechanism for overriding the skill trees of the non modded trainers
 
 1.2.0 - CustomItemMenuManager
