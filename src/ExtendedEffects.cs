@@ -25,7 +25,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
 
-        public const string VERSION = "1.2.2";
+        public const string VERSION = "1.2.3";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -142,7 +142,7 @@ namespace SideLoader_ExtendedEffects
                 {
                     new SL_EffectTransform
                     {
-                        TransformName = "HitEffects",
+                        TransformName = "Activation",
                         Effects = new SL_Effect[]
                         {
 
@@ -197,8 +197,13 @@ namespace SideLoader_ExtendedEffects
                             new SL_RemoveItemFromInventory()
                             {
                                 ItemID = 4000010,
-                                ItemQuantity = 1
-                            }
+                                ItemQuantity = 5
+                            },
+                            new SL_RemoveItemFromInventory()
+                            {
+                                ItemID = 2000010,
+                                ItemQuantity = 2
+                            }                                
                         }
                     },
                 }

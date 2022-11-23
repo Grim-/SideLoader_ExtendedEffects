@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_RemoveItemFromInventory">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <ItemID>2</ItemID>
+  <ItemQuantity>2</ItemQuantity>
+</SL_Effect>

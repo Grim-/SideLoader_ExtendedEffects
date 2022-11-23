@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SideLoader_ExtendedEffects.Released.Conditions
 {
-    public class SL_HasPassiveSkillConditionCaster : SL_EffectCondition, ICustomModel
+    public class SL_HasPassiveSkill : SL_EffectCondition, ICustomModel
     {
-        public Type SLTemplateModel => typeof(SL_HasPassiveSkillConditionCaster);
+        public Type SLTemplateModel => typeof(SL_HasPassiveSkill);
         public Type GameModel => typeof(HasPassiveSkillConditionCaster);
 
         public int PassiveID;

@@ -43,25 +43,39 @@ namespace SideLoader_ExtendedEffects.Released
                 return;
             }
 
-
             List<Item> ItemsFound = _affectedCharacter.Inventory.GetOwnedItems(ItemID);
 
             if (ItemsFound.Count > 0)
             {
-                if (ItemsFound.Count >= ItemQuantity)
+                //if its a stackable item
+
+                Item Item = ItemsFound[0];
+                if (Item.IsStackable)
                 {
-                    _affectedCharacter.Inventory.RemoveItem(ItemID, ItemQuantity);
+                    if (Item.RemainingAmount >= ItemQuantity)
+                    {
+                        Item.RemoveQuantity(ItemQuantity);
+                    }
+                    else
+                    {
+                        //not enough in stack
+                        ExtendedEffects.Instance.DebugLogMessage($"RemoveItemFromInventory :: Not enough items in stack");
+                    }
+              
                 }
+                //not a stackable item
                 else
                 {
-                    ExtendedEffects.Instance.DebugLogMessage($"Not enough Items found with ID {ItemID}");
+                    if (ItemsFound.Count >= ItemQuantity)
+                    {
+                        _affectedCharacter.Inventory.RemoveItem(ItemID, ItemQuantity);
+                    }
                 }
-
                
             }
             else
             {
-                ExtendedEffects.Instance.DebugLogMessage($"No Items found with ID {ItemID}");
+                ExtendedEffects.Instance.DebugLogMessage($"RemoveItemFromInventory :: No Items found with ID {ItemID}");
             }
         }
     }

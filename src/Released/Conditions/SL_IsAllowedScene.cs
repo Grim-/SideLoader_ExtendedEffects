@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SideLoader_ExtendedEffects.Released.Conditions
 {
-    public class SL_IsAllowedSceneCondition : SL_EffectCondition, ICustomModel
+    public class SL_IsAllowedScene : SL_EffectCondition, ICustomModel
     {
-        public Type SLTemplateModel => typeof(SL_IsAllowedSceneCondition);
+        public Type SLTemplateModel => typeof(SL_IsAllowedScene);
         public Type GameModel => typeof(IsAllowedSceneCondition);
 
 

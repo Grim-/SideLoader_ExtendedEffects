@@ -1,0 +1,5 @@
+<SL_EffectCondition xsi:type="SL_EquipmentSlotHasTag">
+  <Invert>false</Invert>
+  <EquipmentSlotID>RightHand</EquipmentSlotID>
+  <TagName>YourTag</TagName>
+</SL_EffectCondition>

@@ -1,0 +1,5 @@
+<SL_EffectCondition xsi:type="SL_IsCharacterTemp">
+  <Invert>false</Invert>
+  <Temp>20</Temp>
+  <ConditionType>LESSTHAN</ConditionType>
+</SL_EffectCondition>

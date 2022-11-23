@@ -8,26 +8,26 @@ using UnityEngine;
 
 namespace SideLoader_ExtendedEffects.Released.Conditions
 {
-    public class SL_IsCharacterTempCondition : SL_EffectCondition, ICustomModel
+    public class SL_IsCharacterTemp : SL_EffectCondition, ICustomModel
     {
-        public Type SLTemplateModel => typeof(SL_IsCharacterTempCondition);
+        public Type SLTemplateModel => typeof(SL_IsCharacterTemp);
         public Type GameModel => typeof(IsCharacterTempCondition);
 
         public float Temp;
-        public int ConditionType;
+        public string ConditionType;
 
         public override void ApplyToComponent<T>(T component)
         {
             IsCharacterTempCondition comp = component as IsCharacterTempCondition;
             comp.Temp = Temp;
-            comp.ConditionType = (TempreatureOperation)ConditionType;
+            comp.ConditionType = (TempreatureOperation)Enum.Parse(typeof(TempreatureOperation), ConditionType);
         }
 
         public override void SerializeEffect<T>(T component)
         {
             IsCharacterTempCondition comp = component as IsCharacterTempCondition;
             this.Temp = comp.Temp;
-            this.ConditionType = (int)comp.ConditionType;
+            this.ConditionType = comp.ConditionType.ToString();
         }
     }
 
@@ -46,11 +46,11 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
 
             switch (ConditionType)
             {
-                case TempreatureOperation.LESS_THAN:
+                case TempreatureOperation.LESSTHAN:
                     return _affectedCharacter.PlayerStats.Temperature <= Temp;
-                case TempreatureOperation.EQUAL_TO:
+                case TempreatureOperation.EQUALTO:
                     return Mathf.RoundToInt(_affectedCharacter.PlayerStats.Temperature) == Mathf.RoundToInt(Temp);
-                case TempreatureOperation.GREATER_THAN:
+                case TempreatureOperation.GREATERTHAN:
                     return _affectedCharacter.PlayerStats.Temperature >= Temp;
             }
 
@@ -60,8 +60,8 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
 
     public enum TempreatureOperation
     {
-        LESS_THAN,
-        EQUAL_TO,
-        GREATER_THAN
+        LESSTHAN,
+        EQUALTO,
+        GREATERTHAN
     }
 }

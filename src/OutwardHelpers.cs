@@ -73,5 +73,24 @@ namespace SideLoader_ExtendedEffects
             }
             return list;
         }
+
+        public static Tag GetTagFromName(string tagName)
+        {
+            //ExtendedEffects.Instance.DebugLogMessage($"Getting tag {tagName}");
+
+            foreach (var tag in TagSourceManager.Instance.m_tags)
+            {
+                //ExtendedEffects.Instance.DebugLogMessage($"Tag {tag}");
+
+                if (tag.TagName == tagName)
+                {
+                    //ExtendedEffects.Instance.DebugLogMessage($"Tag {tag} matches {tagName}");
+                    return tag;
+                }
+            }
+
+            //ExtendedEffects.Instance.DebugLogMessage($"No Tag found with name {tagName}");
+            return default(Tag);
+        }
     }
 }

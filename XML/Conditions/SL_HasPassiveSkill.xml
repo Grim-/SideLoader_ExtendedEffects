@@ -1,0 +1,4 @@
+<SL_EffectCondition xsi:type="SL_HasPassiveSkill">
+  <Invert>false</Invert>
+  <PassiveID>101901910910</PassiveID>
+</SL_EffectCondition>

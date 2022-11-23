@@ -1,0 +1,3 @@
+<SL_EffectCondition xsi:type="SL_IsInCorruption">
+  <Invert>false</Invert>
+</SL_EffectCondition>
