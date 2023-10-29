@@ -98,7 +98,10 @@ namespace SideLoader_ExtendedEffects
     {
         HEALTH,
         MANA,
-        STAMINA
+        STAMINA,
+        BURNT_HEALTH,
+        BURNT_MANA,
+        BURNT_STAMINA
     }
     public enum DamageSourceType {
         ANY,
