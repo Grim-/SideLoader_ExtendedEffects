@@ -92,11 +92,16 @@ namespace SideLoader_ExtendedEffects
                 return;
             }
 
-
             GameObject Prefab = OutwardHelpers.GetFromAssetBundle<GameObject>(SLPackName, AssetBundleName, PrefabName);
 
             if (Prefab != null)
             {
+                if (Instance == null)
+                {
+                    Instance = GameObject.Instantiate(Prefab);
+                }
+
+
                 ParticleSystem[] particleSystem = Prefab.GetComponentsInChildren<ParticleSystem>();
 
                 if (particleSystem.Length == 0)
@@ -105,21 +110,33 @@ namespace SideLoader_ExtendedEffects
                     return;
                 }
 
-                MeshFilter meshFilter = OutwardHelpers.TryGetWeaponMesh(CurrentWeapon, false);
 
-                if (meshFilter == null)
+                if (OutwardHelpers.DoesWeaponUseSkinnedMesh(CurrentWeapon))
                 {
-                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
-                    return;
+                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Weapon is SkinnedMeshRenderer");
+
+                    SkinnedMeshRenderer skinnedMeshRenderer = OutwardHelpers.TryGetFromEquipmentItemVisual<SkinnedMeshRenderer>(CurrentWeapon.EquippedVisuals);
+
+                    if (skinnedMeshRenderer == null)
+                    {
+                        ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX skinnedMeshRenderer For {CurrentWeapon.Name} cant be found.");
+                        return;
+                    }
+
                 }
-
-
-                if (Instance == null)
+                else
                 {
-                    Instance = GameObject.Instantiate(Prefab);
-                }
+                    ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Weapon is Static Mesh");
+                    MeshFilter meshFilter = OutwardHelpers.TryGetFromEquipmentItemVisual<MeshFilter>(CurrentWeapon.EquippedVisuals);
 
-                UpdateParticleSystemMesh(Instance, CurrentWeapon, meshFilter);
+                    if (meshFilter == null)
+                    {
+                        ExtendedEffects.Instance?.DebugLogMessage($"SLEx_CustomImbueVFX Mesh Filter For  {CurrentWeapon.Name} cant be found.");
+                        return;
+                    }
+
+                    UpdateParticleSystemMesh(Instance, CurrentWeapon, meshFilter);
+                }
 
                 LastEquipmentInstance = CurrentWeapon;
             }
@@ -135,20 +152,56 @@ namespace SideLoader_ExtendedEffects
 
             foreach (var ps in particleSystems)
             {
-                if (ps != null && ps.shape.shapeType == ParticleSystemShapeType.MeshRenderer || ps.shape.shapeType == ParticleSystemShapeType.Mesh)
+                if (ps != null)
                 {
-                    //ExtendedEffects.Instance.Log($"SLEx_CustomImbueVFX Updating ParticleSystem {ps.name} Shape Module mesh with mesh {meshFilter.sharedMesh.name}");
                     ParticleSystem.ShapeModule shapeModule = ps.shape;
-                    shapeModule.mesh = meshFilter.sharedMesh;
-                    shapeModule.meshRenderer = meshFilter.GetComponent<MeshRenderer>();
-                    shapeModule.scale = CurrentWeapon.transform.localScale;
-                    shapeModule.position = Vector3.zero;
-                    shapeModule.rotation = Vector3.zero;
+
+                    if (ps.shape.shapeType == ParticleSystemShapeType.MeshRenderer || ps.shape.shapeType == ParticleSystemShapeType.Mesh)
+                    {
+                        shapeModule.mesh = meshFilter.sharedMesh;
+                        shapeModule.meshRenderer = meshFilter.GetComponent<MeshRenderer>();
+                        shapeModule.scale = CurrentWeapon.transform.localScale;
+                        shapeModule.position = Vector3.zero;
+                        shapeModule.rotation = Vector3.zero;
+                    }
                 }
             }
 
+            Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
 
-            //ExtendedEffects.Log.LogMessage($"SLEx_CustomImbueVFX spawning instance of {Prefab.name} for {CurrentWeapon.Name}");
+            if (RotationOffset == Vector3.zero)
+            {
+                //this is apparently the rotation required with a prefab that is at 0,0,0 with 0,0,0 rotation, why? I dont know, it just is.
+                Instance.transform.localEulerAngles = new Vector3(90f, 270f, 0f);
+            }
+            else
+            {
+                Instance.transform.localEulerAngles = RotationOffset;
+            }
+
+            Instance.transform.localPosition = PositionOffset;
+        }
+
+        private void UpdateParticleSystemMesh(GameObject Instance, Equipment CurrentWeapon, SkinnedMeshRenderer skinnedMeshRenderer)
+        {
+            ParticleSystem[] particleSystems = Instance.GetComponentsInChildren<ParticleSystem>();
+
+            foreach (var ps in particleSystems)
+            {
+                if (ps != null)
+                {
+                    ParticleSystem.ShapeModule shapeModule = ps.shape;
+
+                    if (ps.shape.shapeType == ParticleSystemShapeType.SkinnedMeshRenderer)
+                    {
+                        shapeModule.skinnedMeshRenderer = skinnedMeshRenderer;
+                        shapeModule.scale = CurrentWeapon.transform.localScale;
+                        shapeModule.position = Vector3.zero;
+                        shapeModule.rotation = Vector3.zero;
+                    }
+                }
+            }
+
             Instance.transform.parent = CurrentWeapon.LoadedVisual.transform;
 
             if (RotationOffset == Vector3.zero)

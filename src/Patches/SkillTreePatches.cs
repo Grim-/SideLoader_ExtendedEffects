@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using NodeCanvas.DialogueTrees;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,21 @@ namespace SideLoader_ExtendedEffects.Patches
 		public static bool GetSkillTreeOverridePrefix(Trainer __instance, ref SkillSchool __result)
 		{
 			SNPC snpc = __instance.GetComponentInParent<SNPC>();
+			string TrainerUID = string.Empty;
+
+			//fix for DLC trainers
+			if (snpc == null)
+            {
+				snpc = __instance.transform.parent.parent.GetComponentInChildren<SNPC>();
+				TrainerUID = __instance.HolderUID.m_value;
+			}
+			else
+            {
+				TrainerUID = snpc.HolderUID.m_value;
+			}
+
             if (snpc != null)
 			{
-				string TrainerUID = snpc.HolderUID.m_value;
 				if (ExtendedEffects.HasSkillTreeOverride(TrainerUID))
                 {
 					string SkillTreeUID = ExtendedEffects.SkillTreeOverrides[TrainerUID];

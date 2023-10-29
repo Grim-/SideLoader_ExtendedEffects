@@ -24,31 +24,28 @@ namespace SideLoader_ExtendedEffects
             //ta-da updated weapon damage
         }
 
-        public static MeshFilter TryGetWeaponMesh(Equipment weaponGameObject, bool IncludeInActive = true)
+        public static T TryGetFromEquipmentItemVisual<T>(ItemVisual itemVisual)
         {
-            foreach (var item in weaponGameObject.LoadedVisual.GetComponentsInChildren<BoxCollider>(true))
+            foreach (var item in itemVisual.GetComponentsInChildren<BoxCollider>(false))
             {
-                ExtendedEffects.Instance.DebugLogMessage($"BoxCollider GO Name {item.transform.name}");
-
-                if (item.transform.parent.gameObject.activeInHierarchy)
-                {
-                    return item.GetComponent<MeshFilter>();
-                }
-
+                return item.GetComponentInChildren<T>();          
             }
-            return null;
+
+            ExtendedEffects._Log.LogMessage($"Failed to find {typeof(T)} on ItemVisual {itemVisual.m_item.DisplayName}");
+            return default(T);
         }
 
-        public static T TryGetWeaponVisualComponent<T>(Equipment weaponGameObject, bool IncludeInActive = true)
+        public static bool DoesWeaponUseSkinnedMesh(Equipment weaponGameObject)
         {
-            return weaponGameObject.LoadedVisual.GetComponentInChildren<BoxCollider>(IncludeInActive).GetComponent<T>();
+            SkinnedMeshRenderer skinnedMesh = weaponGameObject.GetItemVisual().GetComponentInChildren<SkinnedMeshRenderer>();
+
+            return skinnedMesh != null;
         }
 
         public static Transform TryGetHumanBone(Character character, HumanBodyBones bone)
         {
             return character.Animator != null ? character.Animator.GetBoneTransform(bone) : null;
         }
-
         public static T GetFromAssetBundle<T>(string SLPackName, string AssetBundle, string key) where T : UnityEngine.Object
         {
             if (!SL.PacksLoaded)
@@ -58,8 +55,6 @@ namespace SideLoader_ExtendedEffects
 
             return SL.GetSLPack(SLPackName).AssetBundles[AssetBundle].LoadAsset<T>(key);
         }
-
-
         public static List<T> GetTypeFromColliders<T>(Collider[] colliders) where T : Component
         {
             List<T> list = new List<T>();
@@ -73,7 +68,6 @@ namespace SideLoader_ExtendedEffects
             }
             return list;
         }
-
         public static Tag GetTagFromName(string tagName)
         {
             //ExtendedEffects.Instance.DebugLogMessage($"Getting tag {tagName}");

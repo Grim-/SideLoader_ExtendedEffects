@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static MapMagic.ObjectPool;
 
 namespace SideLoader_ExtendedEffects
 {
@@ -25,13 +26,15 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
 
-        public const string VERSION = "1.2.3";
+        public const string VERSION = "1.2.5";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
 
         //The name of the container for visual effects spawned by ExtendedEffects
         public const string SL_VISUAL_TRANSFORM = "SLVISUALCONTAINER";
+
+        public Action OnLoaded;
 
         public static ConfigEntry<bool> AddTestItems;
         public static ConfigEntry<bool> AddItemDebug;
@@ -57,26 +60,13 @@ namespace SideLoader_ExtendedEffects
             InitializeSL();
             InitializeConfig();
             new Harmony(GUID).PatchAll();
+
+
         }
 
-        private void InitializeSL()
+        private void Start()
         {
-            SL.BeforePacksLoaded += SL_BeforePacksLoaded;
-        }
-
-        private void InitializeConfig()
-        {
-            AddItemDebug = Config.Bind(NAME, "Add Debug Menu options to Items", false, "Add Debug Menu options to Items.");
-            AddTestItems = Config.Bind(NAME, "Add Test Items", false, "Adds test items, spawnable using the debug mode menu (requires restart)");
-            ShowDebugLog = Config.Bind(NAME, "Show Debug Log", true, "Enables the Debug Log for SideLoader Extended Effects.");
-        }
-
-        private void SL_BeforePacksLoaded()
-        {
-            if (AddTestItems.Value)
-            {
-                DefineTestItems();
-            }
+            OnLoaded?.Invoke();
 
             if (AddItemDebug.Value)
             {
@@ -96,7 +86,124 @@ namespace SideLoader_ExtendedEffects
                     Item.RepairAmount(9000);
                 },
                 null);
+
+                CustomItemMenuManager.RegisterCustomMenuOption(101111, "Reset Cooldown", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                {
+                    ((Skill)Item).ResetCoolDown();
+                },
+                null);
             }
+        }
+
+        private void InitializeSL()
+        {
+            SL.BeforePacksLoaded += SL_BeforePacksLoaded;
+        }
+
+        private void InitializeConfig()
+        {
+            AddItemDebug = Config.Bind(NAME, "Add Debug Menu options to Items", false, "Add Debug Menu options to Items.");
+            AddTestItems = Config.Bind(NAME, "Add Test Items", false, "Adds test items, spawnable using the debug mode menu (requires restart)");
+            ShowDebugLog = Config.Bind(NAME, "Show Debug Log", true, "Enables the Debug Log for SideLoader Extended Effects.");
+        }
+
+        private void SL_BeforePacksLoaded()
+        {
+            if (AddTestItems.Value)
+            {
+                SL_MeleeWeapon TestWeapon = new SL_MeleeWeapon()
+                {
+                    Target_ItemID = 2000031,
+                    New_ItemID = -26999,
+                    Name = "Emo Test Blade of Testing",
+                    Description = "WHACK",
+                    StatsHolder = new SL_WeaponStats()
+                    {
+                        BaseDamage = new List<SL_Damage>()
+                    {
+                        new SL_Damage()
+                        {
+                            Damage = 25f,
+                            Type = DamageType.Types.Physical
+                        },
+                    },
+                        AttackSpeed = 0.9f
+                    },
+                    EffectTransforms = new SL_EffectTransform[]
+     {
+                    new SL_EffectTransform
+                    {
+                        TransformName = "Activation",
+                        Effects = new SL_Effect[]
+                        {
+
+                        }
+                    }
+
+     }
+                };
+                TestWeapon.ApplyTemplate();
+
+                SL_Item TestPotion = new SL_Item()
+                {
+                    Target_ItemID = 4300130,
+                    New_ItemID = -26987,
+                    Name = "Emo Test Potion",
+                    Description = "Test Potion",
+                    EffectBehaviour = EditBehaviours.Destroy,
+                    QtyRemovedOnUse = 0,
+                    EffectTransforms = new SL_EffectTransform[]
+                    {
+                    new SL_EffectTransform
+                    {
+                        TransformName = "Effects",
+                        Effects = new SL_Effect[]
+                        {
+
+                        }
+                    }
+                    }
+                };
+                TestPotion.ApplyTemplate();
+
+
+
+                SL_Skill TestSkill = new SL_Skill()
+                {
+                    Target_ItemID = 8100120,
+                    New_ItemID = -26986,
+                    Name = "Emo Test Skill",
+                    EffectBehaviour = EditBehaviours.OverrideEffects,
+                    EffectTransforms = new SL_EffectTransform[]
+                    {
+                    new SL_EffectTransform
+                    {
+                        TransformName = "Activation",
+                        Effects = new SL_Effect[]
+                        {
+                            //new SL_AddStatusEffect()
+                            //{
+                            //    StatusEffect = "Rage",
+                            //}
+                            new SL_RemoveItemFromInventory()
+                            {
+                                ItemID = 4000010,
+                                ItemQuantity = 5
+                            },
+                            new SL_RemoveItemFromInventory()
+                            {
+                                ItemID = 2000010,
+                                ItemQuantity = 2
+                            }
+                        }
+                    },
+                    }
+                };
+
+                TestSkill.ApplyTemplate();
+            }
+
+
         }
 
         #region Skill Tree Override
@@ -118,100 +225,6 @@ namespace SideLoader_ExtendedEffects
         }
         #endregion
 
-        private void DefineTestItems()
-        {
-            SL_MeleeWeapon TestWeapon = new SL_MeleeWeapon()
-            {
-                Target_ItemID = 2000031,
-                New_ItemID = -26999,
-                Name = "Emo Test Blade of Testing",
-                Description = "WHACK",
-                StatsHolder = new SL_WeaponStats()
-                {
-                    BaseDamage = new List<SL_Damage>()
-                    {
-                        new SL_Damage()
-                        {
-                            Damage = 25f,
-                            Type = DamageType.Types.Physical
-                        },
-                    },
-                    AttackSpeed = 0.9f
-                },
-                EffectTransforms = new SL_EffectTransform[]
-                {
-                    new SL_EffectTransform
-                    {
-                        TransformName = "Activation",
-                        Effects = new SL_Effect[]
-                        {
-
-                        }
-                    }
-
-                }
-            };
-            TestWeapon.ApplyTemplate();
-
-            SL_Item TestPotion = new SL_Item()
-            {
-                Target_ItemID = 4300130,
-                New_ItemID = -26987,
-                Name = "Emo Test Potion",
-                Description = "Test Potion",
-                EffectBehaviour = EditBehaviours.Destroy,
-                QtyRemovedOnUse = 0,
-                EffectTransforms = new SL_EffectTransform[]
-                {
-                    new SL_EffectTransform
-                    {
-                        TransformName = "Effects",
-                        Effects = new SL_Effect[]
-                        {
-
-                        }
-                    }
-                }
-            };
-            TestPotion.ApplyTemplate();
-
-
-
-            SL_Skill TestSkill = new SL_Skill()
-            {
-                Target_ItemID = 8100120,
-                New_ItemID = -26986,
-                Name = "Emo Test Skill",
-                EffectBehaviour = EditBehaviours.OverrideEffects,
-                EffectTransforms = new SL_EffectTransform[]
-                {
-                    new SL_EffectTransform
-                    {
-                        TransformName = "Activation",
-                        Effects = new SL_Effect[]
-                        {
-                            //new SL_AddStatusEffect()
-                            //{
-                            //    StatusEffect = "Rage",
-                            //}
-                            new SL_RemoveItemFromInventory()
-                            {
-                                ItemID = 4000010,
-                                ItemQuantity = 5
-                            },
-                            new SL_RemoveItemFromInventory()
-                            {
-                                ItemID = 2000010,
-                                ItemQuantity = 2
-                            }                                
-                        }
-                    },
-                }
-            };
-
-            TestSkill.ApplyTemplate();
-        }
-
         public void DebugLogMessage(object logMessage)
         {
             if (ShowDebugLog.Value && _Log != null)
@@ -221,6 +234,62 @@ namespace SideLoader_ExtendedEffects
         }
     }
 }
+
+
+
+//[HarmonyPatch(typeof(Disease))]
+//public static class DieaseDegenerationPatch
+//{
+
+//    public static Dictionary<string, string> DieaseDegenTable = new Dictionary<string, string>()
+//    {
+//        {"FungalNecrosis1", "FungalNecrosis2" },
+//        {"FungalNecrosis2", "FungalNecrosis3" }
+//    };
+
+//    [HarmonyPatch(nameof(Disease.ProcessUpdate)), HarmonyPrefix]
+//    public static bool Prefix(Disease __instance)
+//    {
+//        if (DieaseDegenTable.ContainsKey(__instance.IdentifierName))
+//        if (DieaseDegenTable.ContainsKey(__instance.IdentifierName))
+//        {
+//            string NextStatusName = DieaseDegenTable[__instance.IdentifierName];
+
+//            Debug.Log($"Diease.OnProcessUpdate Disease :{__instance.IdentifierName} has follow up status {NextStatusName}");
+
+//            if (CanDegenerate(__instance))
+//            {
+//                Debug.Log($"Diease.OnProcessUpdate Disease :{__instance.IdentifierName} can degenerate");
+
+//                if (!String.IsNullOrEmpty(NextStatusName))
+//                {
+
+//                    Debug.Log($"Diease.OnProcessUpdate Disease :{__instance.IdentifierName} adding new status {NextStatusName}");
+//                    __instance.m_affectedCharacter.StatusEffectMngr.AddStatusEffect(NextStatusName);
+
+//                    return false;
+//                }
+//            }
+//            else
+//            {
+//                Debug.Log($"Diease.OnProcessUpdate Disease :{__instance.IdentifierName} cant degenerate");
+//            }
+//        }
+//        return true;
+//    }
+
+//    public static bool CanDegenerate(Disease __instance)
+//    {
+//        Debug.Log($"Diease.OnProcessUpdate Disease : ID : {__instance.IdentifierName} Degenerate Time : {__instance.m_degenerateTime} IsActive {__instance.IsActive}");
+//        Debug.Log($"Diease.OnProcessUpdate Disease :AGE {__instance.Age}");
+//        Debug.Log($"Diease.OnProcessUpdate Disease :IS RECEDING {__instance.IsReceding}");
+//        Debug.Log($"Diease.OnProcessUpdate Disease :CAN DEGEN {__instance.m_canDegenerate}");
+//        Debug.Log($"Diease.OnProcessUpdate Disease :IS DEGENERATING {__instance.m_degenerating}");
+
+//        return __instance.IsActive && __instance.m_degenerateTime != -1f && !__instance.IsReceding && __instance.m_canDegenerate && !__instance.m_degenerating && __instance.Age >= __instance.m_degenerateTime;
+//    }
+//}
+
 //human bone ids
 //Hips = 0,
 //LeftUpperLeg = 1,

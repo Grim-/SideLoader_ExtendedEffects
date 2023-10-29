@@ -63,3 +63,35 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         }
     }
 }
+
+
+
+//public class SL_HasEquipped : SL_EffectCondition, ICustomModel
+//{
+//    public Type SLTemplateModel => typeof(SL_HasEquipped);
+//    public Type GameModel => typeof(HasEquipped);
+
+//    public int EquipmentID;
+
+//    public override void ApplyToComponent<T>(T component)
+//    {
+//        HasEquipped comp = component as HasEquipped;
+//        comp.EquipmentID = EquipmentID;
+//    }
+
+//    public override void SerializeEffect<T>(T component)
+//    {
+//        HasEquipped comp = component as HasEquipped;
+//        this.EquipmentID = comp.EquipmentID;
+//    }
+//}
+
+//public class HasEquipped : EffectCondition
+//{
+//    public int EquipmentID;
+
+//    public override bool CheckIsValid(Character _affectedCharacter)
+//    {
+//        return _affectedCharacter.Inventory.HasEquipped(EquipmentID);
+//    }
+//}
