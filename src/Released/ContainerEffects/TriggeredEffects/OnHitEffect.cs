@@ -7,7 +7,7 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
 {
 
     public class SL_OnHitEffect: SL_ParentEffect {
-        public OnHitEffect.DamageSourceType RequiredSourceType;
+        public DamageSourceType RequiredSourceType;
         public DamageType.Types[] DamageTypes;
         public bool RequireAllTypes;
         public int MinDamage;
@@ -47,12 +47,6 @@ namespace SideLoader_ExtendedEffects.Containers.Triggers
         public Type SLTemplateModel => typeof(SL_OnHitEffect);
 
         public Type GameModel => typeof(OnHitEffect);
-
-        public enum DamageSourceType {
-            ANY,
-            WEAPON,
-            NON_WEAPON
-        }
 
         public DamageSourceType RequiredSourceType;
         public DamageType.Types[] DamageTypes;
