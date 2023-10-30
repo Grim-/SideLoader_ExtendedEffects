@@ -87,4 +87,19 @@ namespace SideLoader_ExtendedEffects
             return default(Tag);
         }
     }
+
+    public enum Attributes
+    {
+        HEALTH,
+        MANA,
+        STAMINA,
+        BURNT_HEALTH,
+        BURNT_MANA,
+        BURNT_STAMINA
+    }
+    public enum DamageSourceType {
+        ANY,
+        WEAPON,
+        NON_WEAPON
+    }
 }

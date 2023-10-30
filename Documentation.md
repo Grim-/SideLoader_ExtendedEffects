@@ -768,3 +768,142 @@ Deals damage to the AffectedCharacter based on the currently equipped weapon.
   <HitInventory>false</HitInventory>
 </SL_Effect>
 ```
+
+--------------
+
+### SL_SpendAttributeEffect
+
+Spends Health, Mana, Stamina, or one of their Burns as though a cost for a skill. Only affects the effect owner. Mana and Stamina costs respect their cost reductions. Optionally, costs can be a percentage of the base or effective maximum for the attribute.
+
+| Parameter Name | Description |
+| --- | ------------- | 
+| Value | The cost to spend |
+| Attr | Which attribute to spend |
+| Relative | Whether the cost should be relative to the attribute's Max or not |
+| BurnedMax | If Relative, whether the Max should account for Burn or not|
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_SpendAttributeEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <Value>0.5</Value>
+  <Attr>STAMINA</Attr>
+  <Relative>false</Relative>
+  <BurnedMax>false</BurnedMax>
+</SL_Effect>
+```
+
+--------------
+
+### SL_StatScalingEffect
+
+Applies subeffects scaled to the value of a stat of the target. Like leveled passives, only works for the following effects:
+
+    AffectStat
+    AffectNeed and similar
+    AffectStatusEffectBuildUpResistance
+    AffectCooldown
+    SpendAttributeEffect
+
+
+| Parameter Name | Description |
+| --- | ------------- | 
+| Stat | The Stat Tag to base effect potency on |
+| BaselineValue | The Stat value at which effects should be applied at 100% potency |
+| Round | Whether scaling should only increase at integer multiples of BaselineValue |
+| Owner | Whether scaling should be based on the effect owner's stats instead |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_StatScalingEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <EffectBehavior>Destroy</EffectBehavior>
+  <ChildEffects>
+    <SL_EffectTransform>
+      <TransformName>Normal</TransformName>
+      <Position xsi:nil="true" />
+      <Rotation xsi:nil="true" />
+      <Scale xsi:nil="true" />
+      <Effects>
+        <SL_Effect xsi:type="SL_AffectStat">
+          <Delay>0</Delay>
+          <SyncType>OwnerSync</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <Stat_Tag>StaminaRegen</Stat_Tag>
+          <AffectQuantity>10</AffectQuantity>
+          <IsModifier>true</IsModifier>
+          <Duration>-1</Duration>
+        </SL_Effect>
+      </Effects>
+    </SL_EffectTransform>
+  </ChildEffects>
+  <ActivationLimit>0</ActivationLimit>
+  <Stat>MaxMana</Stat>
+  <BaselineValue>20</BaselineValue>
+  <Round>false</Round>
+  <Owner>false</Owner>
+</SL_Effect>
+```
+
+--------------
+
+### SL_CurrentAttributeScalingEffect
+
+Similar to `SL_StatScalingEffect` above, but scaling off of an attribute instead. 
+
+| Parameter Name | Description |
+| --- | ------------- | 
+| BaselineValue | The attribute value at which effects should be applied at 100% potency |
+| Attr | Which attribute to base scaling off of |
+| Relative | Whether the scaling should be relative to the attribute's Max or not |
+| BurnedMax | If Relative, whether the Max should account for Burn or not|
+| Owner | Whether scaling should be based on the effect owner's attribute instead |
+| Round | Whether scaling should only increase at integer multiples of BaselineValue |
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<SL_Effect xsi:type="SL_CurrentAttributeScalingEffect">
+  <Delay>0</Delay>
+  <SyncType>OwnerSync</SyncType>
+  <OverrideCategory>None</OverrideCategory>
+  <CastPosition>Local</CastPosition>
+  <LocalPositionAdd>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </LocalPositionAdd>
+  <NoAim>false</NoAim>
+  <TargetType>Enemies</TargetType>
+  <EffectBehavior>Destroy</EffectBehavior>
+  <ChildEffects>
+    <SL_EffectTransform>
+      <TransformName>Normal Value</TransformName>
+      <Position xsi:nil="true" />
+      <Rotation xsi:nil="true" />
+      <Scale xsi:nil="true" />
+      <Effects>
+        <SL_Effect xsi:type="SL_SpendAttributeEffect">
+          <Delay>0</Delay>
+          <SyncType>OwnerSync</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <Value>20</Value>
+          <Attr>MANA</Attr>
+          <Relative>false</Relative>
+          <BurnedMax>false</BurnedMax>
+        </SL_Effect>
+      </Effects>
+    </SL_EffectTransform>
+  </ChildEffects>
+  <ActivationLimit>0</ActivationLimit>
+  <BaselineValue>20</BaselineValue>
+  <Round>false</Round>
+  <Attr>MANA</Attr>
+  <Owner>true</Owner>
+  <Relative>false</Relative>
+  <BurnedMax>false</BurnedMax>
+</SL_Effect>
+```

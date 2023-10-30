@@ -52,14 +52,13 @@ namespace SideLoader_ExtendedEffects
             foreach (string uid in skills)
             {
                 Skill skill = ItemManager.Instance.GetItem(uid) as Skill;
-                SL.Log(skill.Name + " " + skill.ItemID);
                 if (AllowedSkills != null && AllowedSkills.Length > 0 && !AllowedSkills.Contains(skill.ItemID))
                 {
-                    SL.Log("Not Whitelisted");
                     continue; // Not an allowed skill
                 }
 
                 float amount = IsModifier ? skill.RealCooldown * Amount/100 : Amount;
+                amount *= this.m_totalPotency;
                 skill.m_remainingCooldownTime -= amount;
                 skill.UpdateCooldownRatio();
             }
