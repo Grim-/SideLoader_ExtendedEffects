@@ -59,6 +59,8 @@ namespace SideLoader_ExtendedEffects.Containers
         public SubEffect ChildEffects;
         public int ActivationLimit;
 
+        public float Value = 0; // Yet another filthy hack
+
         private float lastApplyTime = 0;
         private Dictionary<Character, int> affectedThisInterval;
 

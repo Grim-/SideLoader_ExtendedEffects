@@ -31,7 +31,7 @@ Checks whether the owner can pay a given attribute cost. For use with `SL_SpendA
 
 | Parameter Name | Description |
 | ---| ------------- |
-| Cost | The cost to spend |
+| Value | The cost to spend |
 | Attr | Which attribute to spend |
 | Relative | Whether the cost should be relative to the attribute's Max or not |
 | BurnedMax | If Relative, whether the Max should account for Burn or not|
@@ -42,7 +42,7 @@ Checks whether the owner can pay a given attribute cost. For use with `SL_SpendA
   <Delay>0</Delay>
   <SyncType>OwnerSync</SyncType>
   <OverrideCategory>None</OverrideCategory>
-  <Cost>20</Cost>
+  <Value>20</Value>
   <Attr>MANA</Attr>
   <Relative>false</Relative>
   <BurnedMax>false</BurnedMax>

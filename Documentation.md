@@ -777,7 +777,7 @@ Spends Health, Mana, Stamina, or one of their Burns as though a cost for a skill
 
 | Parameter Name | Description |
 | --- | ------------- | 
-| Cost | The cost to spend |
+| Value | The cost to spend |
 | Attr | Which attribute to spend |
 | Relative | Whether the cost should be relative to the attribute's Max or not |
 | BurnedMax | If Relative, whether the Max should account for Burn or not|
@@ -788,7 +788,7 @@ Spends Health, Mana, Stamina, or one of their Burns as though a cost for a skill
   <Delay>0</Delay>
   <SyncType>OwnerSync</SyncType>
   <OverrideCategory>None</OverrideCategory>
-  <Cost>0.5</Cost>
+  <Value>0.5</Value>
   <Attr>STAMINA</Attr>
   <Relative>false</Relative>
   <BurnedMax>false</BurnedMax>
@@ -881,7 +881,7 @@ Similar to `SL_StatScalingEffect` above, but scaling off of an attribute instead
   <EffectBehavior>Destroy</EffectBehavior>
   <ChildEffects>
     <SL_EffectTransform>
-      <TransformName>Normal Cost</TransformName>
+      <TransformName>Normal Value</TransformName>
       <Position xsi:nil="true" />
       <Rotation xsi:nil="true" />
       <Scale xsi:nil="true" />
@@ -890,7 +890,7 @@ Similar to `SL_StatScalingEffect` above, but scaling off of an attribute instead
           <Delay>0</Delay>
           <SyncType>OwnerSync</SyncType>
           <OverrideCategory>None</OverrideCategory>
-          <Cost>20</Cost>
+          <Value>20</Value>
           <Attr>MANA</Attr>
           <Relative>false</Relative>
           <BurnedMax>false</BurnedMax>
