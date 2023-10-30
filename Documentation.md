@@ -783,6 +783,7 @@ Spends Health, Mana, Stamina, or one of their Burns as though a cost for a skill
 | BurnedMax | If Relative, whether the Max should account for Burn or not|
 
 ```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_SpendAttributeEffect">
   <Delay>0</Delay>
   <SyncType>OwnerSync</SyncType>
@@ -815,6 +816,7 @@ Applies subeffects scaled to the value of a stat of the target. Like leveled pas
 | Owner | Whether scaling should be based on the effect owner's stats instead |
 
 ```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_StatScalingEffect">
   <Delay>0</Delay>
   <SyncType>OwnerSync</SyncType>
@@ -863,6 +865,7 @@ Similar to `SL_StatScalingEffect` above, but scaling off of an attribute instead
 | Round | Whether scaling should only increase at integer multiples of BaselineValue |
 
 ```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <SL_Effect xsi:type="SL_CurrentAttributeScalingEffect">
   <Delay>0</Delay>
   <SyncType>OwnerSync</SyncType>
