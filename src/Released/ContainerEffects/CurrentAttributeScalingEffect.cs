@@ -14,6 +14,7 @@ namespace SideLoader_ExtendedEffects.Containers
         public bool BurnedMax; // Whether the relative comparison should respect the burned max
         public override void ApplyToComponent<T>(T component)
         {
+            base.ApplyToComponent(component);
             var comp = component as CurrentAttributeScalingEffect;
             comp.Attr = this.Attr;
             comp.Owner = this.Owner;
@@ -24,6 +25,7 @@ namespace SideLoader_ExtendedEffects.Containers
         }
         public override void SerializeEffect<T>(T effect)
         {
+            base.SerializeEffect(effect);
             var comp = effect as CurrentAttributeScalingEffect;
             this.Attr = comp.Attr;
             this.Owner = comp.Owner;
@@ -41,7 +43,6 @@ namespace SideLoader_ExtendedEffects.Containers
 
         public Type SLTemplateModel => typeof(SL_CurrentAttributeScalingEffect);
         public Type GameModel => typeof(CurrentAttributeScalingEffect);
-
         public float BaselineValue; // Value of attribute at which effects will be applied at 100% potency
         public bool Round; // Whether the scaling modifier should round down to integer multiples of the baseline or not
         public Attributes Attr; // Attribute to base off of
@@ -67,15 +68,15 @@ namespace SideLoader_ExtendedEffects.Containers
                     if (Relative) scale /= BurnedMax ? character.Stats.ActiveMaxStamina : character.Stats.MaxStamina;
                     break;
                 case Attributes.BURNT_HEALTH:
-                    scale = character.Stats.CurrentHealth;
+                    scale = character.Stats.BurntHealth;
                     if (Relative) scale /= character.Stats.MaxHealth;
                     break;
                 case Attributes.BURNT_MANA:
-                    scale = character.Stats.CurrentMana;
+                    scale = character.Stats.BurntMana;
                     if (Relative) scale /= character.Stats.MaxMana;
                     break;
                 case Attributes.BURNT_STAMINA:
-                    scale = character.Stats.CurrentStamina;
+                    scale = character.Stats.BurntStamina;
                     if (Relative) scale /= character.Stats.MaxStamina;
                     break;
                 default:
@@ -87,12 +88,16 @@ namespace SideLoader_ExtendedEffects.Containers
                 scale = (float)Math.Floor((double)scale); // ew
             }
             this.m_subEffects[0].EffectPotency = scale;
-            StopApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Normal}, character);
+            foreach (EffectSynchronizer.EffectReference e in this.m_subEffects[0].m_effects.Values)
+            {
+                e.Effect.RefreshPotency();
+            }
+            StartApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Normal}, _affectedCharacter);
         }
         public override void StopAffectLocally(Character _affectedCharacter)
         {
             Character character = Owner ? this.m_parentSynchronizer.OwnerCharacter : _affectedCharacter;
-            StopApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Normal}, character);
+            StopApply(new EffectSynchronizer.EffectCategories[]{EffectSynchronizer.EffectCategories.Normal}, _affectedCharacter);
             base.StopAffectLocally(character);
         }
     }

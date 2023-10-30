@@ -44,7 +44,7 @@ namespace SideLoader_ExtendedEffects.Containers
         {
             Character character =  this.m_parentSynchronizer.OwnerCharacter;
             if (!(character && character.Stats)) return;
-            float realCost = Cost;
+            float realCost = Cost * this.m_totalPotency;
             switch (Attr){
                 case Attributes.HEALTH:
                     if (Relative) realCost *= BurnedMax ? character.Stats.ActiveMaxHealth : character.Stats.MaxHealth;

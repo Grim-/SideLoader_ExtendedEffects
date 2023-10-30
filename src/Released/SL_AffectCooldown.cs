@@ -58,6 +58,7 @@ namespace SideLoader_ExtendedEffects
                 }
 
                 float amount = IsModifier ? skill.RealCooldown * Amount/100 : Amount;
+                amount *= this.m_totalPotency;
                 skill.m_remainingCooldownTime -= amount;
                 skill.UpdateCooldownRatio();
             }
