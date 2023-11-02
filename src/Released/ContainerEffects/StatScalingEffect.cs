@@ -53,6 +53,10 @@ namespace SideLoader_ExtendedEffects.Containers
                 scale = (float)Math.Floor((double)scale); // ew
             }
             this.m_subEffects[0].EffectPotency = scale;
+            foreach (EffectSynchronizer.EffectReference e in this.m_subEffects[0].m_effects.Values)
+            {
+                e.Effect.RefreshPotency();
+            }
             this.m_subEffects[0].SynchronizeEffects(EffectSynchronizer.EffectCategories.Normal, character);
         }
         public override void StopAffectLocally(Character _affectedCharacter)

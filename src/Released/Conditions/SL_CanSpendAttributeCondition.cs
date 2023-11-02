@@ -50,12 +50,12 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
                     break;
                 case Attributes.MANA:
                     if (Relative) realValue = (realValue / 100) * (BurnedMax ? character.Stats.ActiveMaxMana : character.Stats.MaxMana);
-                    realValue = character.Stats.GetFinalManaConsumption(null, realValue);
+                    realValue = character.Stats.GetFinalManaConsumption(this.GetParentTags(), realValue);
                     currentPool = character.Stats.CurrentMana;
                     break;
                 case Attributes.STAMINA:
                     if (Relative) realValue = (realValue / 100) * (BurnedMax ? character.Stats.ActiveMaxStamina : character.Stats.MaxStamina);
-                    realValue = character.Stats.GetFinalStaminaConsumption(null, realValue);
+                    realValue = character.Stats.GetFinalStaminaConsumption(this.GetParentTags(), realValue);
                     currentPool = character.Stats.CurrentStamina;
                     break;
                 case Attributes.BURNT_HEALTH:

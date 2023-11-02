@@ -86,6 +86,33 @@ namespace SideLoader_ExtendedEffects
             //ExtendedEffects.Instance.DebugLogMessage($"No Tag found with name {tagName}");
             return default(Tag);
         }
+
+        public static Tag[] GetParentTags(this Effect effect) {
+            Tag[] tags = {};
+            EffectSynchronizer sync = effect.m_parentSynchronizer.SourceSynchronizer; // SourceSynchronizer is either the parent for subeffects, or itself for other synchronizers
+            if (sync is Item)
+            {
+                tags = (sync as Item).Tags.ToArray();
+            }
+            if (sync is StatusEffect)
+            {
+                tags = (sync as StatusEffect).InheritedTags.ToArray();
+            }
+            return tags;
+        }
+        public static Tag[] GetParentTags(this EffectCondition condition) {
+            Tag[] tags = {};
+            EffectSynchronizer sync = condition.m_parentSynchronizer.SourceSynchronizer; // SourceSynchronizer is either the parent for subeffects, or itself for other synchronizers
+            if (sync is Item)
+            {
+                tags = (sync as Item).Tags.ToArray();
+            }
+            if (sync is StatusEffect)
+            {
+                tags = (sync as StatusEffect).InheritedTags.ToArray();
+            }
+            return tags;
+        }
     }
 
     public enum Attributes

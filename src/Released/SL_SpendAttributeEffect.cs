@@ -1,5 +1,6 @@
 using SideLoader;
 using System;
+using System.Linq;
 
 namespace SideLoader_ExtendedEffects.Containers
 {
@@ -52,11 +53,11 @@ namespace SideLoader_ExtendedEffects.Containers
                     break;
                 case Attributes.MANA:
                     if (Relative) realValue *= BurnedMax ? character.Stats.ActiveMaxMana : character.Stats.MaxMana;
-                    character.Stats.UseMana(null, realValue);
+                    character.Stats.UseMana(this.GetParentTags(), realValue);
                     break;
                 case Attributes.STAMINA:
                     if (Relative) realValue *= BurnedMax ? character.Stats.ActiveMaxStamina : character.Stats.MaxStamina;
-                    character.Stats.UseStamina(null, realValue, 1);
+                    character.Stats.UseStamina(this.GetParentTags(), realValue, 1);
                     break;
                 case Attributes.BURNT_HEALTH:
                     if (Relative) realValue *= BurnedMax ? character.Stats.ActiveMaxHealth : character.Stats.MaxHealth;
