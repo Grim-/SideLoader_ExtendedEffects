@@ -11,6 +11,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         public float Value; // Value to compare to
         public AICondition.NumericCompare CompareType;
         public bool Owner; // If the comparison should target the owner or the target
+        public bool Modifier; // Check the modifier instead.
 
         public override void ApplyToComponent<T>(T component)
         {
@@ -19,6 +20,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
             comp.Value = this.Value;
             comp.CompareType = this.CompareType;
             comp.Owner = this.Owner;
+            comp.Modifier = this.Modifier;
         }
         public override void SerializeEffect<T>(T effect)
         {
@@ -27,6 +29,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
             this.Value = comp.Value;
             this.CompareType = comp.CompareType;
             this.Owner = comp.Owner;
+            this.Modifier = comp.Modifier;
         }
 
     }
@@ -37,11 +40,15 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         public float Value;
         public AICondition.NumericCompare CompareType;
         public bool Owner;
+        public bool Modifier;
 
         public override bool CheckIsValid(Character _affectedCharacter)
         {
             Character character = Owner ? this.m_parentSynchronizer.OwnerCharacter : _affectedCharacter;
-            return character && character.Stats && AICondition.CompareFloats(character.Stats.GetStatCurrentValue(Stat), this.Value, this.CompareType);
+            Tag[] tags = this.GetParentTags();
+            return character && character.Stats && AICondition.CompareFloats(
+                Modifier ? character.GetTaggedStatModifier(Stat, tags) : character.GetTaggedStat(Stat, tags),
+                this.Value, this.CompareType);
         }
     }
 }

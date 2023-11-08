@@ -113,6 +113,13 @@ namespace SideLoader_ExtendedEffects
             }
             return tags;
         }
+
+        public static float GetTaggedStat(this Character character, Tag stat, Tag[] tags) {
+            return character.Stats.GetStat(stat).GetValue(tags);
+        }
+        public static float GetTaggedStatModifier(this Character character, Tag stat, Tag[] tags) {
+            return character.Stats.GetStat(stat).GetModifier(tags) * 100;
+        }
     }
 
     public enum Attributes
