@@ -15,6 +15,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         public string TagName;
         public float StatValue;
         public bool IsAbsolute = true;
+        public AICondition.NumericCompare Comparator = AICondition.NumericCompare.Equal;
 
         public override void ApplyToComponent<T>(T component)
         {
@@ -38,6 +39,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         public string TagName;
         public float StatValue;
         public bool IsAbsolute = true;
+        public AICondition.NumericCompare Comparator;
         public override bool CheckIsValid(Character _affectedCharacter)
         {
             Tag FoundTag = OutwardHelpers.GetTagFromName(TagName);
@@ -52,14 +54,36 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
                     return false;
                 }
 
+                float ValueToCompare;
                 if (IsAbsolute)
                 {
-                    return FoundStat.CurrentValue <= StatValue;
+                    ValueToCompare = FoundStat.CurrentValue;
                 }
                 else
                 {
-                    float asPercentNormalized = (FoundStat.CurrentValue / FoundStat.MaxRange) * 100;
-                    return asPercentNormalized <= StatValue;
+                    ValueToCompare = (FoundStat.CurrentValue / FoundStat.MaxRange) * 100;
+                }
+
+                // Perform the comparison using the switch statement
+                switch (Comparator)
+                {
+                    case AICondition.NumericCompare.Less:
+                        return ValueToCompare < StatValue;
+
+                    case AICondition.NumericCompare.Greater:
+                        return ValueToCompare > StatValue;
+
+                    case AICondition.NumericCompare.LEqual:
+                        return ValueToCompare <= StatValue;
+
+                    case AICondition.NumericCompare.GEqual:
+                        return ValueToCompare >= StatValue;
+
+                    case AICondition.NumericCompare.Equal:
+                        return ValueToCompare == StatValue;
+
+                    case AICondition.NumericCompare.NotEqual:
+                        return ValueToCompare != StatValue;
                 }
 
             }

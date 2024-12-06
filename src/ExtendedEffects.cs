@@ -26,7 +26,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
 
-        public const string VERSION = "1.2.5";
+        public const string VERSION = "1.3.0";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -70,28 +70,28 @@ namespace SideLoader_ExtendedEffects
 
             if (AddItemDebug.Value)
             {
-                //Test for ALL items
-                CustomItemMenuManager.RegisterCustomMenuOption(101010, "Debug Log Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                {
-                    Logger.LogMessage(Item);
-                    Logger.LogMessage($"Item Name {Item.DisplayName} Item ID {Item.ItemID} Item UID {Item.UID}");
-                    Logger.LogMessage($"Item Current Slot {Item.CurrentEquipmentSlot}");
-                    Logger.LogMessage($"Durability {Item.CurrentDurability} / {Item.MaxDurability}");
-                },
-                null);
+                ////Test for ALL items
+                //CustomItemMenuManager.RegisterCustomMenuOption(101010, "Debug Log Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                //{
+                //    Logger.LogMessage(Item);
+                //    Logger.LogMessage($"Item Name {Item.DisplayName} Item ID {Item.ItemID} Item UID {Item.UID}");
+                //    Logger.LogMessage($"Item Current Slot {Item.CurrentEquipmentSlot}");
+                //    Logger.LogMessage($"Durability {Item.CurrentDurability} / {Item.MaxDurability}");
+                //},
+                //null);
 
-                //Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
-                CustomItemMenuManager.RegisterCustomMenuOption(101110, "Repair Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                {
-                    Item.RepairAmount(9000);
-                },
-                null);
+                ////Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
+                //CustomItemMenuManager.RegisterCustomMenuOption(101110, "Repair Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                //{
+                //    Item.RepairAmount(9000);
+                //},
+                //null);
 
-                CustomItemMenuManager.RegisterCustomMenuOption(101111, "Reset Cooldown", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                {
-                    ((Skill)Item).ResetCoolDown();
-                },
-                null);
+                //CustomItemMenuManager.RegisterCustomMenuOption(101111, "Reset Cooldown", (Character, Item, ItemDisplayOptionPanel, someInt) =>
+                //{
+                //    ((Skill)Item).ResetCoolDown();
+                //},
+                //null);
             }
         }
 
@@ -130,17 +130,17 @@ namespace SideLoader_ExtendedEffects
                         AttackSpeed = 0.9f
                     },
                     EffectTransforms = new SL_EffectTransform[]
-     {
-                    new SL_EffectTransform
                     {
-                        TransformName = "Activation",
-                        Effects = new SL_Effect[]
+                        new SL_EffectTransform
                         {
+                            TransformName = "Activation",
+                            Effects = new SL_Effect[]
+                            {
 
+                            }
                         }
-                    }
 
-     }
+                    }
                 };
                 TestWeapon.ApplyTemplate();
 
@@ -207,7 +207,6 @@ namespace SideLoader_ExtendedEffects
         }
 
         #region Skill Tree Override
-        //bad I know but I CBA right now, more important things on my mind it works.
         public static void AddSkillTreeOverride(string trainerUID, string customTreeUID)
         {
             if (!SkillTreeOverrides.ContainsKey(trainerUID))

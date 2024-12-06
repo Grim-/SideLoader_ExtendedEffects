@@ -1,5 +1,6 @@
 ﻿using SideLoader;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SideLoader_ExtendedEffects
@@ -73,6 +74,8 @@ namespace SideLoader_ExtendedEffects
             }
         }
 
+
+
         private void UpdateSummonBaseColor(Character _affectedCharacter)
         {
             foreach (var item in this.OwnerCharacter.CurrentSummon.GetComponentsInChildren<Renderer>())
@@ -116,4 +119,140 @@ namespace SideLoader_ExtendedEffects
             }
         }
     }
+    //public class SL_BothWeaponDamage : SL_PunctualDamage, ICustomModel
+    //{
+      
+    //    public override void ApplyToComponent<T>(T component)
+    //    {
+    //        base.ApplyToComponent<T>(component);
+    //        WeaponDamage weaponDamage = component as WeaponDamage;
+    //        weaponDamage.ForceOnlyLeftHand = this.ForceOnlyLeftHand;
+    //        weaponDamage.OverrideDType = this.OverrideType;
+    //        weaponDamage.WeaponDamageMult = this.Damage_Multiplier;
+    //        weaponDamage.WeaponDamageMultKBack = this.Damage_Multiplier_Kback;
+    //        weaponDamage.WeaponDamageMultKDown = this.Damage_Multiplier_Kdown;
+    //        weaponDamage.WeaponKnockbackMult = this.Impact_Multiplier;
+    //        weaponDamage.WeaponKnockbackMultKBack = this.Impact_Multiplier_Kback;
+    //        weaponDamage.WeaponKnockbackMultKDown = this.Impact_Multiplier_Kdown;
+    //    }
+
+       
+    //    public override void SerializeEffect<T>(T effect)
+    //    {
+    //        base.SerializeEffect<T>(effect);
+    //        WeaponDamage weaponDamage = effect as WeaponDamage;
+    //        this.ForceOnlyLeftHand = weaponDamage.ForceOnlyLeftHand;
+    //        this.OverrideType = weaponDamage.OverrideDType;
+    //        this.Damage_Multiplier = weaponDamage.WeaponDamageMult;
+    //        this.Damage_Multiplier_Kback = weaponDamage.WeaponDamageMultKBack;
+    //        this.Damage_Multiplier_Kdown = weaponDamage.WeaponDamageMultKDown;
+    //        this.Impact_Multiplier = weaponDamage.WeaponKnockbackMult;
+    //        this.Impact_Multiplier_Kback = weaponDamage.WeaponKnockbackMultKBack;
+    //        this.Impact_Multiplier_Kdown = weaponDamage.m_knockback;
+    //    }
+
+    //    public DamageType.Types OverrideType;
+
+    //    public bool ForceOnlyLeftHand;
+    //    public float Damage_Multiplier;
+
+    //    public float Damage_Multiplier_Kback;
+    //    public float Damage_Multiplier_Kdown;
+    //    public float Impact_Multiplier;
+    //    public float Impact_Multiplier_Kback;
+    //    public float Impact_Multiplier_Kdown;
+
+    //    public Type SLTemplateModel => typeof(SL_BothWeaponDamage);
+
+    //    public Type GameModel => typeof(BothWeaponsDamage);
+    //}
+
+    //public class BothWeaponsDamage : PunctualDamage
+    //{
+    //    public override void ActivateLocally(Character _targetCharacter, object[] _infos)
+    //    {
+    //        List<Weapon> Weapons = new List<Weapon>();
+
+    //        if (this.m_parentItem is Weapon SkillWeapon)
+    //        {
+    //            Weapons.Add(SkillWeapon);
+    //        }
+
+    //        if (this.OwnerCharacter && this.OwnerCharacter.LeftHandWeapon is Weapon LeftHandWeapon)
+    //        {
+    //            Weapons.Add(LeftHandWeapon);
+    //        }
+
+    //        if (Weapons.Count == 1)
+    //        {
+    //            base.ActivateLocally(_targetCharacter, _infos);
+    //        }
+    //        else
+    //        {
+    //            this.m_startPos = (Vector3)_infos[0];
+    //            this.m_dir = (Vector3)_infos[1];
+    //            if (_targetCharacter != null && !_targetCharacter.IsDead && !_targetCharacter.IsUndyingDead)
+    //            {
+    //                foreach (var weapon in Weapons)
+    //                {
+    //                    this.tmpTags.Clear();
+    //                    this.m_tempList.Clear();
+    //                    this.m_knockback = 0f;
+    //                    this.BuildDamage(_targetCharacter, ref this.m_tempList, ref this.m_knockback);
+
+    //                    if (weapon)
+    //                    {
+    //                        this.tmpTags.AddRange(weapon.Tags);
+    //                    }
+
+
+    //                    if (this.DamageAmplifiedByOwner && base.SourceCharacter && base.SourceCharacter.Stats)
+    //                    {
+    //                        if (this.m_parentItem)
+    //                        {
+    //                            this.tmpTags.AddRange(this.m_parentItem.Tags);
+    //                        }
+    //                        if (this.m_parentItem != base.SourceSynchronizer)
+    //                        {
+    //                            Item item = base.SourceSynchronizer as Item;
+    //                            if (item != null)
+    //                            {
+    //                                this.tmpTags.AddRange(item.Tags);
+    //                            }
+    //                        }
+    //                        StatusEffect statusEffect = base.ParentSynchronizer as StatusEffect;
+    //                        if (statusEffect != null)
+    //                        {
+    //                            this.tmpTags.AddRange(statusEffect.InheritedTags);
+    //                        }
+    //                        base.SourceCharacter.Stats.GetAmplifiedDamage(this.tmpTags, ref this.m_tempList);
+    //                        this.m_knockback = base.SourceCharacter.Stats.GetAmplifiedImpact(this.tmpTags, this.m_knockback);
+    //                    }
+    //                    bool flag = false;
+    //                    MeleeSkill meleeSkill = base.ParentSynchronizer as MeleeSkill;
+    //                    if (meleeSkill)
+    //                    {
+    //                        flag = meleeSkill.WasBlocked;
+    //                    }
+    //                    if (!flag)
+    //                    {
+    //                        DamageList dealtDamage = this.DealHit(_targetCharacter);
+    //                        if (weapon)
+    //                        {
+    //                            weapon.ProcessDamageDealt(dealtDamage);
+    //                            return;
+    //                        }
+    //                    }
+    //                    else
+    //                    {
+    //                        this.DealBlock(_targetCharacter);
+    //                    }
+    //                }
+
+    //            }
+    //        }
+
+
+    //    }
+    //}
 }

@@ -42,4 +42,7 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
             return EnvironmentConditions.Instance.TimeOfDay >= StartHour && EnvironmentConditions.Instance.TimeOfDay <= EndHour;
         }
     }
+
+
+
 }

@@ -76,5 +76,4 @@ namespace SideLoader_ExtendedEffects.Containers
             }
         }
     }
-
 }
