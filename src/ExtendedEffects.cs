@@ -42,6 +42,8 @@ namespace SideLoader_ExtendedEffects
         public static ExtendedEffects Instance { get; private set; }
         public CustomItemMenuManager CustomItemMenuManager { get; private set; }
 
+        public PortalManager PortalManager { get; private set; } 
+
         private static Dictionary<string, string> _SkillTreeOverrides = new Dictionary<string, string>();
 
         public static Dictionary<string, string> SkillTreeOverrides {
@@ -55,6 +57,7 @@ namespace SideLoader_ExtendedEffects
         internal void Awake()
         {
             _Log = this.Logger;
+            PortalManager = new PortalManager();
             Instance = this;
             CustomItemMenuManager = new CustomItemMenuManager();
             InitializeSL();
@@ -63,6 +66,15 @@ namespace SideLoader_ExtendedEffects
 
 
         }
+
+        void OnDestroy()
+        {
+            if (PortalManager != null)
+            {
+                PortalManager.OnDestroy();
+            }
+        }
+
 
         private void Start()
         {
@@ -109,6 +121,36 @@ namespace SideLoader_ExtendedEffects
 
         private void SL_BeforePacksLoaded()
         {
+            SL_Skill TeleportTest = new SL_Skill()
+            {
+                Target_ItemID = 8100120,
+                New_ItemID = -269045,
+                Name = "Emo Portal Skill",
+                EffectBehaviour = EditBehaviours.OverrideEffects,
+                EffectTransforms = new SL_EffectTransform[]
+                {
+                    new SL_EffectTransform
+                    {
+                        TransformName = "Activation",
+                        Effects = new SL_Effect[]
+                        {
+                            //new SL_AddStatusEffect()
+                            //{
+                            //    StatusEffect = "Rage",
+                            //}
+                            new SL_PortalEffect()
+                            {
+                              
+                            }
+                        }
+                    },
+                }
+            };
+
+            TeleportTest.ApplyTemplate();
+
+
+
             if (AddTestItems.Value)
             {
                 SL_MeleeWeapon TestWeapon = new SL_MeleeWeapon()

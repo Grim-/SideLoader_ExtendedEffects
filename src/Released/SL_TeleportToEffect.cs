@@ -1,5 +1,7 @@
 ﻿using SideLoader;
 using System;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace SideLoader_ExtendedEffects.Containers
 {
@@ -32,8 +34,8 @@ namespace SideLoader_ExtendedEffects.Containers
         public bool OnlyWorldHost = true;
         public bool MoveBag = true;
 
-        public Type SLTemplateModel => typeof(SL_TeleportToEffect);
-        public Type GameModel => typeof(TeleportToEffect);
+        public virtual Type SLTemplateModel => typeof(SL_TeleportToEffect);
+        public virtual Type GameModel => typeof(TeleportToEffect);
 
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
@@ -53,4 +55,5 @@ namespace SideLoader_ExtendedEffects.Containers
 
         }
     }
+
 }

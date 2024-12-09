@@ -1,5 +1,6 @@
 ﻿using SideLoader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -119,6 +120,18 @@ namespace SideLoader_ExtendedEffects
         }
         public static float GetTaggedStatModifier(this Character character, Tag stat, Tag[] tags) {
             return (character.Stats.GetStat(stat).GetModifier(tags) - 1) * 100;
+        }
+
+        public static void DelayDo(Action OnAfterDelay, float DelayTime)
+        {
+            ExtendedEffects.Instance.StartCoroutine(DoAfterDelay(OnAfterDelay, DelayTime));
+        }
+
+        public static IEnumerator DoAfterDelay(Action OnAfterDelay, float DelayTime)
+        {
+            yield return new WaitForSeconds(DelayTime);
+            OnAfterDelay.Invoke();
+            yield break;
         }
     }
 

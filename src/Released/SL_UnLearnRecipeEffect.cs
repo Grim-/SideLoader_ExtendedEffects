@@ -24,51 +24,45 @@ namespace SideLoader_ExtendedEffects.Released
     }
 
 
-    public class UnLearnRecipeEffect : Effect
+    public class UnLearnRecipeEffect : Effect, ICustomModel
     {
+        public Type SLTemplateModel => typeof(SL_UnLearnRecipeEffect);
+        public Type GameModel => typeof(UnLearnRecipeEffect);
         public string RecipeUID;
 
         public override void ActivateLocally(Character _affectedCharacter, object[] _infos)
         {
-            if (_affectedCharacter.Inventory.RecipeKnowledge.IsRecipeLearned(RecipeUID))
-            {
-                Recipe FoundRecipe = TryFindRecipe(RecipeUID);
+            Character character = this.m_parentSynchronizer.OwnerCharacter;
 
-                if (FoundRecipe != null)
+            if (character == null) return;
+
+            if (character.Inventory.RecipeKnowledge.IsRecipeLearned(RecipeUID))
+            {
+                Item knownRecipe = GetRecipeFromUID(character, RecipeUID);
+                character.Inventory.SkillKnowledge.RemoveItem(knownRecipe);
+
+                int index = character.Inventory.RecipeKnowledge.m_learnedItemUIDs.IndexOf(RecipeUID);
+                if (index >= 0)
                 {
-                    _affectedCharacter.Inventory.RecipeKnowledge.RemoveItem(FoundRecipe.RecipeID);
+                    character.Inventory.RecipeKnowledge.m_learnedItemUIDs.RemoveAt(index);
                 }
-                else
-                {
-                    //Log.LogMessage($"LearnRecipeEffect :: Cannot find Recipe with UID {RecipeUID}");
-                }
+            }
+            else
+            {
+                ExtendedEffects._Log.LogMessage($"{character.Name} does not know  Recipe UID {RecipeUID} cannot unlearn.");
             }
         }
 
-
-        private Recipe TryFindRecipe(string RecipeUID)
+        private Item GetRecipeFromUID(Character character, string recipeUID)
         {
-            foreach (var item in RecipeManager.Instance.m_recipes)
+            foreach (var item in character.Inventory.RecipeKnowledge.m_learnedItems)
             {
-                if (item.Value.UID == RecipeUID)
+                if (item.UID == recipeUID)
                 {
-                    return item.Value;
+                    return item;
                 }
             }
-
-            return null;
-        }
-
-        private Recipe TryFindRecipeItemID(string RecipeUID)
-        {
-            foreach (var item in RecipeManager.Instance.m_recipes)
-            {
-                if (item.Value.UID == RecipeUID)
-                {
-                    return item.Value;
-                }
-            }
-
+            ExtendedEffects._Log.LogMessage($"Cannot find recipe with UID {recipeUID} on {character.Name} {character.UID}");
             return null;
         }
     }

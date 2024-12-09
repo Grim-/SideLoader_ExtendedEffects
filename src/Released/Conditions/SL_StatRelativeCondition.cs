@@ -1,5 +1,6 @@
 using SideLoader;
 using System;
+
 namespace SideLoader_ExtendedEffects.Released.Conditions
 {
     public class SL_StatRelativeCondition : SL_EffectCondition, ICustomModel

@@ -6,7 +6,7 @@ namespace SideLoader_ExtendedEffects.Containers
 {
     public class SL_ForgetRecipeEffect : SL_Effect
     {
-        public List<int> recipeIDs;
+        public List<string> recipeIDs;
 
         public override void ApplyToComponent<T>(T component)
         {
@@ -22,7 +22,7 @@ namespace SideLoader_ExtendedEffects.Containers
 
     public class ForgetRecipeEffect : Effect, ICustomModel
     {
-        public List<int> recipeIDs;
+        public List<string> recipeIDs;
 
         public Type SLTemplateModel => typeof(SL_ForgetRecipeEffect);
         public Type GameModel => typeof(ForgetRecipeEffect);
@@ -35,11 +35,35 @@ namespace SideLoader_ExtendedEffects.Containers
 
             foreach (var item in recipeIDs)
             {
-                if (character.Inventory.SkillKnowledge.IsItemLearned(item))
+                if (character.Inventory.RecipeKnowledge.IsRecipeLearned(item))
                 {
-                    character.Inventory.SkillKnowledge.RemoveItem(item);
+                    Item knownRecipe = GetRecipeFromUID(character, item);
+                    character.Inventory.SkillKnowledge.RemoveItem(knownRecipe);
+
+                    int index = character.Inventory.RecipeKnowledge.m_learnedItemUIDs.IndexOf(item);
+                    if (index >= 0)
+                    {
+                        character.Inventory.RecipeKnowledge.m_learnedItemUIDs.RemoveAt(index);
+                    }
+                }
+                else
+                {
+                    ExtendedEffects._Log.LogMessage($"{character.Name} does not know  Recipe UID {item} cannot unlearn.");
                 }
             }
+        }
+
+        private Item GetRecipeFromUID(Character character, string recipeUID)
+        {
+            foreach (var item in character.Inventory.RecipeKnowledge.m_learnedItems)
+            {
+                if (item.UID == recipeUID)
+                {
+                    return item;
+                }
+            }
+            ExtendedEffects._Log.LogMessage($"Cannot find recipe with UID {recipeUID} on {character.Name} {character.UID}");
+            return null;
         }
     }
 }

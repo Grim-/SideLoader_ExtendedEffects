@@ -34,8 +34,11 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
         }
     }
 
-    public class HasStat : EffectCondition
+    public class HasStat : EffectCondition, ICustomModel
     {
+        public Type SLTemplateModel => typeof(SL_HasStat);
+        public Type GameModel => typeof(HasStat);
+
         public string TagName;
         public float StatValue;
         public bool IsAbsolute = true;
