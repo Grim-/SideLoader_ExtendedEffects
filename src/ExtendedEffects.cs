@@ -79,32 +79,6 @@ namespace SideLoader_ExtendedEffects
         private void Start()
         {
             OnLoaded?.Invoke();
-
-            if (AddItemDebug.Value)
-            {
-                ////Test for ALL items
-                //CustomItemMenuManager.RegisterCustomMenuOption(101010, "Debug Log Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                //{
-                //    Logger.LogMessage(Item);
-                //    Logger.LogMessage($"Item Name {Item.DisplayName} Item ID {Item.ItemID} Item UID {Item.UID}");
-                //    Logger.LogMessage($"Item Current Slot {Item.CurrentEquipmentSlot}");
-                //    Logger.LogMessage($"Durability {Item.CurrentDurability} / {Item.MaxDurability}");
-                //},
-                //null);
-
-                ////Add a custom action that only shows up when the item clicked is of the ID 2100110, show a slightly different notification
-                //CustomItemMenuManager.RegisterCustomMenuOption(101110, "Repair Item", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                //{
-                //    Item.RepairAmount(9000);
-                //},
-                //null);
-
-                //CustomItemMenuManager.RegisterCustomMenuOption(101111, "Reset Cooldown", (Character, Item, ItemDisplayOptionPanel, someInt) =>
-                //{
-                //    ((Skill)Item).ResetCoolDown();
-                //},
-                //null);
-            }
         }
 
         private void InitializeSL()
@@ -134,10 +108,6 @@ namespace SideLoader_ExtendedEffects
                         TransformName = "Activation",
                         Effects = new SL_Effect[]
                         {
-                            //new SL_AddStatusEffect()
-                            //{
-                            //    StatusEffect = "Rage",
-                            //}
                             new SL_PortalEffect()
                             {
                               
@@ -149,6 +119,33 @@ namespace SideLoader_ExtendedEffects
 
             TeleportTest.ApplyTemplate();
 
+
+            SL_Skill BergTeleportTest = new SL_Skill()
+            {
+                Target_ItemID = 8100120,
+                New_ItemID = -269046,
+                Name = "Emo Berg Portal Skill",
+                EffectBehaviour = EditBehaviours.OverrideEffects,
+                EffectTransforms = new SL_EffectTransform[]
+                {
+                    new SL_EffectTransform
+                    {
+                        TransformName = "Activation",
+                        Effects = new SL_Effect[]
+                        {
+                            new SL_AreaPortalEffect()
+                            {
+                                Area = AreaManager.AreaEnum.Berg,
+                                PositionOffset = new Vector3(1201.4f, -13.7222f, 1407.109f),
+                                RotationOffset = Vector3.zero,
+                                PortalLifeTime = 30
+                            }
+                        }
+                    },
+                }
+            };
+
+            BergTeleportTest.ApplyTemplate();
 
 
             if (AddTestItems.Value)

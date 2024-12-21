@@ -1,9 +1,12 @@
 ﻿using SideLoader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using static AreaManager;
 
 namespace SideLoader_ExtendedEffects.Released
 {
@@ -19,6 +22,12 @@ namespace SideLoader_ExtendedEffects.Released
 
         private int CurrentAreaID => AreaManager.Instance == null || AreaManager.Instance.CurrentArea == null ? -1 : AreaManager.Instance.CurrentArea.ID;
 
+        private bool AreaSwitchInProgress = false;
+        private Vector3 targetPosition;
+        private Vector3 targetRotation;
+        private AreaManager.AreaEnum targetArea = AreaEnum.Berg;
+        private Character targetCharacter;
+
         public PortalManager()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -29,6 +38,51 @@ namespace SideLoader_ExtendedEffects.Released
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
+
+
+        public void StartAreaSwitchAndSetPosition(Character Character, AreaManager.AreaEnum areaEnum, Vector3 position, Vector3 rotation)
+        {
+            if (!CanStartAreaSwitch(areaEnum))
+            {
+                return;
+            }
+
+            targetPosition = position;
+            targetRotation = rotation;
+            targetArea = areaEnum;
+            targetCharacter = Character;
+            StartAreaSwitch(Character, areaEnum, 0);
+        }
+
+        public void StartAreaSwitch(Character Character, AreaManager.AreaEnum areaEnum, int spawnPointIndex = 0, bool moveBag = true)
+        {
+            if (!CanStartAreaSwitch(areaEnum))
+            {
+                return;
+            }
+
+            Debug.Log("Starting area switch teleport");
+
+            AreaSwitchInProgress = true;
+
+            Area ChosenArea = AreaManager.Instance.GetArea(areaEnum);
+
+            if (ChosenArea != null)
+            {
+                NetworkLevelLoader.Instance.RequestSwitchArea(ChosenArea.SceneName, spawnPointIndex, 1.5f, moveBag);
+            }
+            else
+            {
+                Debug.LogError($"Failed to start Teleport to {areaEnum} Area could not be found");
+                ResetAreaSwitch();
+            }  
+        }
+
+        private bool CanStartAreaSwitch(AreaEnum targetArea)
+        {
+            return !AreaSwitchInProgress && targetArea != AreaEnum.Nath_Test;
+        }
+
         private void OnSceneLoaded(Scene Scene, LoadSceneMode mode)
         {
             if (Scene.name == "MainMenu_Empty" || Scene.name == "LowMemory_TransitionScene")
@@ -36,11 +90,56 @@ namespace SideLoader_ExtendedEffects.Released
                 return;
             }
 
+            if (AreaSwitchInProgress && targetCharacter != null)
+            {
+                if (targetPosition != Vector3.zero)
+                {
+                    if (Scene.name == AreaManager.Instance.GetArea(targetArea).SceneName)
+                    {
+                        ExtendedEffects.Instance.StartCoroutine(DelayedTeleport());
+                    }
+                }
+            }
+
 
             RecreatePortalsForScene();
         }
 
-        // Recreation logic for existing portals on scene load
+        private IEnumerator DelayedTeleport()
+        {
+            yield return new WaitForSeconds(5f);
+            //yield return new WaitUntil(() => CharacterManager.Instance.IsAllCharactersInitialized);
+
+            if (targetCharacter != null)
+            {
+               NavMeshHit hit;
+                if (NavMesh.SamplePosition(targetPosition, out hit, 5f, NavMesh.AllAreas))
+                {
+                    targetCharacter.Teleport(hit.position, targetRotation);
+                }
+                else
+                {
+                    Debug.LogWarning("Could not find valid NavMesh position for teleport, using original position");
+                    targetCharacter.Teleport(targetPosition, targetRotation);
+                }
+            }
+
+            Debug.Log("Finished area switch teleport");
+            ResetAreaSwitch();
+        }
+
+
+        private void ResetAreaSwitch()
+        {
+            AreaSwitchInProgress = false;
+            targetPosition = Vector3.zero;
+            targetRotation = Vector3.zero;
+            targetCharacter = null;
+            targetArea = AreaEnum.Nath_Test;
+
+        }
+
+
         private void RecreatePortalsForScene()
         {
             foreach (var entry in portals)
@@ -179,6 +278,25 @@ namespace SideLoader_ExtendedEffects.Released
             {
                 secondInstance.SetLifetime(lifetime);
             }
+        }
+
+        public AreaTeleporter SpawnAreaPortalInstance(AreaManager.AreaEnum area, Vector3 SpawnPosition, Vector3 TeleportPosition, Vector3 Rotation, string slPackName, string assetBundleName, string prefabName)
+        {
+            GameObject prefab = GetPrefabFromAssetsOrDefault(slPackName, assetBundleName, prefabName);
+
+            if (prefab == null)
+                return null;
+
+            GameObject areaTeleporter = GameObject.Instantiate(
+                prefab,
+                SpawnPosition,
+                Quaternion.Euler(Rotation));
+            
+            var areaTeleport = areaTeleporter.AddComponent<AreaTeleporter>();
+
+            areaTeleport.area = area;
+            areaTeleport.Position = TeleportPosition;
+            return areaTeleport;
         }
 
 

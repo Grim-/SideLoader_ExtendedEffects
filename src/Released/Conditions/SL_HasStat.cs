@@ -67,7 +67,6 @@ namespace SideLoader_ExtendedEffects.Released.Conditions
                     ValueToCompare = (FoundStat.CurrentValue / FoundStat.MaxRange) * 100;
                 }
 
-                // Perform the comparison using the switch statement
                 switch (Comparator)
                 {
                     case AICondition.NumericCompare.Less:

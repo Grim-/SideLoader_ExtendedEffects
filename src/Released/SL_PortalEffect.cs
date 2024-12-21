@@ -80,6 +80,72 @@ namespace SideLoader_ExtendedEffects.Released
             base.CleanUpOnDestroy();
         }
     }
+    public class SL_AreaPortalEffect : SL_Effect
+    {
+        public string SLPackName = "sideloaderextended-magiccircles";
+        public string AssetBundleName = "magiccircles";
+        public string PrefabName = "MagicCircle";
+        public AreaManager.AreaEnum Area;
+        public Vector3 PositionOffset;
+        public Vector3 RotationOffset = new Vector3(0, -90, 0);
+        public float PortalLifeTime = -1;
+        public float PortalTeleportCooldown = 5f;
+        public bool canTeleportAI = true;
+        public bool canTeleportPlayers = true;
+        public bool canTeleportProjectiles = true;
 
+        public override void ApplyToComponent<T>(T component)
+        {
+            var comp = component as AreaPortalEffect;
+            comp.Area = this.Area;
+            comp.SLPackName = this.SLPackName;
+            comp.AssetBundleName = this.AssetBundleName;
+            comp.PrefabName = this.PrefabName;
+            comp.PositionOffset = this.PositionOffset;
+            comp.RotationOffset = this.RotationOffset;
+        }
+
+        public override void SerializeEffect<T>(T effect)
+        {
+            var comp = effect as AreaPortalEffect;
+            this.Area = comp.Area;
+            this.SLPackName = comp.SLPackName;
+            this.AssetBundleName = comp.AssetBundleName;
+            this.PrefabName = comp.PrefabName;
+            this.PositionOffset = comp.PositionOffset;
+            this.RotationOffset = comp.RotationOffset;
+        }
+    }
+    public class AreaPortalEffect : Effect, ICustomModel
+    {
+        public string SLPackName = "sideloaderextended-magiccircles";
+        public string AssetBundleName = "magiccircles";
+        public string PrefabName = "MagicCircle";
+        public AreaManager.AreaEnum Area;
+        public Vector3 PositionOffset = Vector3.zero;
+        public Vector3 RotationOffset = new Vector3(0, -90, 0);
+        public float PortalLifeTime = -1;
+        public float PortalTeleportCooldown = 5f;
+        public bool canTeleportAI = true;
+        public bool canTeleportPlayers = true;
+        public bool canTeleportProjectiles = true;
+
+        public Type SLTemplateModel => typeof(SL_AreaPortalEffect);
+        public Type GameModel => typeof(AreaPortalEffect);
+
+        public override void ActivateLocally(Character affectedCharacter, object[] infos)
+        {
+            Character character = m_parentSynchronizer.OwnerCharacter;
+            if (character == null) return;
+            var manager = ExtendedEffects.Instance.PortalManager;
+
+            manager.SpawnAreaPortalInstance(Area, character.transform.position, PositionOffset, RotationOffset, SLPackName, AssetBundleName, PrefabName);
+        }
+
+        public override void CleanUpOnDestroy()
+        {
+            base.CleanUpOnDestroy();
+        }
+    }
 }
 

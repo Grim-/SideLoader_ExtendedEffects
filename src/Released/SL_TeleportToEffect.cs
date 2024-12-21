@@ -10,6 +10,7 @@ namespace SideLoader_ExtendedEffects.Containers
         public AreaManager.AreaEnum targetArea;
         public bool OnlyWorldHost = true;
         public bool MoveBag = true;
+        public int SpawnPoint = 0;
 
         public override void ApplyToComponent<T>(T component)
         {
@@ -17,6 +18,7 @@ namespace SideLoader_ExtendedEffects.Containers
             comp.targetArea = this.targetArea;
             comp.OnlyWorldHost = this.OnlyWorldHost;
             comp.MoveBag = this.MoveBag;
+            comp.SpawnPoint = this.SpawnPoint;  
         }
         public override void SerializeEffect<T>(T effect)
         {
@@ -25,6 +27,7 @@ namespace SideLoader_ExtendedEffects.Containers
             this.targetArea = comp.targetArea;
             this.OnlyWorldHost = comp.OnlyWorldHost;
             this.MoveBag = comp.MoveBag;
+            this.SpawnPoint = comp.SpawnPoint;  
         }
     }
 
@@ -33,7 +36,7 @@ namespace SideLoader_ExtendedEffects.Containers
         public AreaManager.AreaEnum targetArea;
         public bool OnlyWorldHost = true;
         public bool MoveBag = true;
-
+        public int SpawnPoint = 0;
         public virtual Type SLTemplateModel => typeof(SL_TeleportToEffect);
         public virtual Type GameModel => typeof(TeleportToEffect);
 
@@ -46,11 +49,11 @@ namespace SideLoader_ExtendedEffects.Containers
 
             if (character.IsWorldHost && OnlyWorldHost)
             {
-                NetworkLevelLoader.Instance.RequestSwitchArea(AreaManager.Instance.GetArea(targetArea).SceneName, 0, 1.5f, MoveBag);
+                 ExtendedEffects.Instance.PortalManager.StartAreaSwitch(character, targetArea, SpawnPoint);
             }
-            else
+            else if(!character.IsAI && !OnlyWorldHost)
             {
-                NetworkLevelLoader.Instance.RequestSwitchArea(AreaManager.Instance.GetArea(targetArea).SceneName, 0, 1.5f, MoveBag);
+                ExtendedEffects.Instance.PortalManager.StartAreaSwitch(character, targetArea, SpawnPoint);
             }
 
         }

@@ -2,16 +2,8 @@
 
 namespace SideLoader_ExtendedEffects.Released
 {
-    public class PortalInstance : MonoBehaviour
+    public class PortalInstance : BasePortal
     {
-        private string ownerUID;
-        private bool isFirstPortal;
-        private float lifeTime = -1f;
-        private float currentTime;
-        private bool canTeleport = true;
-        private float teleportCooldown = 0.5f;
-        private float cooldownTimer = 0f;
-
         private bool canTeleportAI = false;
         private bool canTeleportPlayers = true;
         private bool canTeleportProjectiles = true;
@@ -19,8 +11,6 @@ namespace SideLoader_ExtendedEffects.Released
         private Camera portalCamera;
         private RenderTexture renderTexture;
         private Material portalMaterial;
-        private ParticleSystem portalParticles;
-        private ParticleSystemRenderer particleRenderer;
 
         private const int RENDER_TEXTURE_SIZE = 512;
         private const int RENDER_TEXTURE_DEPTH = 24;
@@ -31,23 +21,20 @@ namespace SideLoader_ExtendedEffects.Released
         private const float TELEPORT_OFFSET_AI = 1.5f;
         private const float TELEPORT_OFFSET_PROJECTILE = 1f;
 
-        public void Initialize(string characterUID, bool isFirst, float teleportCooldown, bool canTeleportAI, bool canTeleportPlayers, bool canTeleportProjectiles, float lifetime = -1f)
+        public override void Initialize(string characterUID, bool isFirst, float teleportCooldown, bool canTeleportAI, bool canTeleportPlayers, bool canTeleportProjectiles, float lifetime = -1f)
         {
+            base.Initialize(characterUID, isFirst, teleportCooldown, canTeleportAI, canTeleportPlayers, canTeleportProjectiles, lifetime);
+
             if (string.IsNullOrEmpty(characterUID))
             {
                 Debug.LogError("Portal Initialize: Invalid character UID");
                 return;
             }
 
-            ownerUID = characterUID;
-            isFirstPortal = isFirst;
-            lifeTime = lifetime;
-            currentTime = 0f;
             this.teleportCooldown = teleportCooldown;
             this.canTeleportAI = canTeleportAI;
             this.canTeleportPlayers = canTeleportPlayers;
             this.canTeleportProjectiles = canTeleportProjectiles;
-
 
             var portalManager = ExtendedEffects.Instance?.PortalManager;
             if (portalManager == null)
@@ -57,12 +44,6 @@ namespace SideLoader_ExtendedEffects.Released
             }
 
             portalManager.RegisterPortalInstance(this, ownerUID, isFirstPortal);
-
-            if (!SetupPortalComponents())
-            {
-                Debug.LogError("Portal Initialize: Failed to setup portal components");
-                return;
-            }
 
             if (!CreateRenderTexture())
             {
@@ -83,31 +64,6 @@ namespace SideLoader_ExtendedEffects.Released
             }
         }
 
-        private bool SetupPortalComponents()
-        {
-            Transform renderPortalTransform = transform.Find(PORTAL_RENDER_PATH);
-            if (renderPortalTransform == null)
-            {
-                Debug.LogError($"SetupPortalComponents: Cannot find {PORTAL_RENDER_PATH}");
-                return false;
-            }
-
-            portalParticles = renderPortalTransform.GetComponent<ParticleSystem>();
-            if (portalParticles == null)
-            {
-                Debug.LogError("SetupPortalComponents: ParticleSystem not found on RenderPortal");
-                return false;
-            }
-
-            particleRenderer = portalParticles.GetComponent<ParticleSystemRenderer>();
-            if (particleRenderer == null)
-            {
-                Debug.LogError("SetupPortalComponents: ParticleSystemRenderer not found");
-                return false;
-            }
-
-            return true;
-        }
 
         private bool CreateRenderTexture()
         {
@@ -170,11 +126,9 @@ namespace SideLoader_ExtendedEffects.Released
         }
 
 
-        //normally I would use an interface for this...
-        public void OnTriggerEnter(Collider other)
-        {
-            if (!canTeleport) return;
 
+        protected override void OnTriggeredTeleporter(Collider other)
+        {
             var portalManager = ExtendedEffects.Instance?.PortalManager;
             if (portalManager == null) return;
 
@@ -193,7 +147,7 @@ namespace SideLoader_ExtendedEffects.Released
                 return;
             }
 
- 
+
             Projectile projectile = other.GetComponentInParent<Projectile>();
             if (projectile != null)
             {
@@ -250,82 +204,12 @@ namespace SideLoader_ExtendedEffects.Released
             rb.angularVelocity = angularVelocity;
         }
 
-        public void DisableTeleport()
+
+
+
+        public override void Cleanup()
         {
-            canTeleport = false;
-            cooldownTimer = teleportCooldown;
-        }
-
-        private void Update()
-        {
-            UpdateLifetime();
-            UpdateTeleportCooldown();
-        }
-
-        private void UpdateLifetime()
-        {
-            if (lifeTime <= 0) return;
-
-            currentTime += Time.deltaTime;
-            if (currentTime >= lifeTime)
-            {
-                Cleanup();
-            }
-        }
-
-        private void UpdateTeleportCooldown()
-        {
-            if (canTeleport) return;
-
-            cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0)
-            {
-                canTeleport = true;
-            }
-        }
-
-        public void SetLifetime(float life)
-        {
-            if (life < 0)
-            {
-                Debug.LogWarning("SetLifetime: Negative lifetime specified");
-            }
-            this.lifeTime = life;
-        }
-        public void DisableParticleSystems()
-        {
-            var particleSystems = GetComponentsInChildren<ParticleSystem>();
-
-            foreach (var ps in particleSystems)
-            {
-                if (ps.gameObject.name == "Circle")
-                {
-                    continue;
-                }
-
-                ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            }
-        }
-
-        public void EnableParticleSystems()
-        {
-            var particleSystems = GetComponentsInChildren<ParticleSystem>();
-
-            foreach (var ps in particleSystems)
-            {
-                if (ps.gameObject.name == "Circle")
-                {
-                    continue;
-                }
-
-                if (!ps.isPlaying)
-                {
-                    ps.Play();
-                }
-            }
-        }
-        public void Cleanup()
-        {
+            base.Cleanup();
             var portalManager = ExtendedEffects.Instance?.PortalManager;
             if (portalManager != null)
             {
