@@ -10,16 +10,28 @@ using static MapMagic.ObjectPool;
 
 namespace SideLoader_ExtendedEffects.Patches
 {
-	[HarmonyPatch(typeof(Trainer))]
-	public static class TrainerPatches
-	{
-		[HarmonyPatch(nameof(Trainer.GetSkillTree)), HarmonyPrefix]
-		public static bool GetSkillTreeOverridePrefix(Trainer __instance, ref SkillSchool __result)
-		{
-			string TrainerUID = TryGetCharacterUID(__instance);
+    [HarmonyPatch(typeof(Trainer))]
+    public static class TrainerPatches
+    {
+        [HarmonyPatch(nameof(Trainer.GetSkillTree)), HarmonyPrefix]
+        public static bool GetSkillTreeOverridePrefix(Trainer __instance, ref SkillSchool __result)
+        {
+            SNPC snpc = __instance.GetComponentInParent<SNPC>();
+            string TrainerUID = string.Empty;
 
-			if (TrainerUID != String.Empty)
-			{
+            //fix for DLC trainers
+            if (snpc == null)
+            {
+                snpc = __instance.transform.parent.parent.GetComponentInChildren<SNPC>();
+                TrainerUID = __instance.HolderUID.m_value;
+            }
+            else
+            {
+                TrainerUID = snpc.HolderUID.m_value;
+            }
+
+            if (snpc != null)
+            {
                 if (ExtendedEffects.HasSkillTreeOverride(TrainerUID))
                 {
                     string SkillTreeUID = ExtendedEffects.SkillTreeOverrides[TrainerUID];
@@ -29,49 +41,15 @@ namespace SideLoader_ExtendedEffects.Patches
                         __result = skillSchool;
                         return false;
                     }
-                    else
-                    {
-                        ExtendedEffects._Log.LogMessage($"Could not find a valid SkillSchool with UID {SkillTreeUID}");
-                    }
+                    else ExtendedEffects._Log.LogMessage($"Could not find a valid SkillSchool with UID {SkillTreeUID}");
+
                 }
-                else
-                {
-                    //ExtendedEffects._Log.LogMessage($"No Override For Trainer with UID {TrainerUID}");
-                }
+                else ExtendedEffects._Log.LogMessage($"No Override For Trainer with UID {TrainerUID}");
+
             }
-            else
-            {
-                ExtendedEffects._Log.LogMessage($"Failed to find a CharacterUID for {__instance.name}.");
-            }
-				
-			return true;
-		}
+            else ExtendedEffects._Log.LogMessage($"Character isn't a trainer.");
 
-
-		private static string TryGetCharacterUID(Trainer Trainer)
-		{
-            SNPC snpc = Trainer.GetComponentInParent<SNPC>();
-
-			if (snpc == null)
-			{
-				snpc = Trainer.GetComponentInChildren<SNPC>();
-            }
-
-			if (snpc == null)
-			{
-				if (Trainer == null)
-				{
-					return string.Empty;
-				}
-
-				return Trainer.HolderUID;
-			}
-			else
-			{
-				return snpc.HolderUID.m_value;
-			}
+            return true;
         }
-
-
     }
 }

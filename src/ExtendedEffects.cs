@@ -26,7 +26,7 @@ namespace SideLoader_ExtendedEffects
         public const string GUID = "sideloaderextendedeffects.extendedeffects";
         public const string NAME = "SideLoader Extended Effects";
 
-        public const string VERSION = "1.3.0";
+        public const string VERSION = "1.3.2";
 
         // For accessing your BepInEx Logger from outside of this class (MyMod.Log)
         internal static ManualLogSource _Log;
@@ -259,6 +259,7 @@ namespace SideLoader_ExtendedEffects
         }
         public static bool HasSkillTreeOverride(string trainerUID)
         {
+            ExtendedEffects._Log.LogMessage($"HasSkillTreeOverride UID {trainerUID}");
             return SkillTreeOverrides.ContainsKey(trainerUID);
         }
         #endregion
@@ -272,8 +273,6 @@ namespace SideLoader_ExtendedEffects
         }
     }
 }
-
-
 
 //[HarmonyPatch(typeof(Disease))]
 //public static class DieaseDegenerationPatch
